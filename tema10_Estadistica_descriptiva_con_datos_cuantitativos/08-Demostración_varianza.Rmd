@@ -1,0 +1,46 @@
+---
+title: "Demostración alternativa de la varianza"
+author: "Téllez Gerardo Rubén"
+date: "20/12/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Formulas
+
+$$\sigma^2 = \frac{\sum{(x_i - \bar{x})^2}}{m}$$
+
+$$\sigma^2 = \frac{\sum{(x_i)^2}}{m} - \bar{x}^2$$
+
+$$m \cdot \sigma^2 = \sum{(x_i} - \bar{x})^2$$
+
+## Formulas
+
+$$m \cdot \sigma^2 = \sum{(x_i} - \bar{x})^2 = \sum{(x_i}^2 - 2x_i\bar{x} + \bar{x}^2)$$
+
+$$\sum x_i^2 - 2 \sum x_i\bar{x} + \sum \bar{x}^2$$
+
+$$\sum x_i^2 - 2\bar{x} \sum x_i + m\bar{x}^2$$
+
+## Formulas
+
+
+$$\bar{x} = \frac{\sum x_i}{m}$$
+
+$$\sum x_i^2 - 2\bar{x}\cdot m \bar{x} + m \bar{x}^2$$
+
+$$\sum x_i^2 - 2m\bar{x}^2 + m\bar{x}^2$$
+
+## Formulas
+
+
+$$\sum x_i^2 - m\bar{x}^2$$
+
+$$m \sigma^2 = \sum x_i^2 - m\bar{x}^2$$
+
+$$\sigma^2 = \frac{\sum x_i^2}{m} - \bar{x}^2$$
+
+

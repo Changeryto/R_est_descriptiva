@@ -1,0 +1,51 @@
+---
+title: "Calcular medidas de dispersión"
+author: "Téllez Gerardo Rubén"
+date: "21/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Medidas de dispersión con R
+
+Medida de dispersión | instrucción
+---------------------|--------------
+Rango                | `range(x)`
+Rango intercuartílico| `IQR(x, type = ...)`
+Varianza muestral    | `var(x)`
+Desviación st muestral| `sd(x)`
+Varianza             | `var(x)*(length(x)-1) / length(x)`
+Desviación st        | `sd(x)*sqrt((length(x)-1))/length(x))`
+
+
+## Ejemplo 4
+
+```{r}
+dados2 = c(6,2,3,4,6,2,6,6,4,4,1,2,2,5,3)
+```
+
+Rango
+```{r}
+diff(range(dados2))
+```
+Rango intercuartílico
+```{r}
+IQR(dados2)
+```
+Varianza
+```{r}
+var(dados2)
+```
+
+## Ejemplo 4
+
+Desviación estándar
+```{r}
+sd(dados2)
+```
+
+
+

@@ -1,0 +1,45 @@
+---
+title: 'Ejercicio: mejor insecticida'
+author: "Téllez Gerardo Rubén"
+date: "22/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Frame
+
+```{r}
+tail(InsectSprays)
+```
+
+```{r}
+dt = InsectSprays
+
+str(dt)
+
+by(dt$count, dt$spray, FUN = summary)
+```
+
+```{r}
+aggregate(count~spray, data = dt, FUN =sd)
+```
+
+```{r}
+aggregate(count~spray, data = dt, FUN = mean)
+```
+
+
+```{r}
+boxplot(count ~ spray, data = dt,
+        col = "goldenrod",
+        xlab = "Tipo de spray",
+        ylab = "Insectos muertos por ensayo")
+```
+
+
+
+
+

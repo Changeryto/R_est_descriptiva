@@ -1,0 +1,113 @@
+---
+title: "Estudio de las Notas según Carrera"
+author: "Téllez Gerardo Rubén"
+date: "22/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Tarea
+
+#Responde a las preguntas de forma razonada y correcta.
+
+Dispones de las preguntas tanto en la propia tarea de Udemy como en un documento pdf adjunto a esta tarea.
+
+
+
+Al acabar, tendrás acceso a las soluciones propuestas por el profesor para que compares tus resultados y un pdf descargable con las preguntas junto con su solución.
+Preguntas de esta tarea
+
+
+
+Carga el conjunto de datos de la carpeta data llamado grades.txt en R y responde a las siguientes preguntas.
+
+
+
+## Pregunta 1
+
+### Calcula la media, la mediana y la moda redondeada a dos cifras decimales de las notas numéricas de los exámenes tanto de forma conjunta como por estudio universitario. ¿En qué grupo observamos la nota más alta? ¿Qué grupo está por encima de la media de estudiantes?
+
+```{r}
+nt = read.table("https://raw.githubusercontent.com/joanby/r-basic/master/data/grades.txt",
+                header = TRUE,
+                sep = " ",
+                stringsAsFactors = TRUE)
+
+fas = function(x){
+  return(as.numeric(names(which.max(table(x)))))
+}
+
+by(nt$nota, nt$estudio, FUN = summary)
+
+ntdf = data.frame(
+  Estudio = levels(nt$estudio),
+  Media = unlist(as.vector(aggregate(nota ~ estudio,data = nt, FUN = mean)[2]), use.names = F),
+  Mediana = unlist(as.vector(aggregate(nota ~ estudio,data = nt, FUN = median)[2]), use.names = F),
+  Moda = unlist(as.vector(aggregate(nota ~ estudio,data = nt, FUN = fas)[2]), use.names = F)
+)
+
+ntdf[, 2:4] = round(ntdf[, 2:4], 2)
+
+ntdf
+boxplot(nt$nota ~ nt$estudio)
+abline(col="hotpink", h= mean(nt$nota))
+
+barplot(ntdf$Media, names.arg = ntdf$Estudio)
+abline(col="hotpink", h= mean(nt$nota))
+```
+
+La nota más alta está en Industrial (10)
+Tanto Informática como Mates, son grupos que tienen un promedio mayor al del promedio global de los estudiantes.
+
+## Pregunta 2
+
+### ¿En qué grupo observamos más variación de notas? Justifica tu respuesta.
+
+```{r}
+# Visual
+boxplot(nt$nota ~ nt$estudio)
+# Numérico
+aggregate(nt$nota ~ nt$estudio, FUN = sd)
+aggregate(nt$nota ~ nt$estudio, FUN = IQR)
+
+by(nt$nota, nt$estudio, FUN = summary)
+```
+Se observa mayor variabilidad en Mates, pues este estudio tiene la mayor desviación estándar, por lo que las notas en general se alejan más de la media. Además tienen los máximos, mínimos, rango intercuartílico y cuartiles más dispersos entre sí.
+
+## Pregunta 3
+
+### ¿Hay mucha diferencia entre el grupo que has respondido en el ejercicio 1 y en el ejercicio 2? Intenta dar una explicación objetiva del suceso.
+
+Mates tiene el promedio de notas más alto, pero también la mayor dispersión, y una media, tercer cuartil y max mayor que el resto de estudios, estos últimos 3 datos hacen que las notas más altas contrarresten las más bajas, subiendo el promedio y la mediana.
+
+### Dibuja en un único gráfico los cuatro diagramas de caja, uno para cada grupo. Añade también la nota media, pon nombre, título y color al gráfico para documentarlo correctamente.
+
+```{r, fig.cap="Diagrama de cajas y bigotes de las notas por cada estudio. Se muestran las \n medias de cada estudio en diamantes rosas y la media general en la linea discontinua."}
+boxplot(nt$nota ~ nt$estudio,
+        col = c("brown", "grey", "lightblue", "darkgoldenrod"),
+        ylab = "Notas",
+        xlab = "Estudio")
+points(col = "hotpink", ntdf$Media, pch=18)
+abline(col="hotpink", h= mean(nt$nota), lty = "dashed")
+```
+
+
+
+### ¿Observas algunos valores atípicos en el boxplot anterior? ¿A qué grupo pertence?
+
+Hay valores atípicos en Industrial (10), Informática (8.5) y Telemática (9.3)
+
+### Indica a partir del boxplot anterior en qué grupo observamos más variedad de notas.
+
+Hay más variedad de notas en Mates (mayores rangos entre cada cuartil, max y min).
+
+
+
+
+## En base a todo lo anterior, ¿puedes afirmar de forma estadística que el examen de carrera ha ido mejor en algún estudio que en los demás? 
+
+Puedo asegurar que al 50% superior del examen de mates le ha ido mejor que al 50% superior de cada estudio.
+

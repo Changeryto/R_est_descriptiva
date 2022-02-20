@@ -1,0 +1,162 @@
+---
+title: "Diagrama de cajas y bigotes"
+author: "Téllez Gerardo Rubén"
+date: "22/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Diagramas de caja
+
+Resume algunos datos estadísticos de una variable cuantitativa.
+
+El bigote cubre a lo mucho 1.5 veces el rango intercuartílico. Tras esos valores, en caso de que se llegue a tener un dato con una longitud mayor, los valores por fuera se llaman valores atípicos, aislados, u outliers.
+
+## Diagrama de caja o boxplot
+
+Remara 5 valores.
+
++ Mediana
++ Primer y tercer cuartíl.
++ Los extremos, los valores $b_{inf}, \ b_{sup}$, son los bigotes del grafcio. Si $m$ y $M$ son el mínimo y el máximo de la variable cuantitativa, entonces los extremos se calculan del siguiente modo.
+
+$$b_{inf} = max\{ m,Q_{0.25} - 1.5 (Q_{75} - Q_{0.25} ) \}$$
+
+$$b_{sup} = min \{ M, Q_{0.75} + 1.5(Q_{0.75} - Q_{0.25}) \}$$
+
+## Valores atípicos
+
+U outlierts, son los que están más allá de los bigotes. Se marcan como puntos aislados.
+
+## Más sobre los bigotes
+
+Por su definición, concluímos que los bigotes marcan el mínimo y el máximo de la variable cuantitativa, a no ser que hayan datos muy alejados de la caja intercuartílica.
+
+En tal caso, el bigote inferior marca el valor 1.5 veces el rango intercuartílico por debajo de $Q_{0.25}$, mientras que el superior marca ek valor 1.5 veces el rango intercuartílico por encima de $Q_{0.75}$
+
+## La función boxplot
+
+La instrucción __boxplot()__ dibuja diagramas de caja en R.
+
+```{r}
+dados2 = sample(1:6, 15, replace = TRUE)
+boxplot(dados2, sub="Diagrama de caja")
+```
+
+```{r}
+tail(iris)
+boxplot(iris$Sepal.Length ~ iris$Species)
+```
+
+
+
+```{r}
+boxplot(iris$Petal.Length ~ iris$Species)
+```
+
+```{r}
+boxplot(iris$Sepal.Length, iris$Petal.Length,
+        names = c("Longitud del sépalo", "Longitud del pétalo"))
+```
+
+Además, podemos dibujar el diagrama de cajas para todas las variables de un data frame en un paso __boxplot(data.frame)__, debe considerarse si este tiene sentido.
+
+```{r}
+cr = read.table(
+  "https://raw.githubusercontent.com/joanby/r-basic/master/data/datacrab.txt",
+  header = TRUE,
+  sep = " "
+)
+boxplot(cr)
+```
+
+## La función boxplot
+
+Agrupar varios diagramas de caja en un solo gráfico tiene por objetico poder compararlos visualmente, lo cual tiene sentido cuando las variables tienen significados parecidos o cuando comparamos una misma variables de poblaciones distintas.
+
+La mayoría de las veces, queremos comparar diagramas de cajas de una misma variavle cuantitativa segmentada por los niveles de un factor.
+
+La sintaxis de la instrucción para dibujar en un único gráfico los diagramas de caja de una variable numérica de un DF en función de los niveles de un factor del mismo data frame es `boxplot(var.numérica ~ factor data = DF)`
+
+
+## Ejemplo 9
+
+```{r}
+boxplot(circumference~Tree , data = Orange, xlab = "Tipo de árbol", ylab = "Circunferencia del tronco (mm)", sub = "Boxplot de la circunferencia del tronco según el tipo de naranjo")
+```
+
+```{r}
+cr = cr[-1]
+
+boxplot(cr$weight~cr$color)
+```
+
+## Parámetros de la función boxplor
+
+Todos los parámetros de la función __plot()__ que tengas sentido pueden ser utilizados en los argumentos de la funcipon boxplot.
+
+Además, la función __boxplot()__ dispone de algunos parámetros específocs, de los cuales mencionaremos:
+
++ __notch__ igualado a __TRUE__ añade una muesca en la mediana de la caja. Si se da el caso que las muescas de dos diagramas de cajas no se solapan, entonces con altro grado de confianza, concluimos que las medianas de las poblacones correspondientes son diferentes.
+
+```{r}
+boxplot(iris$Petal.Length ~ iris$Species,
+        notch = TRUE,
+        xlab ="Especie de iris",
+        ylab="Longitud de los pétalos",
+        col = c("cyan","cyan4","lightblue"))
+```
+
+También es util añadir una de las medidas de centralización, como la media aritmética.
+
+
+```{r}
+medias = aggregate(Petal.Length~Species, data = iris, FUN = mean)
+
+boxplot(Petal.Length ~ Species,
+        data = iris,
+        notch = TRUE,
+        xlab ="Especie de iris",
+        ylab="Longitud de los pétalos",
+        col = c("cyan","cyan4","lightblue"))
+
+points(medias, col = "hotpink", pch=16)
+```
+
+## La estructura interna de boxplot
+
+Como ya sabemos, podemos estudiar la función interna de algunos objetos con la función `str()`.
+Dicha función aplicada a un boxplot, nos produce una list. Puedes ver esa list si introduces por consola la siguiente instrucción:
+`str(boxplot(Petal.Length ~ Species, data = iris))`
+
+
++ stats: los números de abajo a arriba para las 5 mediadas de posición de cada caja.
++ n: el número de observaciones usadas para cada caja
++ out: valores atípicos en los graficos
+
+
+```{r}
+ex = (boxplot(Petal.Length ~ Species, data = iris))
+
+ex$stats
+ex$out
+ex$names
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,96 @@
+---
+title: "Agregar datos cuantitativos por factor"
+author: "Téllez Gerardo Rubén"
+date: "21/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Función summary()
+
+La función __summary()__ aplicada a un vector numérico o a una variable cuantitativa nos devuelve un resumen estadístico con los valores mínimo y máximo del vector, sus tres cuartiles y su media.
+
+Al aplicar esta función a una data frame se aplica a todas sus variables de forma simultánea. De este modo, podemos observar rápidamente su hay diferencias notables entre sus variables numéricas.
+
+```{r}
+summary(iris)
+```
+
+
+```{r}
+cn = read.table("https://raw.githubusercontent.com/joanby/r-basic/master/data/datacrab.txt", header = TRUE, sep = " ")
+cn = cn[-1]
+
+summary(cn)
+```
+
+
+## Ejemplo 5
+
+si nos interesa comparar numéricamente los pesos y las anchuras de los cangrejos con 3 colores con los que tienen 5 colores, usaríamos
+
+```{r}
+summary(subset(cn, color == 3, c("weight", "width")))
+```
+
+```{r}
+summary(subset(cn, color == 5, c("weight", "width")))
+```
+
+## La función by()
+
+La función __by()__ se usa para aplicar una determinada función a algunas columnas de un data frame segmentándolas según los niveles de un factor.
+
+La sintaxis de esta función es __by(columas, factor, FUN = función)__.
+
+Con lo cual, haciendo uso de la fucnción __by()__ y especificando FUN = summary, podremos calcular el resumen estadístico anteriormente comentado a subpoblaciones definidas por los niveles de un factor.
+
+
+## Ejemplo 6
+
+Para el data set iris.
+
+Nos interesa calcular de forma rápida y sencilla las lingitudes de sépalos y pétalos en función de la especia, necesitaríamos hacer uso de la siguiente función.
+
+```{r}
+by(iris[,c(1,3)], iris$Species, FUN = summary)
+```
+
+## Función aggregate()
+
+Tanto la función __by__ como la función __aggregate__ son equivalentes. No obstante, los resultados se muestran de forma diferente en funcion de cuál usemos.
+
+En el caso del ejemplo anterior, convenía más hacer uso de la función __by__.
+
+Puedes comprobarlo introduciendo la siguiente instrucción:
+
+```{r}
+aggregate(cbind(Petal.Length, Sepal.Width)~Species, data = iris, FUN = summary)
+```
+
+## NA
+
+La mayoría de las funones vistas a lo largo de este tema no funcionan bien con valores NA.
+
+Para no tenerlos en cuenta a la hora de aplicar estas funciones, hay que especificar el parámetro __na.rm = TRUE__ en el argumento de la función.
+
+
+```{r}
+x = c(1,2,3,NA)
+
+sd(x)
+
+sd(x, na.rm = TRUE)
+```
+
+
+
+
+
+
+
+
+

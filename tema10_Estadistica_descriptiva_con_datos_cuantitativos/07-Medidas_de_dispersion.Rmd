@@ -1,0 +1,62 @@
+---
+title: "Medidas de dispersión"
+author: "Téllez Gerardo Rubén"
+date: "18/12/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Medidas de dispersión
+
+Las _medidas de dispersión_ evalúan lo dispersos que están los datos. Algunas de las más importantes son:
+
++ El _rango o recorrido_, que es la diferencia entre el máximo y el mínimo de las observaciones.
++ El _rango intercuartílico_, que es la diferencia entre el tercer y el primer cuartil, $Q_{0.75} - Q_{0.25}$.
++ La _varianza_, a la que denotamos como $s^2$, es la media aritmética de las diferencias al cuadrado entre los datos $x_i$ y la media aritmética de las observaciones, $\bar{x}$.
+
+
+$$\sigma^2 = \frac{\sum_{j=1}^{n}{(x_j - \bar{x})^2}}{n} = \frac{\sum_{j=1}^{k}{n_j(X_j - \bar{x})^2}}{n}$$
+
+$= \sum_{j=1}^{k}{f_j(X_j - \bar{x})^2}$
+
+## Medidas de dispersión
+
++ La _desviación estándar_ es la raíz cuadrada positiva de la varianza, $\sigma = \sqrt{\sigma^2}$
++ La _varianza muestral_ es la corrección de la varizanza. La denotamos por $s^2$, y corresponde con:
+
+$$s^2 = \frac{\sum_{j=1}^{n}{(x_j - \bar{x})^2}}{n-1}$$
+
++ La _desviación tipica muestral_, que es la raíz cuadrada positiva de la varianza muestral, $s = \sqrt{s^2}$
+
+## Propiedades de la varianza
+
++ $\sigma ^2 \ge 0$. Esto se debe a que, por definición, es una suma de cuadrados de números reales.
++ Para que $\sigma^2 = 0 \Longrightarrow x_j - \bar{x} = \forall j = 1, \dots, n$. En consecuencia, si $\sigma^{2} = 0$, entonces todos los datos son iguales.
++ $\sigma^2 = \sum_{j=1}^{n}{x_j^2 - } n\bar{x}^{2} = \frac{\sum_{j=1}^{n} {x_j^2}}{n}-x^2$. Es decir, la varianza es la media de los cuadrados de los datos menos el cuadrados de la media aritmética de estos.
+
+## Varianza y varianza muestral
+
+La diferencia entre ambas definiciones viene por la interrelación entre la estadística descriptiva y la inferencial.
+
+Por un lado, es normal medir cómo varían los datos cuantitativos mediante su varianza definida como la media aritmética de las distancias al cuadrado de los datos a su valor medio. No obstante, por un lado, el conjunto de nuevas observaciones, por lo normal, será una muestra de una población mucho mayor y nos interesará estimar entre muchas cosas su variabilidad.
+
+La varianza de una muestra suele dar valores más pequeños que la varianza de la población, mientras que la varianza muestral tiende a dar valores alrededor de la varianza de la población.
+
+## Varianza y varianza muestral
+
+Esta corrección, para el caso de una muestra grande no es notable. Dividir entre $n$ y entre $n-1$ en el caso de $n$ ser grande no significa una gran diferencia y aún menos si tenemos en cuenta que lo que tratamos es de estimar la varianza de la población, no de calcularla de forma exacta.
+
+En cambo, si la muestra es relativamente pequeña ($n < 30$), entonces la varianza muestral de la muestra aproxima significativamente mejor la varianza de la población que la varianza.
+
+La diferencia entre desviación típica y desviación muestral es análoga.
+
+Con R, calcularemos la varianza y la desviación típica __muestrales__. Con lo cual, si queremos calcular las que no son muestrales, tendremos que multiplicarlas por $\frac{n-1}{n}$, donde $n$ es el tamaño de la muestra. Lo veremos a continuación.
+
+
+
+
+
+

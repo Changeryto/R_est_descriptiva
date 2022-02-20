@@ -1,0 +1,56 @@
+---
+title: "Estudio de las frecuencias"
+author: "Téllez Gerardo Rubén"
+date: "17/12/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Frecuencias de datos cuantitativos
+
+En tratamiento de las frecuencias de datos cuantitativos es similar al de los datos ordinales. La cosa cambia ligeramente debido a que no se tienen en cuenta los otros niveles posibles, si no únicamente los observados.
+
+## Ejemplo 1
+
+Se han pedido las edades a 20 primeros clientes. Las respuestas que se han obtenidos son las siguientes.
+
+```{r}
+edad = c(15,18,25,40,30,29,56,40,13,27,42,23,11,26,25,32,30,40,33,29)
+table(edad)
+```
+
+Sólo se estudian las frecuencias de los datos observados.
+
+## Ejemplo 1
+
+Calculemos el resto de frecuencias
+
+
+Frecuencia relativa
+```{r}
+round(prop.table(table(edad)),3)
+```
+
+Frecuencia acumulada
+```{r}
+cumsum(table(edad))
+```
+
+## Ejemplo 1
+
+Frecuencia relativa acumulada
+```{r}
+cumsum(prop.table(table(edad)))
+```
+
+
+
+
+
+
+
+
+

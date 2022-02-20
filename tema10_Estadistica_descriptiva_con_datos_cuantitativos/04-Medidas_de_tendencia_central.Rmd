@@ -1,0 +1,90 @@
+---
+title: "Medidas de centralización"
+author: "Téllez Gerardo Rubén"
+date: "17/12/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Medidas de tendencia central
+
+## Medidas de tendencia central
+
+Son aquellas que dan un valor representativo a todas las observaciones. Algunas de las más importantes son:
+
++ La media aritmética o promedio
+
+$$\bar{x} = \frac{\sum^k _{j=1} {x_i}}{n} = \frac{\sum^k _{j=1} {n_j X_j}}{n} = \sum^k_{j=1} {f_j X_j}$$
++ La mediana, que representa el valor central en la lista ordenada de observaciones.
++ La moda es el valor (o valores) de máxima frecuencias (absoluta o relativa, el dato será el mismo)
+
+
+## La mediana
+
+La definición formal es la siguiente. Denotado por 
+$$x_{(1)} \le x_{(2)} \le \cdots \le x_{(n)}$$
+
+Los datos de la variable cuantitativa ordenados de menor a mayor, la mediana es:
++ Si $n$ es par, la mediana es la media de los dos datos centrales
+$$\frac{x_{(\frac{n}{2})} + x_{(\frac{n}{2}+1)}}{2}$$
++ Si $n$ impar, la mediana es el dato central $x_{(\frac{n+1}{2})}$
+
+## Ejemplo 1
+
+Retomando el ejemplo de las edades, ordenando por el orden natural.
+```{r}
+edad = c(15,18,25,40,30,29,56,40,13,27,42,23,11,26,25,32,30,40,33,29)
+
+sort(edad)
+table(edad)
+```
+La moda es: 40
+La media aritmética es:
+```{r}
+mean(edad)
+```
+
+## Ejemplo 1
+
+Para obtener la moda automáticamente:
+```{r}
+as.numeric(names(which(table(edad)==max(table(edad)))))
+```
+
+
+## Ejemplo 2
+
+Retomando el ejemplo de los dados.
+```{r}
+set.seed(162017)
+dados = sample(1:6,25, replace = TRUE)
+
+set.seed(NULL) 
+
+dados.df = data.frame(Puntuacion = 1:6,
+                      fr.abs = as.vector(table(dados)),
+                      fr.rel = as.vector(prop.table(table(dados))),
+                      fr.cum = as.vector(cumsum(table(dados))),
+                      fr.r.cum = as.vector(cumsum(prop.table(table(dados))))
+                      )
+
+dados.df
+```
+
++ La moda son 2 valores, el 2 y el 3. Se puede deducir que la mediana es 2, ya que este número tiene la primer frecuencia acumulada ligeramente mayor de 50%.
++ La media aritmética es: `r mean(dados)`
++ La mediana es: `r median(dados)`
+
+
+
+
+
+
+
+
+
+
+

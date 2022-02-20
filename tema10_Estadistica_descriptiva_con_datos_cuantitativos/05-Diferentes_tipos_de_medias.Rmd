@@ -1,0 +1,111 @@
+---
+title: "Diferentes medias"
+author: "Téllez Gerardo Rubén"
+date: "17/12/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Propiedades
+
+Cualquier media se encuentra entre el mínimo y el máximo del conjunto de datos.
+
+La media debe ser igual al propio valor si todos los valores son iguales.
+
+Vamos a calcular las medias del vector.
+
+## Media aritmética
+
+```{r}
+x = c(32,45,67,43,28,17,48,95)
+n = length(x)
+```
+
+
+Promedio estándar, promedio de un conjunto de valores o de su distribución.
+
+
+$$\bar{x} = \frac{1}{n} \sum_{i=1}^{n}{x_i}$$
+
+```{r}
+sum(x)/n
+mean(x)
+```
+## Media aritmética ponderada
+
+Se otorgan valores a los datos dependiendo de su relevancia en el estudio. Unos números valen más que otros.
+
+Se toman números reales positivos para cada valor, o factores de ponderación.
+
+$$\bar{x}_w = \frac{\sum_{i=1}^{n}{w_i \cdot x_i}}{\sum_{i=1}^{n}{w_i}}$$
+
+
+Media aritmética para `w = c(1,2,2,3,3,2,2,1)`
+```{r}
+w = c(1,2,2,3,3,2,2,1)
+sum(w*x)/sum(w)
+```
+
+## Ejercicio
+
+Si en una media aritmética ponderada, tomo el vector de ponderaciones con todas las entradas iguales, se convierte en la media aritmética
+
+```{r}
+w2 = rep(5,length(x))
+
+sum(w2*x)/sum(w2) == mean(x)
+```
+
+## Media aritmética ponderada
+
+Es invariante frente a transformaciones lineales, cambios de origen y cambios de escala.
+
+## Media geométrica
+
+Tipo de media muy útil cuando el conjunto de números interpretados quedan expresados en forma de producto en lugar de en forma de suma
+
+$$\bar{x}_G = \left( \prod_{i=1}^n {x_i} \right) ^{1/n}$$
+La media geométrica sería
+```{r}
+(prod(x))^(1/n)
+```
+La raíz de un producto es el producto de raíces.
+
+
+## Media armónica
+
+Útil para conjuntos de números que se definen en relación a alguna unidad, como velocidad (distancia/tiempo).No admite 0.
+
+$$\bar{x}_A = n \cdot \left ( \sum_{i=1}^{n}{\frac{1}{x_i}} \right) ^{-1}$$
+
+$$\bar{x}_A = {\frac{n}{\sum_{i=1}^{n}{\frac{1}{x_i}}}}$$
+
+## Media armónica
+
+`n/sum(1/x)`
+
+```{r}
+n/sum(1/x)
+```
+
+## Mínimo y máximo del vector
+
+```{r}
+min(x)
+max(x)
+```
+
+
+
+
+
+
+
+
+
+
+
+

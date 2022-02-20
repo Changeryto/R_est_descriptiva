@@ -1,0 +1,82 @@
+---
+title: "Tarea 8"
+author: "Téllez Gerardo Rubén"
+date: "20/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Medallas de las olimpiadas de invierno
+
+```{r}
+oi = read.csv("http://winterolympicsmedals.com/medals.csv")
+str(oi)
+attach(oi)
+```
+
+## ¿Cuantos deportistas aparecen en el data frame?
+
+```{r}
+length(rownames(oi))
+```
+Aparecen __2311 deportistas__
+
+
+## ¿Cuantos han ganado medallas de oro, cuantos de plata y cuantos de bronce?
+
+```{r}
+aggregate(rownames(oi) ~ Medal, FUN=length)
+
+
+```
+
++ __746 medallas de Bronce__
++ __773 medallas de Plata__
++ __774 medallas de Oro__
+
+## ¿En cuantos lugares se han hecho olimpiadas de invierno?
+
+```{r}
+length(levels(as.factor(oi$City)))
+```
+
+Se han celebrado juegos olímpicos de invierno en __17 ciudades__
+
+
+## ¿Cuantos hombres y cuantas mujeres hay?
+
+```{r}
+aggregate(rownames(oi)~Event.gender, FUN = length)
+```
+
++ __1386 hombres__
++ __802 mujeres__
++ __123 desconocidos__
+
+## ¿En qué año participaron más deportistas?
+
+```{r}
+y = aggregate(rownames(oi) ~ Year, FUN = length)
+y1 = which(y$`rownames(oi)` == max(y$`rownames(oi)`))
+
+paste(sprintf("Año con más deportistas: %d, con %d deportistas", y$Year[y1], y$`rownames(oi)`[y1]))
+```
+
+
+El año con más deportistas fue el __2006__, con __252 deportistas__
+
+## El campo NOC indica el país del ganador de la medalla. ¿Qué país puede presumir de haber ganado más medallas de oro en los juegos de invierno entre 1960 y 1996?
+
+```{r}
+oif = subset(oi, Year >= 1960 & Year <= 1996 & Medal == "Gold")
+rownames(oif) = 1:length(rownames(oif))
+
+a = aggregate(rownames(oif) ~ oif$NOC, FUN = length)
+w = which(a$`rownames(oif)` == max(a$`rownames(oif)`))
+
+paste(sprintf("País con más medallas de oro en este periodo: %s, con %x medallas", a$NOC[w], a$`rownames(oif)`[w]))
+```
+El país con más medallas entre 1960 y 1996 es __URSS__, con __71 medallas__

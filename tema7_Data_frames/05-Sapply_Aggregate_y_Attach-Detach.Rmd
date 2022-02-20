@@ -1,0 +1,79 @@
+---
+title: "Sapply, Aggregate y Attach/Detach"
+author: "Téllez Gerardo Rubén"
+date: "20/6/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Aplicar funciones a data frames
+
++ __sapply(DF, function)__: para aplicar una función a todas las columnas de un DF
+  - __na.rm = TRUE__: evitar que el valores que devuelva la función contengan NAs
+
++ __aggregate(variables~factores, data = DF, FUN = función)__: para aplicar una función a variables de un DF por los niveles de un, o más de un factor.
+  - Si queremos aplicar una función a más de una variable, hay que agruparlos con __cbind()__
+  - Si queremos separar las variables mediante más de un factor, se agrupan con signos +
+  
+```{r}
+irisw =iris
+
+str(irisw)
+
+sapply(subset(irisw, select=1:4), mean)
+sapply(irisw[, 1:4], sum)
+
+
+ecm = function(x){sqrt(sum(x^2))}
+sapply(subset(irisw, select = 1:4), ecm)
+```
+  
+```{r}
+aggregate(cbind(Sepal.Length, Petal.Length)~Species, data = irisw, FUN = mean)
+# Aplica la función a ambas longitudes según las especies 
+```
+  
+# Cómo se convierte una columna a factor
+
+```{r}
+ncars = mtcars
+head(ncars)
+str(ncars)
+ncars$cyl = as.factor(ncars$cyl)
+ncars$gear = as.factor(ncars$gear)
+
+aggregate(mpg ~ cyl+gear+carb, data=ncars, FUN = mean, na.rm = TRUE)
+
+# Según cilindro, marcha y carburador, se tiene el consumo medio del coche.
+# Numérica antes de la tilde
+# Factor después de la tilde
+```
+
+# Attach
+
++ __attach(DF)__: para hacer que R entienda sus variables como globales y que las podamos usar por su nombre sin aplicar el DF$
+  - Si ya existe una variable definida con el mismo nombre que en el DF, lanza un mensaje de error
++ __detach(DF)__: para eliminar las variables del DF del entornos global
+
+```{r}
+attach(mtcars)
+cyl
+exists("cyl")
+detach(mtcars)
+exists("cyl")
+```
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

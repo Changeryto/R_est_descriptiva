@@ -1,0 +1,68 @@
+---
+title: "Filter y subset de data frames"
+author: "Téllez Gerardo Rubén"
+date: "19/6/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Castring
+
++ __as.character(columna o vector)__: Convierte los datos a palabras.
++ __as.integer(columna o vector)__: Convierte los datos a números enteros.
++ __as.numeric(columna o vector)__: Transformar todos los datos de un objeto a números reales.
++ __as.factor(columna o vector)__; Convierte los datos a factores
+
+```{r}
+vino = read.table("wine.data", sep = ",", header = FALSE, col.names = c("Clase de distribución","Alcohol", "Ácido malico", "Ceniza", "Alcalinidad de la ceniza", "Magnesio", "Fenoles totales", "Flavonoides", "Fenoles no flavonoides", "Proantocianidinas", "Intensidad del color", "Matiz", "OD280/OD315 de vinos diluídos", "Prolina"))
+
+head(vino[vino$Ácido.malico > 4, ])
+```
+
++ __droplevels(DF)__: para borrar los niveles sobrantes de todos los factores, ya que las columnas que son factores heredan en los sub-dataframes todos los niveles del factor original, aunque no estén en el trozo seleccionado.
+
+
+# Formas de filtrado de tydiverse o dplyr
+
++ __select(DF, parámetros)__:  para especificar qué se quiere extraer de un dataframe
+  - __strarts_with("x")__: extrae las columnas cuyo nombre empiece con la palabra "x"
+  - __ends_with("x")__: extrae las variables cuyo nombre termine con la palabra "x"
+  - __contains("x")__: extrae las vaiables cuyo nombre contenga la palabra "x"
+
+```{r}
+library("dplyr")
+head(select(vino, starts_with("Ácido")))
+
+head(select(vino, ends_with("ceniza")))
+
+head(select(vino, contains("flavonoides")))
+```
+
+# Subset natural
+
++ __subset(DF, condición, select = columnas)__: para extraer del data frame las filas que cumplen con la condición y las columnas especificadas
+  - Si se quiere todas las filas, no se especifica condición
+  - Si se quiere todas las columnas no se especifica select
+  - Las variables en la condición se especifican con su nombre, sin añadir antes el nombre del data frame
+
+```{r}
+# Selecciona los vinos con GL < 13 y las columnas 1 a 3
+sta = subset(vino, Alcohol < 13, select = 1:3)
+head(sta)
+
+
+# Selecciona vinos con GL > 13, y las columnas de select
+st = subset(vino, Alcohol > 13, select = c(Alcohol, Ácido.malico))
+head(st)
+
+# Para reiniciar el contador ID
+rownames(sta) = 1:length(rownames(sta))
+head(sta)
+```
+
+
+
+

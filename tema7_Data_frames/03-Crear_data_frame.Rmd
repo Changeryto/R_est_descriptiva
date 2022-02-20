@@ -1,0 +1,73 @@
+---
+title: "Construir un data frame."
+author: "Téllez Gerardo Rubén"
+date: "19/6/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Construyendo Data Frames
+
++ __var = data.frame(vec1, vec2... vec_n)__: construye un data frame a partir de vectores introducidos en el orden de disposición.
+  - Se considera el mismo tipo de datos para cada fila
+  - Las variables toman el nombre de los vectores, se pueden especificar colocando el nombre antes del vector
+  - __rownames = __ especifica los identificadores de las filas
+  - Se puede usar el parámetro __stringAsFactors__ para evitar la conversión de string a factores.
+  - __fix(DF)__: modificar en un editor los valores
+  
+Se puede modificar dimnames (lista), colnames y rownames con función(DF) = vector (o lista)
+  
+```{r}
+Algebra = c(5, 7, 8, 9, 5, 4, 10)
+Analitica = c(7, 8, 5, 7, 9, 5, 7)
+Grupo = data.frame(Alg = Algebra,
+                   An = Analitica)
+Grupo
+
+rownames(Grupo) = c("Juan", "Juan2", "Juan3", "Juan4", "juan5", "Juan6", "Jaun7")
+dimnames(Grupo) = list(
+  c("Juan", "Juan2", "Juan3", "Juan4", "juan5", "Juan6", "Jaun7"),
+  c("Algebra", "Analitica")
+)
+Grupo
+```
+
+# Añadir fila
+
++ __rbind(DF, vector)__
+
+También se puede elegir la fila, pero no es recomendable.
+
+```{r}
+Grupo1 = rbind(Grupo, c(10, 10))
+
+```
+
+# Cambiar de factor a string
+
+```{r}
+Grupo$Algebra = as.character(Grupo$Algebra)
+Grupo$Algebra
+```
+
+# Añadir columna
+
+```{r}
+Grupo1$Quimica = rep(9, 8) # Vector
+Grupo1
+```
+
+
+
+
+
+
+
+
+
+
+
+

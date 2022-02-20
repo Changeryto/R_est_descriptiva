@@ -1,0 +1,67 @@
+---
+title: "Cargar data frames"
+author: "Téllez Gerardo Rubén"
+date: "13/6/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data frames interesantes
+
+https://archive.ics.uci.edu/ml/datasets/Echocardiogram
+
+# Para leer tablas de datos
+
++ __read.table()__: para definir un DF a partir de una tabla de datos contenida en un fichero. Este fichero puede estar guardado o tener su URL, en ambos casos colocar la direccion en forma de string.
+  - __col.names(vector)__: especificar el nombre de las colúmnas.
+  - __sep = str__: especificar las separaciones entre columnas en el fichero.
+  - __dec = str__: especificar el signo de separación decimal de no ser el punto.
+  
+```{r}
+E.coli = read.table("https://archive.ics.uci.edu/ml/machine-learning-databases/ecoli/ecoli.data", header = FALSE, col.names = c("Sequence Name", "mcg", "gvh", "lip", "chg", "aac", "alm1", "alm2", "site"))
+
+
+# Mismo resultado
+# Le di los nombres aparte en un nuevo CSV
+# nursery = read.table("C:/Programación ExL/R_y_Python/tema7_Data_frames/nursery.csv", header = TRUE, sep = ",")
+nursery = read.csv("C:/Programación ExL/R_y_Python/tema7_Data_frames/nursery.csv", header = TRUE)
+
+wine = read.table("wine.data", sep = ",", header = FALSE, col.names = c("Class Distribution","Alcohol", "Malic acid", "Ash", "Alcalinity of ash", "Magnesium", "Total phenols", "Flavanoid", "Nonflavanoid phenols", "Proanthocyanins", "Color intensity", "Hue", "OD280/OD315 of diluted wines", "Proline"))
+
+head(E.coli)
+dim(E.coli)
+str(E.coli)
+
+head(nursery)
+dim(nursery)
+str(nursery)
+
+head(wine)
+dim(wine)
+str(wine)
+```
+
+# Más atributos de read table
+
+ + __stringsAsFactors = BOOL__: Convierte columnas de strings a factores, por defecto en TRUE.
+
+
+# Derivados de read table estádar
+
++ __read.csv()__: formato CSV.
++ __read.xls() | read.xlsx()__: tipo Excel u Open Office, requiere librería xlsx.
++ __read.mtb()__: para importar tablas de datos de Minitab, requiere paquete librería foregin.
++ __read.spss()__: para importar tablas de datos SPSS, se necesita librería foregin.
+
+# Escribir ficheros
+
++ __write.table(df, file=""):__ para exportar un DF a un fichero.
+  - __file = ""__: donde indicamos el nombre del archivo
+  - __sep = ""__: especificar el símbolo de separación de columnas.
+  - __dec = ""__: especificar el separador decimal.
+
+
+

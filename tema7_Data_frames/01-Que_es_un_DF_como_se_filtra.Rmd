@@ -1,0 +1,149 @@
+---
+title: "01 Que es un DF"
+author: "Téllez Gerardo Rubén"
+date: "13/6/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Que es
+
+Consisten en bases de datos de una sola tabla donde notan distintos tipos de datos, siempre serán tablas de doble entrada donde se pueden ver variables, cada fila representa la observación de dichas variables para un mismo individuo.
+
+Un DF es simialar a una matríz, pero con la capacidad de almacenar distintos tipos de datos.
+
+Es posible ver lo dataframes prefeinidos en R.
+
+__data()__: Permite ver los data sets cargados de serie, o los cargados por ti mismo. Pero no se observan en el lm(). Puede recibir el nombre de los paquetes para ver los DF que vienen con los paquetes
+
+__data(package = .packages(all.avaliable = TRUE))__: Permite ver todos los DF por defecto de los paquetes.
+
+_iris_: Data set creado por Fisher en su trabajo _The use of multiple measurements in taxonomic problems_, conjunto multivarible de varias características de _Iris spp_
+
+```{r}
+boxplot(iris,
+        col = "orchid")
+```
+
+Cuando se usa un DF ajeno, es recomendable guardarlo en una variable, para no fastidiar el original.
+
+# Data frame de Iris
+
+```{r}
+DF_iris = iris
+DF_iris
+```
+
+Para controlar cuánto se imprime o se usa:
+
+__head(df, n)__: para mostrar las primeras _n_ filas del DF. Por defecto n = 6.
+
+__tail(df, n)__: para mostrar las _n_ últimas filas de DF. Por defecto n = 6.
+
+__str(df)__: para conocer la estructura global del DF
+
+__names(df)__: para producir un vector con os nombres de las columnas.
+
+```{r}
+head(DF_iris)
+
+tail(DF_iris)
+
+str(DF_iris)
+
+names(DF_iris) #El último es un factor de 3 variables.
+```
+
+## Ejemplo con DF Orange
+
+```{r}
+df_orange = Orange
+
+str(df_orange)
+
+aov_or = aov(df_orange$circumference ~ df_orange$age)
+
+summary(aov_or)
+
+Naov = aov(df_orange$age ~ df_orange$Tree)
+TukeyHSD(Naov)
+
+plot(df_orange$circumference ~ df_orange$age,
+     xlab = "Edad del árbol", ylab = "Circunferencia del árbol", col="orange")
+abline(lm(df_orange$circumference ~ df_orange$age), col="red3")
+cor.test(df_orange$circumference, df_orange$age, method = "pearson")
+```
+
+
+# Funciones para manipular
+
+__rownames(df)__: Para producir un vector con los identificadores de las filas.
+
+__columnames(df)__: Para producir un vector con los identificadores de las columnas.
+
+__dimnames(df)__: Para producir una lista formada por dos vectores, el de identificadores de filas y el de columnas.
+
+__nrow(df)__: Consulta el número de filas de un DF.
+
+__ncol(df)__: Consulta el numero de columnas del DF.
+
+__dim(df)__: Produce un vector con el numero de filas y el de columnas.
+
+```{r}
+colnames(DF_iris)
+rownames(DF_iris)
+
+dimnames(DF_iris)
+
+dim(DF_iris)
+
+
+```
+
+Puede manipularse similar a las listas
+
+```{r}
+DF_iris$Species[1:10]
+```
+
+## Para obtener un subdataframe
+
+
+```{r}
+# Primero filas, después columnas
+Iris_recortado = DF_iris[1:10, 3:5]
+Iris_recortado
+```
+
+## Filtrar por condicionales booleanas
+
+```{r}
+DF_iris[DF_iris$Species == "setosa" | DF_iris$Species == "versicolor", 3:5]
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

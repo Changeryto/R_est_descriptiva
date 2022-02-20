@@ -1,0 +1,16 @@
+---
+title: "Documentación_de_textos"
+author: "Rubén Téllez"
+date: "8/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Documentación de textos
+
+
+
+$$\left( \frac{2}{3} \right) ^{2} \cdot  \left( \frac{\frac{3}{2}}{\frac{\alpha}{\beta}} \right) + \gamma  \le \epsilon$$

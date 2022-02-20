@@ -1,0 +1,112 @@
+---
+title: "Documentación de texto"
+author: "Rubén Téllez"
+date: "9/3/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Título 1
+
+## Título 2
+
+### Título 3
+
+#### Título 4
+
+#### Título 6
+
+Esto es un texto llano. Para escribir texto con el formato estándar para acompañar tanto el código en `R` como las fórmulas en \LaTeX
+
+
+Para no ejecutar la línea de código pero tener ese formato: `R`
+
+
+Esto es una nueva línea de texto.
+
+
+Para que aparezcan párrafos diferenciados, deben ser más de dos intros
+
+
+Para colocar cursiva, podemos colocar entre asteríscos: *Lorem Ipsum sit amec*
+
+O podemos usar sólo barras bajas: _Lorem Ipsum sit amec consectur_
+
+
+Para colocar negrita, podemos usar un doble asterísco: **Lorem Ipsum sit amec**
+
+O doble barra baja: __Lorem Ipsum sit amec consectur__
+
+
+Los superíndices van con el hat: Este curso vale por mi nota ^2^
+
+Juan Gabriel ^Profe_del_curso^
+
+
+Para tachar una palabra se usa doble aprox: ~~La química es jodida~~
+
+
+Para colocar hiérvínculos:
+Para buscar cosas xdxdxdxd: [Google v:](https://www.google.com)
+
+
+Endash de diálogo: --
+
+Emdash de enfasis: ... ---¡Cáyense a la verga!
+
+Elipsis: ...
+
+
+Ecuaciones en línea: $S = \pi\cdot r^2$
+
+
+imagen: ![](../mundo.png)
+
+
+
+Para colocar una línea divisoria
+
+***
+Aquí empezaríamos otra cosa
+
+
+Para hacer citas de bloque:
+
+>Esto es in cita en bloque, osease con un intro + tab
+
+
+### Listas no ordenadas
+
+* Item primero
+* Item segundo
+  + Sub item 2.1
+  + Sub item 2.2
+  + Sub item 2.3
+* Item tercero
+
+### Listas ordenadas
+1. Primer Item
+2. Tercer Item
+3. Segundo Item
+  + Primer Subitem
+  + Segundo Subitem
+4. Cuarto Item
+5. Quinto Item
+
+
+Tablas
+
+Alumno              |   Nota  | Fecha
+--------------------|---------|-------
+Juan Gabriel        | 3.5     | 25/01
+Ricardo M.          | 9.1     | 26/01
+Antonio R.          | 4.5     | 27/01
+--------------------|---------|------
+Color:              | Azúl    |

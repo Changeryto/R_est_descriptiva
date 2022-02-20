@@ -1,0 +1,284 @@
+---
+title: "01-markdown"
+author: "Rubén Téllez"
+date: "3/3/2021"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Cómo escribir fórmulas
+
+Podemos poner la ecuación entre dos signo monetario:  $código$ para que la ecuación se quede como parte del texto ej: $PV = nRT$
+
+Para tener ecuaciones centradas en nuevo párrafo se colocan entre dos signos monetarios.
+Ej:$$PV = RTn$$
+
+Rmd ignora el exceso de espacios en blanco              entre palabras
+
+Fórmula de tercer grado: $$Ax^3+Bx^2+Cx+D=0$$
+
+Cursiva \textit{La Refgla de Ruffini se usa para encontrar ecuaciones de tercer grado}. 
+
+Las raices de las ecuaciones de segundo grado de la forma $\alpha x^2 \beta x+\gamma=0$ se encuentran siguiendo la fórmula $$x = \frac{-\beta\pm\sqrt{\beta^2    -4\alpha\gamma}}{2\alpha}$$
+
+
+\textit{Ecuación de Henderson-Hasselbach:}
+$$pH = pKa + log \left( \frac{[A^{-}]}{[HA]} \right)$$
+\textit{Fórmula condensada del ácido sulfúrico:} $$H_2SO_4$$
+
+También puedo tener una fracción grande en linea con $\dfrac{10}{2}$ para no tener la forma reducida de $\frac{10}{2}$
+
+
+
+## Cómo escribir símbolos
+
+Punto centrado de multiplicación: $4\cdot2=8$
+
+Cruz de multiplicación: $4\times 2 =8$
+
+División: $10\div 2 = 5$
+
+Potencia: $X^{Potencia}$
+
+Subíndice: $Cl_{2}$
+
+Fracción: $\frac{Numerador}{Denominador}$
+
+Más - menos: $\pm$
+
+Raíz n-ésima: $\sqrt[indice]{radicando}$
+
+Unión: $A \cup B = A + B - A \cap B$
+
+Intersección: $A \cap B = A +B -A \cup B$
+
+OR lógico: $\vee$
+
+AND lógico: $\wedge$
+
+Resultado: =
+
+Aproximado: $\approx$
+
+No igual: $10.00 \ne 10.0$
+
+Mayor que: >
+
+Menor que: <
+
+Mayor o igual que $\ge$
+
+Menor o igual que: $\le$
+
+Sumatoria: $\sum_{i=0}{n}$
+
+Productoria: $\prod_{i=o}{n}$
+
+Integral: $\int_{a}^{b}$
+
+Unión en grande: $\bigcup$
+
+Intersección en grande: $\bigcap$
+
+OR lógico grande: $\bigvee$
+
+AND lógico en grande: $\bigwedge$
+
+Paréntesis: ()
+
+Corchetes: []
+
+Llaves (escapadas): \{\}
+
+Diamante: $\langle + \rangle$
+
+Parte entera por defecto: $\lfloor o \rfloor$
+
+Parte entera por exceso: $\lceil o \rceil$
+
+Espacio en blanco: $Muy\ buenas...\ las\ tenga$
+
+Pesos: $\$500.50$
+
+## Letras griegas
+
+Alpha: $\alpha$
+
+Beta: $\beta$
+
+Gamma: $\gamma \ \Gamma$
+
+Delta: $\delta \ \Delta$
+
+Epsilon: $\epsilon$
+
+Epsilon: $\varepsilon$
+
+Zeta: $\zeta$
+
+Eta: $\eta$
+
+Theta: $\theta \ \Theta$
+
+Kappa: $\kappa$
+
+Lambda: $\lambda \ \Lambda$
+
+Mu: $\mu$
+
+Nu: $\nu$
+
+Xi: $\xi \ \Xi$
+
+Pi: $\pi \ \Pi$
+
+Rho: $\rho$
+
+Sigma: $6 \sigma \  \Sigma$
+
+Tau: $\tau$
+
+Upsilon: $\upsilon \ \Upsilon$
+
+Phi: $\phi \ \Phi$
+
+Phi:$\varphi$
+
+Chi: $\chi$
+
+Psi: $\psi \ \Psi$
+
+Omega: $\omega \ \Omega$
+
+## Símbolos matemáticos
+
+Gorro: $\hat{x}$
+
+Barra: $Media: \bar{x}$
+
+Punto 1: $\dot{x}$
+
+Punto 2: $\ddot{x}$
+
+Punto 3: $\dddot{x}$
+
+Tilde: $\tilde{n}$
+
+Vector: $\vec{x}$
+
+Gorro ancho: $\widehat{zxc}$
+
+Barra ancha: $\overline{zxc}$
+
+Subrrallado: $\underline{zxc}$
+
+Llave superior: $\overbrace{zxc}$
+
+Llave inferior: $\underbrace{zxc}$
+
+Tilde ancha: $\widetilde{zxc}$
+
+Vector de más de una letra: $\overrightarrow{zxc}$
+
+## Flechas
+
+Simple: $\leftarrow \ \rightarrow$
+
+Doble: $\Leftarrow \ \Rightarrow$
+
+Simple larga: $\longleftarrow \ \longrightarrow$
+
+Doble larga: $\Longleftarrow \ \Longrightarrow$
+
+Soble sentido simple: $\leftrightarrow$
+
+Doble sentido doble: $\Leftrightarrow$
+
+Doble sentido larga simple: $\longleftrightarrow$
+
+Doble sentido larga doble: $\Longleftrightarrow$
+
+Mapea: $\mapsto$
+
+Arriba: $\uparrow$
+
+Abajo: $\downarrow$
+
+## Funciones matemáticas
+
+Seno: $\sin$
+
+Coseno: $\cos$
+
+Tangente: $\tan$
+
+Arcoseno: $\arcsin$
+
+Arcocoseno: $\arccos$
+
+Arcotangente: $\arctan$
+
+Exponencial: $\exp$
+
+Logaritmo: $\log$
+
+L. natural: $\ln$
+
+Máximo: $\max$
+
+Mínimo: $\min$
+
+Límite: $\lim$
+
+Supremo del conjunto: $\sup$
+
+Ínfimo: $\inf$
+
+Determinante: $\det$
+
+Argumento: $\arg$
+
+Puntos suspensivos: $\ldots$ $\cdots$ $\vdots$ $\ddots$
+
+Cuantificador existencial: $\exists$
+
+Cuantificador universal: $\forall$
+
+Infinito: $\inf$
+
+Aleph: $\aleph$
+
+Conjunto vacío: $\emptyset$
+
+Negación: $\neg$
+
+Barra invertida $\backslash$
+
+Parcial: $\partial$
+
+## Tipos de letra
+
+$\mathbf{Negrita}$
+
+$\boldsymbol{Negra\ itálica}$
+
+$\mathbb{BLACKBOARD \ NZQR: \ Para \ notaciones \ de \ algunos \ conjuntos \ numéricos}$
+
+$\mathcal{Caligráfica: \ Usada \ para \ denotar \ conjuntos \ de \ cosas}$
+
+$\mathfrak{Gótica:Reservada \ para \ cosas \ específicas\ como \ un \ conjunto \ de \ conjuntos}$
+
+
+## Cómo acomodar los corchetes
+
+Para corchetes desacomodados: $(\dfrac{a}{b})$
+
+Para corchetes acomodados con los métodos left y right: $\left(\dfrac{a}{b}\right)$
+
+

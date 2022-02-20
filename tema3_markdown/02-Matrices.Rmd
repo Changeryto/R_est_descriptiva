@@ -1,0 +1,53 @@
+---
+title: "Matrices y sistemas de ecuaciones"
+author: "Rubén Téllez"
+date: "5/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Matrices
+
+Cada entrada se separa con &, y cada fila con doble backslash.
+
+Empezamos con la letra y seguimos con el número.
+
+Usa el método begin y end, colocando matrix entre las llaves:
+
+$$\begin{matrix} a_{11} & a_{13}  & a_{14} \\ a_{21} & a_{22} & a_{23} \end{matrix}$$
+
+Podríamos usar el left y right (), pero es más sencillo usar el método pmatrix:
+
+$$\begin{pmatrix} a_{11} & a_{13}  & a_{14} \\ a_{21} & a_{22} & a_{23} \end{pmatrix}$$
+
+
+Para usar barras verticales como en el producto cruz:
+
+$$\begin{vmatrix} a_{11} & a_{13}  & a_{14} \\ a_{21} & a_{22} & a_{23} \end{vmatrix}$$
+
+
+Para rodear por corchetes usa bmatrix:
+
+$$\begin{bmatrix} a_{11} & a_{13}  & a_{14} \\ a_{21} & a_{22} & a_{23} \end{bmatrix}$$
+
+
+Para rodear de llave usar Vmatrix:
+
+$$\begin{Vmatrix} a_{11} & a_{13}  & a_{14} \\ a_{21} & a_{22} & a_{23} \end{Vmatrix}$$
+
+
+## Sistema de ecuaciones
+
+Usar array en el método beggin, usar l/r/c en llaves para denotar la alineación de la tabla.
+
+$$\left.\begin{array}{ll} ax+by=c\\ ex-fy=g \end{array}\right\}$$
+
+
+Ejemplo (nunca olvídes la doble ll o rr o ss si tienes dos líneas):
+$$|x|=\left\{\begin{array}{rr} -x & \text{si }x\le 0\\ x & \text{si }x\ge 0 \end{array}\right.$$
+
+
+La función tex nos permite introducir texto en funciones matemáticas como Times NR en lugar de Cambria Math.

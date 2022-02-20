@@ -1,0 +1,66 @@
+---
+title: "Parametros_de_las_chunk"
+author: "Rubén Téllez"
+date: "5/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Parametros_de_las_chunk
+
+La parte entre llaves define el lenguaje de programación del chunk
+
+Podemos configurar con diferentes parámetros.
+
+$\mathbf{echo=BOOL:}$ Sirve para ocultar (True) o no (False) el chunk de código fuente. 
+
+TRUE pordefecto. 
+
+
+$\mathbf{eval=BOOL:}$ Sirve para ejecutar el chunk.
+TRUE por defecto.
+
+$\mathbf{message=BOOL:}$ Para señalar si queremos que se muestren los mensajes que R produce al ejecutar el código.
+
+$\mathbf{warning=BOOL:}$ Nos permite decidir si queremos que se muestren lo mensajes de advertencia producidos al ejecutar el chunk.
+
+Cuadro mágico:
+```{r, magic, message=FALSE, results='markup', comment=NA , echo=FALSE}
+library(magic)
+magic(6)
+
+```
+
+$\mathbf{comment=NA:}$ Para desaparecer los # de las ejecuciones
+
+$\mathbf{results=STATEMENT}$
+
+Statements:
+
+markup: Muestra los resultados al final de la línea, empezando por ## (Por defecto).
+
+hide: No se muestra el resultado en el documento.
+
+asis: Devuelve los resultados línea a línea de forma literal en el documento final y el programa en el que se abre el documento los interpreta como texto para ser formateado.
+
+hold: Muestra todos los resultados al final del bloque de código.
+
+
+```{r, chunk_para_raiz, comment, results='hold'}
+n <- 50
+m <- sqrt(n) - exp(2)
+print(paste(sprintf("La raíz cuadrada de 50 menos e^2 es: %f", m)))
+```
+
+```{r, results='asis'}
+sec = 10:20
+sec
+cumsum(sec)
+```
+
+
+
+

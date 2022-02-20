@@ -1,0 +1,42 @@
+---
+title: "Chunks_con_variables_en_medio_del_texto"
+author: "Rubén Téllez"
+date: "8/3/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Chunks en modo línea
+
+Paraintroducir una parte de código de un párrafopara que se ejecute al comillarse el documento, se usa `r...`
+
+Ejemplo:
+
+La raíz cuadrada de 64 es `r sqrt(64)`, es decir que $\sqrt{64}=$ `r sqrt(64)`
+
+$\rightarrow$ En $LaTeX$ : $\sqrt{2}$
+
+$\rightarrow$ En `R` haciendo `r sqrt(2)`
+
+$\Longrightarrow$La frase completa: $\sqrt{2}=$ `r sqrt(2)`
+
+
+El número $\pi$ empieza por `r pi`
+
+La raíz quinta de 32 es `r 32^(1/5)`, es decir que $\sqrt[5]{32}=$ `r 32^(1/5)`
+
+```{r, results='hide', echo=FALSE}
+notas = c(3, 5, 7, 7, 9, 10)
+media_notas = mean(notas)
+n = length((notas))
+desv.tip=sd(notas)
+```
+
+Este año he hecho $n=$ `r n` exámenes, con una media de $\overline{x}=$ `r round(media_notas, 2)` , y una desviación estándar de $\sigma =$ ``r round(desv.tip, 2)`
+
+

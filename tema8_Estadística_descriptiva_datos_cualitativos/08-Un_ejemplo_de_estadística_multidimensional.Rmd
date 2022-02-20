@@ -1,0 +1,73 @@
+---
+title: "Un ejemplo de estadística multidimensional"
+author: "Téllez Gerardo Rubén"
+date: "25/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Multivariante
+
+## Datos multidimensionales
+
+En general se puede calcular tablas de frecuencias de cualquier variable.
+
+### Tridimensional
+
+```{r}
+ans = sample(c("Si", "No"), size = 100, replace = TRUE)
+sex = sample(c("H", "M"), size = 100, replace = TRUE)
+place = sample(c("San Francisco", "Barcelona", "Valencia", "Cobija", "Asturias"), 100, replace = TRUE)
+
+#Dados estros tres vectores de 100 datos
+
+table(sex, ans, place)
+
+```
+
+Puede observarse  que una tabla tridimensional que dividida en 4 tablas bidimensionales
+
+Se obtiene una lista de tablas bidimensionales según el orden de la tercera variable
+
+Se puede cambiar la visualización con ´ftable()´
+
+```{r}
+ftable(sex, ans, place)
+```
+
+Esta función junta la información sin separarla en subtablas.
+
+Si se quisiera que las columnas fueran otras variables.
+
+```{r}
+ftable(sex, ans, place, col.vars = c("sex", "ans")) #Más sencilla de leer
+```
+
+### Filtrar las tablas
+
+Según subíndice
+
+```{r}
+table(sex, ans, place)["M","Si" ,"San Francisco" ] #Mujeres que dijron sí en SF
+table(sex, ans, place)[ , "Si", "Valencia"] #Toda respuesta afirmativa en Cobija
+table(sex, ans, place)["M", , ] #Toda respuesta femenina
+
+```
+
+### Para calcular frecuencias relativas
+
+se usa ´prop.table()´ con un margin igual a la combinación de las dimensiones relativas, o relativas globales si no se especifíca.
+
+```{r}
+prop.table(table(sex, ans, place)) #Frac. Rel. Globales
+
+prop.table(table(sex, ans, place), margin = c(1, 2)) #Frecuencia relativa marginar por sexo y país
+
+ftable(prop.table(table(sex, ans, place)))
+```
+Nos da la fracción que representa sexo y respuesta según cada país
+
+

@@ -1,0 +1,97 @@
+---
+title: "Estudio de frecuencias"
+author: "Téllez Gerardo Rubén"
+date: "4/7/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Estudio de frecuencias
+
+Dada una variable cualitativa, para cada uno de sus niveles podemos contar cuántos datos hay en ese nivel (__frecuencia absoluta__) y qué fracción del total representan (__frecuencia relativa__).
+
+## Estudio de frecuencias
+
+__Ejemplo:__
+
+Supongamos que tenemos un tipo de datos cualitativos con niveles
+$$l_1, l_2, \dots, l_k$$
+Efectuamos $n$ observaciones de este tipo de datos y denotamos por
+$$x_1, x_2, \dots, x_n$$
+los resultados que obtenemos con
+$$x_j \ln \{ l_1, l_2,\dots, l_k \}$$
+Estas observaciones forman una variable cualitativa.
+
+## Estudio de frecuencias
+
+Con estas nociones:
+
+La __frecuencia absoluta__ $n_j$, del nivel $l_j$ en esta variable cualitativa es el número de observaciones en las que $x_i$ toma el valor $l_j$
+
+La __frecuencia relativa__ del nivel $l_j$ en esta variable cualitativa es la fracción
+$$f_j = \frac{n_j}{n}$$
+Es decir, la frecuencia relativa del nivel $l_j$ es la fracción de oservaciones que corresponden a este nivel.
+
+La __moda__ de esta variable cualitativa es su nivel, o niveles, de mayor frecuencia absoluta o relativa.
+
+## Estudio de frecuencias
+
+__Ejemplo:__
+
+Supongamos que se realiza un seguimiento a 20 personas asistentes a un congreso. Uno de los datos que se han recogido sobre estas personas ha sido su sexo. El resultado ha sido una variable cualitativa formada por las20 observaciones siguientes.
+
+```{r, comment=""}
+sx = c("M", "M", "H", "M", "M","M", "M", "M", "H", "M", "H", "H", "M", "M", "H", "M", "M", "M", "M", "H")
+
+table(sx)
+```
+## Estudio de frecuencias
+Sus dos niveles son H y M. En esta variable hay 14 mujeres y 6 hombres. Éstas son las frecuencias absolutas de estos niveles.
+
+$$H = \frac{6}{20} = 0.3,\ \ \ M = \frac{14}{20} = 0.7$$
+
+En este caso, $l_1$ = H, y $l_2$ = M, $n$ = 20, y $x_1, x_2, \dots x_{20}$ son la muestra, la moda es M.
+
+Sexo | $n_i$ | $f_i$ | %
+-----|-------|-------|----
+Hombre| 6    | 0.3   | 30%
+Mujer| 14    | 0.7   | 70%
+20   | 20    | 1     | 100%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

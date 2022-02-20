@@ -1,0 +1,101 @@
+---
+title: "Función Table"
+author: "Téllez Gerardo Rubén"
+date: "4/7/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Tablas de frecuencias unidimensionales
+
+## Tablas de frecuencias unidimensionales
+
+Supongamos que tenemos una variable cualitativa guardada en un vector o un factor como la siguiente:
+
+```{r, include=TRUE}
+# Muestra aleatoria simple
+x = sample(1:5, size = 12, replace = TRUE)
+x
+```
+
+```{r}
+Respuestas = factor(sample(c("Sí", "No"), size = 12, replace = TRUE))
+Respuestas
+```
+## Tablas de frecuencias unidimensionales
+
+En R, la tabla de frecuencias absolutas de un vector que representa una variable cualitativa se calcula con la función __table()__
+
+```{r}
+table(x)
+table(Respuestas)
+```
+
+## Tablas de frecuencias unidimensionales
+
+El resultado de una función __table()__ es un objeto de datos de un tipo nuevo: una __tabla de contingencia__, una __table__ en el argot de R.
+
+Al aplicar __table()__ a un vector obtenemos una tabla unidimensional formada por una fila con los niveles de la variable, y una segunda fila donde aparece su frecuencia absoluta debajo de cada nivel en el vector.
+
+
+## Tablas de frecuencias unidimensionales
+
+Los nombres de las columnas de una tabla unidimensional se obtienen con la función __names().__
+```{r}
+names(table(x))
+```
+```{r}
+names(table(Respuestas))
+```
+
+## Tablas de frecuencias unidimensionales
+
+En la table de un vector sólo aparecen los nombres de los niveles presentes en el vector. Si el tipo de datos cualitativos usado tenía más niveles y queremos que aparezcan explícitamente en la tabla (con frecuencia 0), hay que transformar el vector en un factor con los niveles deseados.
+
+```{r}
+z = factor(x, levels = 1:7)
+
+table(z)
+```
+
+## Tablas de frecuencias unidimensionales
+
+Podemos pensr en que una tabla unidimensional es como un vector de números donde cada entrada está identificada por un nombre: el de su columna. Para referirnos a una entrada de una tabla unidimensional, podemos usar tanto su posición como su nombre (entre comillas).
+
+```{r}
+table(x)[3] #Pos 3
+table(x)["3"] #Nombre 3
+```
+
+# Tablas de contingencia
+## Tablas de contingencia
+
+```{r}
+datos = factor(c("H", "M", "M", "M", "H", "H", "M", "M"))
+table(datos)
+
+table(datos)["M"]
+table(datos)["H"]
+
+sum(table(datos))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

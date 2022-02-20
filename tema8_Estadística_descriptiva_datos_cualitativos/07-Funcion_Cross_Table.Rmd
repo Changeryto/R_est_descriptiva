@@ -1,0 +1,82 @@
+---
+title: "Función Cross Table"
+author: "Téllez Gerardo Rubén"
+date: "22/7/2021"
+output:
+  beamer_presentation: default
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Tablas de frecuencias bidimensionales
+
+La función __CrossTable()__ del paquete __gmodels__ permite producir (con la especificación __prop.chisq=FALSE)__ un resumen de la tabla de frecuencias absolutas y las tres tablas de frecuencias relativas de dos variables en un formato adecuado para su visualización.
+
+
+La leyenda _Cell Contents_ explica los contenidos de cada celda de la tabla: la frecuencia absoluta, la frecuencia relativa por filas, la frecuencia relativa por columnas, y la frecuencias relativa global. Esta función dispone de muchos parámetros que permiten modificar el contenido de las celdas, y que se pueden consultar en __help(CrossTable)__
+
+# Paquete `gmodels`
+
+## Ejemplo
+
+```{r}
+library(gmodels)
+
+sexo = sample(c("H", "M"), size = 12, replace = TRUE)
+
+ans = sample(c("S", "N"), size = 12, replace = TRUE)
+
+CrossTable(sexo, ans, prop.chisq = FALSE)
+```
+
+
+## Tablas de frecuencias bidimensionales
+
+Una __tabla de contingencia bidimensional__ es una matriz con algunos atributos. Es posible usar sobre estas tablas la mayoría de funciones que se aplican a matrices que aún tengan sentido.
+
++ __rowSums() y colSums()__ se puede aplicar a una tabla y suman sus filas o columnas respectivamente.
++ También se puede usar una tabla bidimensional (o multidimensional) la función __apply()__ con la misma sintaxis que para matrices.
+
+```{r}
+tab = table(sexo, ans)
+
+colSums(tab)
+rowSums(tab)
+
+apply(tab, FUN = sum, MARGIN = 1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

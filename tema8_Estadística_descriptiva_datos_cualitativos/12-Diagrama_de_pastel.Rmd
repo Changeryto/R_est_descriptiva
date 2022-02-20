@@ -1,0 +1,54 @@
+---
+title: "Diagramas circulares"
+author: "Téllez Gerardo Rubén"
+date: "30/8/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Diagrama circular
+
+Muy popular en la representación gráfica de frecuencias cualitativas. Se representan los niveles de una variable cualitativa como sectores circulares de un círculo, de forma que el ángulo de cada sector sea proporcional a la frecuencia del nivel correspondiente.
+
+En R, se producen con la instrucción `pie`, aplicada a una tabla de frecuencias y no al vector propiamente.
+
+## Diagrama circular
+
+Diagrama de pastel de iris
+
+```{r}
+table(iris$Species)
+pie(table(iris$Species))
+```
+
+## Diagrama circular
+
+No son recomendados ya que puede llegar a ser difícil visualizar un área del circulo comparada contra otra similar.
+
+```{r}
+
+pie(table(infert$education))
+
+```
+
+## Diagrama circular
+
+```{r}
+barplot(table(infert$education), col = c("cornsilk", "lightblue", "lightpink"))
+abline(h = 120, lty = "dotdash")
+```
+
+
+
+
+
+
+
+
+
+
+
+

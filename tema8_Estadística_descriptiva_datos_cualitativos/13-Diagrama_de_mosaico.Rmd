@@ -1,0 +1,73 @@
+---
+title: "Graficos de mosaico"
+author: "Téllez Gerardo Rubén"
+date: "30/8/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Graficos de mosaico
+
+Otra forma de representar las tablas multidimensionales de frecuencia es con __gráfcos de mosaico__. Se obtienen sustituyendo cada entrada de la tabla de frecuencias por una región rectangular de área proporcional a su valor.
+
+En concreto, para obtener el gráfico de mosaico de una tabla bidimensional, se parte de un cuadrado de lado 1, primero se divide en barras verticales de amplitudes iguales a las frecuencias relativas de una variable, y luego cada barra se divide, a lo alto, en regiones de alturas proporcionales a las frecuencias relativas marginales de cada nivel de la otra variable, dentro del nivel correspondiente a la misma variable.
+
+En R se puede obtener con la función `mosaicplot`. También se puede aplicar a matrices.
+
+## Graficos de mosaico
+
+```{r}
+mosaicplot(t(HairEyeColor[, , 2]), main = "Cabello respecto del color de ojos en mujeres", color = "lightpink")
+```
+
+## Grafico tridimensional de mosaico
+
+Primero se divide el cuadrado en barras verticales de amplitudes iguales a las frecuencias relativas de una variable.
+
+Luego cada barra se divide, a lo alto, en regiones de alturas proporcionales a las frecuencias relativas marginales de cada nivel de una segunda variable, dentro del nivel correspondiente de la primera variable.
+
+Finalmente, cada sector se vuelve a dividir a lo ancho en regiones de amplitudes proporcionales a las frecuencias relativas marginales de cada nivel de la tercera variable dentro de la combinación correspondiente de niveles de las otras dos.
+
+## Grafico de mosaico tridimensional
+
+```{r}
+mosaicplot(HairEyeColor, col = c("lightblue", "lightpink"), main = "Gráfico de mosaico de HairEyeColor")
+```
+
+## Otros gráficos
+
+Además de los parámetros usuales, la función __plot__ admite algunos parámetros específicos cuando se usa para producir el gráfico de mosaico de una tabla. Estos parámetros se pueden consultar con __help(mosaicplot)__.
+
+Los paquetes __vcd__ y __vcdExtra__ incluyen otras funciones que producen representaciones gráficas para tablas tridimensionales.
+
++ La función __cotabplot__ de __vcd__ produce un diagrama de mosaico para cada nivel de la variable.
++ La función __mosaic3d__ de __vcdExtra__ produce un diagrama de mosaico tridimensional en una ventana para gráficos 3D interactivos.
+
+## VCD
+
+
+
+```{r}
+vcd::cotabplot(HairEyeColor, )
+#vcdExtra::mosaic3d(HairEyeColor, color = c("blue", "hotpink"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,138 @@
+---
+title: "Tarea 10"
+author: "Téllez Gerardo Rubén"
+date: "8/9/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Preguntas de la tarea 10
+
+Utiliza str() y head() para explorar la estructura, y con help(), mirar el significado de cada variable.
+
+```{r}
+library(MASS)
+
+bw = birthwt
+
+str(bw)
+
+head(bw)
+
+help(birthwt)
+```
+
+
+Calcula una tabla de frecuencias relativas marginales de los pares (raza de la madre, peso inferior a 2.5 kg o no) que permita ver si la raza de la madre influye en el peso del bebé.
+
+```{r}
+bw$bwt[which(bw$bwt < 2500)] = "< 2.5 kg"
+bw$bwt[which(bw$bwt >= 2500)] = "> 2.5 kg"
+
+bw$race[which(bw$race == 1)] = "Blanca"
+bw$race[which(bw$race == 2)] = "Negra"
+bw$race[which(bw$race == 3)] = "Otra"
+
+rz = table(bw$race, bw$bwt)
+
+#dimnames(rz) = list(c("Blanca", "Negra", "Otra"), c("< 2.5 kg",  "> 2.5 kg"))
+
+prop.table(rz, margin = 1)
+```
+
+
+Dibuja un diagrama de mosaico de la tabla del ejercicio anterior.
+
+```{r}
+mosaicplot(prop.table(rz, margin = 1), main = "Diagrama de mosaico de la raza de las \n madres respecto del peso del bebé",
+           color = c("brown", "linen"))
+```
+
+
+Dibuja un diagrama bidimensional de barras, con las barras organizadas en bloques, que permita visualizar la información de los ejercicios anteriores. Aprovecha para nombres adecuados a los bloques, colores a las barras, y añadir una leyenda que explique qué representa cada barra.
+
+```{r}
+rrz = prop.table(rz, margin = 1)
+barplot(t(rrz), beside = T, col = c("brown", "linen"), 
+        legend.text = T, args.legend = list(x = "topright"), ylim = c(0, 1))
+```
+
+
+¿Se puede obtener alguna conclusión de la tabla y el diagrama de barras anterior? Argumenta tu respuesta
+
+La proporción de bebes con un peso mayor a 2.8 kg es mayor en madres blancas, menor en otras razas y en madres negras, respectivamente. Por lo cual son las madres negras las que más hijos tienen con peso menor a 2.5 kg, aún si la tendencia de las madres de otra raza es más similar a la de las madres negras que a la de las madres blancas.
+
+
+Repite los cuatro ejercicios anteriores para los pares (madre fumadora o no, peso inferior a 2.5 kg o no) y para los pares (madre hipertensa o no, peso inferior a 2.5 kg o no.
+
+
+```{r}
+ptp = function(parametro){
+    tbl = table(unlist(subset(bw, select = parametro)), bw$bwt)
+    print(prop.table(margin = 1, tbl))
+}
+
+
+
+fum = ptp("smoke")
+
+dimnames(fum)[1] = list("1" = c("No fumó", "Sí fumó"))
+
+mosaicplot(fum, col = c("brown","linen"), main = "Fumó durante el embarazo")
+
+barplot(fum, legend.text = T, beside = T, args.legend = list(x="topleft"),
+        col = c("linen", "brown"), ylim = c(0, 1))
+
+hp = ptp("ht")
+
+dimnames(hp)[1] = list(c("No hipertensa", "Hipertensa"))
+
+mosaicplot(hp, col = c("brown","linen"), main = "Presnecia de hipertensión")
+
+barplot(hp, legend.text = T, beside = T, args.legend = list(x="topleft"),
+        col = c("linen", "brown"), ylim = c(0, 1))
+```
+
+
+
+
+Calcula una tabla de frecuencias relativas marginales de las ternas (raza de la madre, madre fumadora o no, peso inferior a 2.5 kg o no) que permita ver si la raza de la madre y su condición de fumadora o no fumadora influyen en el peso del bebé.
+
+```{r}
+tbf = prop.table(table(bw$race, bw$smoke, bw$bwt), margin = 3)
+dimnames(tbf)[2] = list("2" =c("No fuma", "Fuma"))
+tbf
+```
+
+
+Dibuja un diagrama de mosaico de la tabla del ejercicio anterior.
+```{r}
+vcdExtra::mosaic3d(tbf, color = c("brown", "lightblue"))
+```
+
+
+```{r}
+
+
+A = function(mL){
+  0.2 * (mL)
+}
+
+ph = function(mL.HAc, mL.AcNa){
+  A = round(0.2 * mL.HAc * (1/(0.06 + mL.HAc + mL.AcNa)), 3)
+  B = round(0.2 * mL.AcNa * (1/(0.06 + mL.HAc + mL.AcNa)), 3)
+  
+  round(4.74 + log10(B/A), 2)
+}
+
+
+
+pr = function(a, b){
+  a / b
+}
+
+```
+

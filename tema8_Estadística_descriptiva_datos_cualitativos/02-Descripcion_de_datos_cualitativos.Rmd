@@ -1,0 +1,56 @@
+---
+title: "Descripción de datos cualitativos"
+author: "Téllez Gerardo Rubén"
+date: "4/7/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## ¿Qué son los datos cualitativos
+
+Los __datos cualitativos__ corresponden a observaciones sobre cualidades de un objeto o individuo.
+
+Suelen codificarse por medio de palabras, pero también se pueden usar números que jueguen el papel de etiquetas.
+
+__Ejemplo:__
+
+
+Es habitual representar No (Falso, Fracaso, Ausente...) con un 0, y Sí (Verdadero, Éxito, Presencia) con un 1.
+
+## ¿Qué son los datos cualitativos
+
+Los datos cualitativos son aquellos que pueden ser iguales o diferentes, pero que no admiten ningún otro tipo de comparación significativa.
+
+Es decir, que no tenga sentido preguntarse si uno es más grande que otro, ni efectuar operaciones aritméticas con ellos, aunque estén representados por números.
+
+## ¿Qué son los datos cualitativos
+
+Un mismo conjunto de datos puede ser cualitativo o de otro tipo, según el análisis que se vaya a hacer con él.
+
+__Ejemplo__
+
+
+Si hemos anotado durante varios años los días de la semana en los que ha llovido, y queremos contar cuántas veces ha llovido en lunes, martes, etc., esta lista de nombres o números serán datos cualitativos. Si. en cambio, queremos estudiar como se comportan los días de lluvia según avanza la semana, y por lo tanto el orden de los datos es relevante, serán datos ordinales.
+
+## ¿Qué son los datos cualitativos
+
+__Variable cualitativo:__ lista de observaciones de un tipo de datos cualitativos sobre un conjunto concreto de objetos.
+
+__Niveles:__ diferentes valores que pueden tomar estos datos. Por ejemplo, los dos niveles de una variable Sexo serían M(Macho) y H(Hembra), o sinónimos.
+
+Con R, usamos vectores y factores para representar variables cualitativas. Los factores nos servirían para agrupar las observaciones según los niveles de la variable. De esta forma, podemos segmentar la población que representa la variable en grupos o subpoblaciones, asignando un grupo a cada nivel, y podremos comparar el comportamiento de otras variables sobre estos grupos.
+
+
+
+
+
+
+
+
+
+
+
+

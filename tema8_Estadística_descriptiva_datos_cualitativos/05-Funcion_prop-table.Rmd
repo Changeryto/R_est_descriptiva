@@ -1,0 +1,126 @@
+---
+title: "Función prop.table"
+author: "Téllez Gerardo Rubén"
+date: "16/7/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Tablas de frecuencias unidimensionales
+
+La función de __frecuencias relativas__ de un vector se puede calcular aplicando la función _prop.table()_ a su _table()_. El resultado es una tabla de contingencia unidimensional.
+
+```{r, include=TRUE}
+# Muestra aleatoria simple
+x = sample(1:5, size = 12, replace = TRUE)
+x
+
+prop.table(table(x))
+```
+
+
+
+## Tablas de frecuencias unidimensionales
+
+_prop.table()_ siempre debe usarse con un table(vector) o dará un error, ya que la función trabaja con frecuencias absolutas.
+
+```{r}
+prop.table(x)
+```
+
+## Tablas de frecuencias unidimensionales
+
+También habría sido posible crear la tabla de frecuencias relativas con _table(x)/length(x)_.
+
+```{r}
+table(x)/length(x)
+```
+
+## Tablas de frecuencias unidimensionales
+
+Dados un vector _x_ y un número natural _n_, la instrucción
+
+__names(which(table(x) == n))__
+
+
+nos da los niveles que tienen frecuencia absoluta _n_ en _x_.
+
+```{r}
+table(x)
+```
+
+```{r}
+names(which(table(x)==1))
+```
+
+## Tablas de frecuencias unidimensionales
+
+Encontrar la observación de mayor frecuencia, _moda_.
+
+```{r}
+names(which(table(x)==max(table(x))))
+```
+
+# Ejercicio
+
+## Tablas de frecuencias unidimensionales
+
+Recuperar el ejemplo de los 6 hombres y 14 mujeres, calcula la tabla de frecuencias absolutas, su tabla de frecuencias relativas y la moda
+
+```{r}
+datos = factor(c(rep("H", 6), rep("M", 14)))
+
+#Frecuencias absoutas
+table(datos)
+
+
+#Frecuencias relativas
+prop.table(table(datos))
+
+#Moda
+names(which(table(datos) == max(table(datos))))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

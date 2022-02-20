@@ -1,0 +1,92 @@
+---
+title: "Tablas a partir de DF de variables cualitativas"
+author: "Téllez Gerardo Rubén"
+date: "28/8/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Tablas a partir de DF de variables cualitativas
+
+Se va a usar el paquete: __"data/EnergyDrink"__
+
+Este fichero consiste en una tabla de datos con la siguiente información sobre 122 estudiantes de una universidad de España: sexo (sexo), carrera (estudio) y si bebe bebidas energéticas (bebe).
+
+```{r}
+setwd("C:/Programación ExL/R_y_Python/tema8_Estadística_descriptiva_datos_cualitativos")
+
+Beb_Energ = read.table("https://raw.githubusercontent.com/joanby/r-basic/master/data/EnergyDrink", sep = " ", header = TRUE, stringsAsFactors = TRUE)
+```
+
+## Tablas a partir de DF de variables cualitativas
+
+```{r}
+str(Beb_Energ)
+
+head(Beb_Energ, 4)
+```
+## Tablas a partir de DF de variables cualitativas
+
+Aplicando la función __summary()__ a un data frame de variables cualitativas, otorga un resumen como tabla de frecuencias absolutas de cada variable.
+
+```{r}
+summary(Beb_Energ)
+```
+
+## Tablas a partir de DF de variables cualitativas
+
+Para obtener una tabla marginal por cada variable y obtener todas las tablas de frecuencias absolutas.
+
+```{r}
+apply(Beb_Energ, MARGIN = 2, FUN = table)
+```
+
+## Tablas a partir de DF de variables cualitativas
+
+Así es que obtivimos una __list__ cuyos componentes son las tablas que buscábamos.
+
+```{r}
+apply(Beb_Energ, MARGIN = 2, FUN = table)$sexo
+
+table(Beb_Energ$sexo)
+  
+```
+
+
+## Tablas a partir de DF de variables cualitativas
+
+Si se aplicara __table()__ a un data frame de variables cualitativas, se obtendría su table de frecuencias absolutas, con las variables ordenadas como aparecen en el DF.
+
+```{r}
+table(Beb_Energ)
+```
+## Tablas a partir de DF de variables cualitativas
+
+También se puede hacer una tabla de sólo algunas de las columnas.
+
+```{r}
+table(Beb_Energ[c(1,3)])
+```
+
+## Tablas a partir de DF de variables cualitativas
+
+También se puede usar __ftable()__ para formar la misma tabla de frecuencias en texto plano.
+
+```{r}
+ftable(Beb_Energ)
+```
+
+
+
+
+
+
+
+
+
+
+
+

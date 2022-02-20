@@ -1,0 +1,95 @@
+---
+title: "Tablas de frecuencias bidimensionales"
+author: "Téllez Gerardo Rubén"
+date: "19/7/2021"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Tablas de frecuencias bidimensionales
+
+La función __table()__ también perminte construir tablas de frecuencias conjuntas de dos o más variables.
+
+Supongamos que el vector Respuestas anterior contiene las respuestas a una pregunta dadas por unos individuos cuyos sexos tenemos almacenados en un vector __sexo__, en el mismo orden que sus respuestas. En este caso, podemos construir una tabla que nos diga cuántos personas de cada sexo han dado cada respuesta.
+
+```{r}
+
+Respuestas = factor(sample(c("Sí", "No"), size = 12, replace = TRUE))
+
+
+sexo = sample(c("H", "M"), size = length(Respuestas), replace = TRUE)
+
+rs = table(Respuestas ,sexo)
+rs
+
+```
+
+## Ejercicio
+
++ Comprueba qué ocurre si cambiamos el orden de las columnas en la función __table()__
++ Usa la función t() para transponer ambas tablas y comprueba el resultado
+
+```{r}
+sr = table(sexo, Respuestas)
+
+
+
+t(rs)
+t(sr)
+```
+
+__Es más fácil leer lo que interesa a un estudio, cuando la varable está en fila, no en columna__
+
+## Tablas de frecuencias bidimensionales
+
+Para referirnos a una entrada de una tabla bidimensional, podemos usar el subfijo [,] como si se manejara un DF. Dentro de los corchetes podemos poner los "nombres" como los índices de los niveles.
+
+```{r}
+rs[2, 1]
+
+rs[ "No", "M"]
+```
+1
+
+## Tablas de frecuencias bidimensionales
+
+La función __prop.table()__ mantiene su funcionalidad para calcular la tala bidimensional fara frecuencias relativas
+
+__Frecuencias relativas globales:__ para cada par de niveles, uno de cada variable, la fracción de individuos que pertenecen a ambos niveles respecto del total
+
+```{r}
+prop.table(sr) #Global
+```
+
+## Tablas de frecuencias bidimensionales
+
+__Frecuencias relativas marginales:__ dentro de cada nivel de una variable y para cada nivel de otra, la fracción de individuos que pertenecen al segundo nivel respecto del total de la subpoblación definida por el primer nivel.
+
+```{r}
+prop.table(sr, margin = 1) #Marginal por sexo
+prop.table(sr, margin = 2) #Marginal por respuesta
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

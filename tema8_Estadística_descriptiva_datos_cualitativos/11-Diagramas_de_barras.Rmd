@@ -1,0 +1,52 @@
+---
+title: "Diagrama de barras"
+author: "Téllez Gerardo Rubén"
+date: "28/8/2021"
+output:
+  ioslides_presentation: default
+  beamer_presentation: default
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Diagrama de barras
+
+El tipo de gráfico más común para representar variables cualitativas son los <span style="color: blue;">diagramas de barras</span> (__barplot__). Para cada nivel de la variable cualitativa, tiene una barra de altura para su frecuencia.
+
+
+La forma más sencilla de dibujar un diagrama de barras de las frecuencias absolutas o relativas de una varible cualitativa es usando la instrucción __barplot()__ aplicada a la tabla correspondiente.
+
+
+<span style ="color:red;">¡Atención! </span> Como pasaba con __prop.table()__, se ha de aplicar al resultado de __table()__ o de __prop.table()__, no al vector de datos originales.
+
+## Diagrama de barras
+
+```{r, fig.cap= 'Especies de Iris en el conjunto "iris"'}
+barplot(table(iris$Species), col = c("mediumorchid1", "mediumpurple", "mediumslateblue"))
+```
+
+## Girar gráficos
+
+```{r}
+barplot(table(boot::tau$decay), col = "lightgoldenrod", horiz = TRUE)
+```
+
+## Aplicar a tablas bidimensionales (barras apliladas)
+
+```{r}
+Beb_Energ = read.table("https://raw.githubusercontent.com/joanby/r-basic/master/data/EnergyDrink", sep = " ", header = TRUE, stringsAsFactors = TRUE)
+
+barplot(table(Beb_Energ$sexo, Beb_Energ$bebe), legend.text = TRUE,
+        ylim = c(0, 1.8*max(table(Beb_Energ$sexo, Beb_Energ$bebe))))
+```
+
+## Aplicar a tablas bidimensionales (barras a un lado)
+
+```{r}
+barplot(table(Beb_Energ$sexo, Beb_Energ$bebe), legend.text = TRUE, beside = TRUE, ylim = c(0, 1.4*max(table(Beb_Energ$sexo, Beb_Energ$bebe))))
+```
+
+

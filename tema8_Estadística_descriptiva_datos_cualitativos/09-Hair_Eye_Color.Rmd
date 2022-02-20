@@ -1,0 +1,67 @@
+---
+title: "Hair Eye Color"
+author: "Téllez Gerardo Rubén"
+date: "26/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ejemplo de las personas
+
+Usando el DataSet HairEyeColor, no es un DataFrame si no una tabla de frecuencias.
+
+Se llaman datos agregados.
+
+```{r}
+head(HairEyeColor)
+```
+```{r}
+sum(HairEyeColor) -> total
+```
+
+El total de individuos de la tabla es `r total`
+
+## Frecuencia marginal
+
+En este caso, la distribución respecto al total del sexo.
+
+```{r}
+prop.table(HairEyeColor, margin = 3)
+```
+
+En este caso, la distribución respecto al color de cabello y color de ojos
+
+```{r}
+prop.table(HairEyeColor, margin = c(1,2))
+```
+Para  permutar el orden de las colúmnas
+
+```{r}
+aperm(HairEyeColor, perm = c("Sex", "Hair", "Eye"))
+```
+
+## kableExtra
+
+kable es una extensión de Knit, de usar kableExtra también se aplica un embellecimiento de formato a las tablas de datos
+
+```{r}
+library(kableExtra)
+kable(HairEyeColor)
+```
+
+## xtable
+
+Para imprimir tablas, en principio sólo para tablas de 2 dimensiones. Sólo funciona en PDF por su compilación con LaTeX.
+
+
+
+
+
+
+
+
+
+

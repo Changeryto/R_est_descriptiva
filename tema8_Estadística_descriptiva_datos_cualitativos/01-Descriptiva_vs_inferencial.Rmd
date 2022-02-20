@@ -1,0 +1,86 @@
+---
+title: "Estadística descriptiva vs estadística inferencial"
+author: "Téllez Gerardo Rubén"
+date: "4/7/2021"
+output:
+  ioslides_presentation: default
+  beamer_presentation: default
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Introducción a la estadística descriptiva
+
+## Análisis estadístico de datos
+
+Cuando tenemos una serie de datos que describen algunos aspectos de un conjunto de individuos queremos llevar a cabo un análisis estadístico. Estos análisis estadísticos se clasifican en:
+
++ __Análisis exploratorio o descriptivo__: si nuestro objetivo es resumir, representar y explicar los datos concretos de los que disponemos. La estadística descriptiva es el conjunto de técnicas que se usan con ese fin.
++ __Análisis inferencial__: si el objetivo es inferir a partir de estos datos, información significativa sobre el total de la población o poblaciones de interés. Las técnicas que se usan entonces son las de estadística inferencial.
+
+## Análisis estadístico de datos
+
+Existe relación entre ambos. Cualquier análisis inferencial se suele empezar con la exploranción de los datos que se usarán así como también muchas técnicas descriptivas permiten estimar propiedades de la población de la que se ha extraído la muestra.
+
+_Ejemplo:_
+La media aritmética de las alturas de una muestra de individuos nos da un valor representativo de esta muestra, pero también estima la media de las alturas del total de la población.
+
+
+## Estadística descriptiva
+
+Esta consiste en una serie de medidas, gráficos y modelos descriptivos que nos permitirán resumir y explorar el conjunto de datos.
+
+__Objetivo final:__ entender los datos lo mejor posible
+
+## Tipos de datos
+
+Se trabaja con __datos multidimensionales:__ observamos varias características de una serie de individuos.
+
+Se registra en un archivo de ordenador con un formato preestablecido. Por ejemplo texto simple (codificado en diferentes formatos: ASCII, isolatin...), hojas de cálculo, bases de datos, etc.
+
+## Tipos de datos
+
+Una forma básica de almacenar datos es en forma de tablas de datos. En R se usan Data Frames.
+
+En una tabla de datos cada columna expresa una variable, mientras que cada fila corresponde a las observaciones de estas variables para un individuo concreto.
+
++ Los datos de una misma columna tienen que ser del mismo tipo al corresponder a observaciones de una misma propiedad.
++ Las filas son de naturaleza heterogénea al contener datos de diferentes tipos.
+
+## Tipos de datos
+
+Los tipos de datos que se consideran son:
+
++ __Datos de tipo atributo, osea cualitativos__: Expresan una cualidad de un individuo. EN R se guardan las listas de datos cualitativos en vectores o factores si es que se usan para clasificar individuos.
++ __Datos ordinales__: Similares a los cualitativos, sólo se diferencian en que pueden ordenar de manera natural como las calificaciones (reprobado, suficiente, notable, sobresaliente).
++ __Datos cuantitativos__: Se refieren a medidas, como edades, longitudes, pesos, etc. En R se guardan como listas de datos cuantitativos en vectores numéricos.
+
+## Tipos de datos
+
+```{r, comment=""}
+head(iris, 5)
+str(iris)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

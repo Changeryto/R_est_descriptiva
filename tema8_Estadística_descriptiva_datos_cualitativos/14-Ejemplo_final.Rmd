@@ -1,0 +1,154 @@
+---
+title: "Ejemplo final"
+author: "Téllez Gerardo Rubén"
+date: "7/9/2021"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Un ejemplo final
+
+Vamos a llevar a cabo un análisis completo de un ejemplo con lo que hemos aprendido en esta lección.
+
+El objeto HairEyeColor que tiene R es una tabla de frecuencias absolutas de 3 variables cualitativas: color de cabello, color de ojos y sexo.
+
+Vamos a extraer de esta tabla, una tabla bidimensional de frecuencias absolutas de las variables Hair y Eye, sin distinguir el sexo. Para ello se puede sumar las subtablas de frecuencias para hombres y mujeres, aplicando __as.table()__ al resultado finales para transformarlo en tabla si no lo fuera.
+
+## Hair Eye Color
+
+```{r, include=TRUE}
+man <- HairEyeColor[, , "Male"]
+wmn <- HairEyeColor[, , "Female"]
+
+ttl = man+wmn
+
+prop.table(ttl)
+```
+
+## Taducir
+
+Es recomendable traducir los nombres de las variables de esta tabla y sus niveles. Esto con la función __dimnames()__ que se puede usar sobre DF. El resultado de aplicar esta función a una tabla es una __list__ cuyos componentes son los niveles de cada variable.
+
+```{r, include=TRUE}
+HEC = ttl
+
+dimnames(HEC) = list(Cabello = c("Negro", "Café", "Rojo", "Rubio"), Ojos = c("Café", "Azul", "Avellana", "Verde"))
+
+HEC
+```
+## Diagrama de mosaico de la tabla
+
+```{r}
+mosaicplot(col = "orange", x = HEC, main = "Color de ojos y cabello")
+```
+
+## Individuos
+
+Calcular el número total de individuos representados en esta tabla.
+
+```{r, include=TRUE}
+sum(HEC)
+
+sprintf("%i es el total de individuos", sum(HEC))
+```
+
+## Tablas de frecuencias absolutas y relativas de cada variable
+
+Ejemplo propio
+
+```{r}
+HEC[1, ] + HEC[2, ] + HEC[3, ] +HEC[4, ]
+
+HEC[, 1] + HEC[, 2] + HEC[, 3] +HEC[, 4]
+
+pHEC = prop.table(HEC)
+
+
+pHEC[1, ] + pHEC[2, ] + pHEC[3, ] +pHEC[4, ]
+
+pHEC[, 1] + pHEC[, 2] + pHEC[, 3] +pHEC[, 4]
+```
+
+## Tablas de frecuencias absolutas y relativas de cada variable
+
+Método recomendado con colsums y rowsums
+
+```{r}
+colSums(HEC)
+
+rowSums(HEC)
+
+colSums(pHEC)
+
+rowSums(pHEC)
+```
+
+## Dos barplots
+
+```{r}
+barplot(colSums(pHEC), sub = "Fig 1. Frecuencias relativas de los ojos", col = c("coral4", "Lightblue", "darkkhaki", "darkgreen"), ylim = c(0, 0.5))
+```
+
+## Dos barplots
+
+```{r}
+barplot(rowSums(pHEC), sub = "Fig 2. Frecuencias relativas del cabello", col = c("Black", "coral4", "darkred", "darkkhaki"), ylim = c(0, 0.5))
+```
+
+## Dos barplots juntos
+
+```{r}
+par(mfrow=c(1, 2))
+
+barplot(colSums(pHEC), sub = "Fig 1. Frecuencias relativas de los ojos",
+        col = c("coral4", "Lightblue", "darkkhaki", "darkgreen"), ylim = c(0, 0.5))
+
+barplot(rowSums(pHEC), sub = "Fig 2. Frecuencias relativas del cabello", col = c("Black", "coral4", "darkred", "darkkhaki"), ylim = c(0, 0.5))
+```
+
+# Frecuecnas relativas globales y marginales
+
+## Globales
+
+```{r}
+prop.table(HEC)
+```
+
+## Marginal por ojos
+
+```{r}
+ojo = prop.table(HEC, margin = "Ojos")
+ojo
+```
+
+## Marginal por cabello
+
+```{r}
+cab = prop.table(HEC, margin = "Cabello")
+cab
+```
+
+## Grafico según ojos
+
+```{r}
+
+
+barplot(ojo, beside = TRUE, legend.text = T,
+        col = c("Black", "coral4", "darkred", "darkkhaki"), ylim = c(0, 0.8))
+
+
+```
+
+## Grafico según cabello
+
+```{r}
+barplot(t(cab), beside = T, legend.text = T,
+        col = c("coral4", "Lightblue", "darkkhaki", "darkgreen"), ylim = c(0, 0.8))
+```
+
+
+
+

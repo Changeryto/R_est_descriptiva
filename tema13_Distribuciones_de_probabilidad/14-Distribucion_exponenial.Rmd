@@ -1,0 +1,119 @@
+---
+title: "Distribución exponencial"
+author: "Téllez Gerardo Rubén"
+date: "7/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## V.A.
+
+Una v.a. $X$ tiene una distribución exponencial de parámetro $\lambda, X \sim Exp(\lambda)$, si su función de densidad es
+
+$$f_X (x) = \Bigg \{ \begin{matrix} 0 & si\ x \le 0 \\ \lambda \times e^{\lambda \times x} & si\ x > 0 \end{matrix}$$
+
+Teorema, si tenemos un proceso de Poisson de parámetro $\lambda$ por unidad de tiempo, el tiempo que pasa entre dos sucesos consecutivos es una v.a. $Exp(\lambda)$
+
+$\lambda$ son los sucesos en un periodo de tiempo, y $x$
+
+Propiedad de la pérdida de memoria. Si $X$ es v.a. $Exp(\lambda)$, entonces
+
+$$p(X > s+t : X > s) = p(X > t) \forall s, t > 0$$
+
+El área bajo la curva es la probabilidad de 
+
++ El dominio de $X$ será $D_X = [0, \infty )$
++ La función de distribución vendrá dada por.
+
+$$F_X(x) = \Bigg \{ \begin{matrix} 0 & si\ x \le 0 \\ 1-e^{- \lambda x} &  si\ x > 0 \end{matrix}$$
+
++ Esperanza $E(X) = \frac{1}{\lambda}$
++ Varianza $Var(X) = \frac{1}{\lambda}$
+
+## Función de densidad
+
+```{r}
+plot(y = pexp(seq(0, 20, 0.01), rate = 0.2), x = seq(0, 20, 0.01), ylim=c(0,1), type ="l", lwd="2", col = "purple")
+```
+
+## Función de distribución
+
+```{r}
+plot(y = dexp(seq(0, 20, 0.01), rate = 0.2), x = seq(0, 20, 0.01), ylim=c(0,0.3), type ="l", lwd="2", col = "purple")
+```
+
+## Código
+
+En R
+
+`dexp(x, rate), pesp(q, rate), quezp(p, rate), resp(n, rate)` donde `rate` = $\lambda$ es el tiempo entre dos sucesos consecutivos de la distribución.
+
+En Python
+
+`scipy.stats.expon: pmf(k, scale), cdf(k, scale), ppf(q, scale), rvs(n, scaler` donde `scale` ) $1/\lambda$ es la inversa del tiempo entre dos sucesos consecutivos de la distribución.
+
+## Distribución exponencial en Python
+
+```{python}
+from scipy.stats import expon
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(1,1)
+
+lam = 3 # Tiempo de espera entre sucesos sería 3
+rv = expon(scale = 1/lam)
+
+mean, var, skew, kurt = rv.stats(moments="mvsk")
+
+
+
+print("Media:", mean)
+print("Varianza:", var)
+print("Sesgo:", skew)
+print("Curtosis:", kurt)
+
+x = np.linspace(0, 2, 1000)
+ax.plot(x, rv.pdf(x), "r-", lw=5, alpha=0.6, label="Exp(10)")
+
+
+r = rv.rvs(size = 100000)
+ax.hist(r, density=True, histtype="stepfilled", alpha=0.2, bins=1000) # 1000 en el histograma
+
+ax.legend(loc="best")
+
+plt.show()
+
+
+
+
+
+```
+
+```{r}
+plot(y = dexp(seq(0, 2, length.out=1000), rate = 3), x = seq(0, 2, length.out=1000), lwd=2, col="blue", type="l", ylab = "Tiempo de espera entre sucesos", xlab="Tiempo esperado")
+```
+
+
+
+## Ejemplo
+
+Supongamos que el tiempo de servicio en un banco se modeliza por una variable aleatoria con distribución exponencial de razón 3 clientes por minuto.
+
+Calcular la probabilidad de que un cliente sea servido en menos de un minuto
+
+
+
+```{r}
+pexp(q = 1, rate = 3) # Es decir:     1 - exp(-(3) * 1)
+
+bin = seq(0, 2, length.out=1000)
+plot(y = dexp(seq(0, 2, length.out=1000), rate = 3), x = bin)
+```
+
+$$1\ cliente -e ^{- 1\ cliente \times 3\ clientes/minuto} = 0.9502129$$
+
+

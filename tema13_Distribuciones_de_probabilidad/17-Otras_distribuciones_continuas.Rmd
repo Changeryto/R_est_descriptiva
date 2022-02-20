@@ -1,0 +1,52 @@
+---
+title: "Otras distribuciones importantes"
+author: "Téllez Gerardo Rubén"
+date: "10/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Otras distribuciones
+
++ La distribución $\chi _k^2$, donde $k$ representa los grados de libertad de la misma y que procede de la suma de los cuadrados de $k$ distribuciones normales estándar independietes:
+
+$$X = Z_1^2 + Z_2^2 + \dots + Z_k^2 \sim \chi_k^2$$
+
++ La distrbución $t_k$ surge del problema de estimar la media de una poblacón normalmente distribuida cuando el tamaño de la muestra es pequeña y procede del cociente:
+
+$$T = \frac{Z}{\sqrt{\chi_k^2 / k}} \sim T_k$$
+
++ La distribuión $F_{n_1,n_2}$ aparece frecuentemente como la distribución nula de una prueba estadística, especialmente en el análisis de varianza. Viene definida como el cociente.
+
+$$F = \frac{\chi_{n_1}^2 / n_1}{\chi_{n_2}^2 / n_2} \sim F_{n_1, n_2}$$
+
+
+## Distribuciones continuas en R
+
+Distribución | Instrucción | Parámetros
+-------------|-------------|------------
+Uniforme     | unif        | mínimo y máximo
+Exponencial  | exp         | $\lambda$
+Normal       | norm        | media, $\mu$, $\sigma$
+Khi cuadrado | chisq       | grados de libertad
+t de Student | t           | grados de libertad
+F de Fisher  | f           | los dos grados de libertad
+
+
+
+## Otras distribuciones conocidas
+
++ Distribución de Pareto
++ Distribución Gamma y Beta
++ Distribución Log Normal
++ Distribución de Weibull
++ Distribución de Cauchy
++ Distribución Exponencial Normal
++ Distribución Von Mises
++ Distribución Rayleigh
++ ...
+
+

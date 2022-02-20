@@ -1,0 +1,157 @@
+---
+title: "Distribución geométrica"
+author: "Téllez Gerardo Rubén"
+date: "3/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Modela el número de intentos necesarios para obtener un éxito, o el número de fracasos antes de tener el primer éxito.
+
+# V.A.
+
+Si $X$ es variable aleatoria que mide el "número de repeticiones independientes del experimento hasta haber conseguido un éxito", diremos que $X$ se distribuye como una Geométrica con parámetro $p$
+
+$$X \sim He(p)$$
+
+donde $p$ es la probabilidad de éxito y $q = 1 - q$ es la probabilidad de fracaso.
+
++ El __dominio__ de $X$ será $D_X = \{0, 1, 2, \dots n\}$ o bien $D_X = \{1, 2, \dots n\}$ en función de si empieza en 0 o en 1 respectivamente.
++ La __función de densidad__ vendrá dada por
+
+$$f(k) = p(X = k) = (1 - p)^kp\ \ \ si\ empieza\ en\ 0$$
+$$f(k) = p(X=k) = (1 - p)^{k-1}p\ \ \ si\ empieza\ en\ 1$$
+
+Se fallan k veces hasta el primer éxito.
+
+
+_Otra variante mide el número de fracasos_
+
++ La _función de distribución_ vendrá dada por:
+
+$$F(x) = \Bigg \{ \begin{matrix} 0 & si\ x < 0 \\ 1-(1 - p)^{k+1} & si\ k \le x \le k+1, k \in \mathbb{N} \end{matrix}$$
+
++ _Esperanza_ $E(X) = \frac{1-p}{p}$ si empieza en 0 y $E(X) = \frac{1}{p}$ si empieza en 1.
++ _Varianza_ $Var(X) = \frac{1-p}{p^2}$
++ __Propiedad de la falta de memoria__: Si $X$ es una v.a. $Ge(p)$, entonces:
+
+$$p\{X \ge m + n : X \le n\} = p \{X \ge m\} \forall m, n = D_X$$
+
+Si se prueban $n$ veces más, estas son igual de probables que las anteriores.
+
+## Función de probabilidad de una Ge(0,5)
+
+```{r}
+plot(dgeom(0:100, 0.5), type="h", main="Función de probabilidad de una Ge(0.5)", x=0:100)
+```
+
+## Función de distribución de una Ge(0.5)
+
+```{r}
+plot(pgeom(0:100, 0.5), type="h", main="Función de distribución de una Ge(0.5)", x=0:100)
+```
+
+## Código de la Distribución
+
+El código de la distribución Geométrica:
+
++ En __R__ tenemos las funciones del paquete `dgeom(x, prob), pgeom(q, prob), qgeom(p, prob), rgeom(n, prob)` donde `prob` es la probabilidad de éxito del experimento.
++ En `Python` tenemos las funciones del paquete `scipy.stats.geom: pmf(k,p), cdf(k,p), ppf(q,p), rvs(p,size)`, donde `p` es la probabilidad de éxito del experimento.
+
+
+## Función de densidad
+
+Sea $X \sim p(p = 0.1)$ la distribución que modela la probabilidad de intentar abrir una puerta hasta conseguirlo.
+
+$$f(k) = (1-p)^{k-1}$$
+
+```{r}
+p = 0.1
+plot(dgeom(0:20,0.1), type="h", ylim=c(0,1))
+```
+
+
+## Función de distribución
+
+```{r}
+plot(pgeom(0:20, p), ylim=c(0,1), type="h")
+```
+
+## Cuantiles
+
+```{r}
+qgeom(0.5, p) #Con 6 intentos sería más probable que hubiera abierto que haber fallado
+
+qgeom(0.75, p)
+```
+## Aleatorios
+
+```{r}
+rgeom(10, p)
+```
+
+```{r}
+hist(rgeom(10000, p))
+```
+
+# En python
+
+```{python}
+from scipy.stats import geom
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+fig, ax = plt.subplots(1,1)
+p = 0.3
+mean, var, skew, kurt = geom.stats(p, moments="mvsk")
+
+print("Media:", mean)
+print("Varianza:", var)
+print("Sesgo:", skew)
+print("Curtosis:", kurt)
+```
+
+```{python}
+x = np.arange(geom.ppf(0.01, p), geom.ppf(0.99, p))
+ax.plot(x, geom.pmf(x,p), "bo", ms=8, label="Distribución Geom(0.3)")
+ax.vlines(x,0,geom.pmf(x,p), colors="b", lw=4, alpha=0.5)
+ax.legend(loc="best")
+
+rv = geom(p)
+ax.vlines(x,0,rv.pmf(x), colors="k", linestyles="--", lw=1, label="Frozen PMF")
+plt.show()
+```
+
+```{python}
+fig, ax = plt.subplots(1,1)
+prob = geom.cdf(x,p)
+ax.plot(x,prob,"bo",ms=8, label="Función de distribución acumulada")
+plt.show()
+```
+
+
+```{python}
+fig, ax=plt.subplots(1,1)
+r = geom.rvs(p, size=10000)
+plt.hist(r)
+plt.show()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

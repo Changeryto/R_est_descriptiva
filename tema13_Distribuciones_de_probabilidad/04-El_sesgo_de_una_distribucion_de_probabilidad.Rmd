@@ -1,0 +1,59 @@
+---
+title: "El sesgo de una distribución de probabilidad"
+author: "Téllez Gerardo Rubén"
+date: "31/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Sesgo
+
+Un dato se distribuye de forma normal cuando se concentra en torno a la media, los valores son menos probables de aparecer entre más se alejen de la media, para tener una medida de qué tan normal es un conjunto de datos uno de los parámetros es el sesgo.
+
+Mide qué tan simétrica es una distribución, este es positivo, negativo o 0.
+
+En las distribuciones unimodales se tiende a tener un pico a la derecha o izquierda.
+
+Las colas de la curva son alargadas en el extremo contrario al pico de la curva.
+
+El sesgo negativo tiene una cola izquierda larga, el sesgo positivo tiene una cola derecha larga.
+
+El sesgo se ha definido como una relación entre la media y la mediana de forma indirecta.
+
+Si la media de los valores se encuentra por debajo del 50%, significa que hay muchos más datos a la derecha de la distribución que sopesa la media.
+
+## Coeficiente de asimetría
+
+
+$$skew = (\mu - \nu)/\sigma = (media - mediana)/ds$$
+
+## Coeficiente se sesgo de Pearson
+
+$$\gamma_1 = E \left[ \left(\frac{X - \mu}{\sigma}\right)^3 \right] = \frac{\mu_3}{\sigma^3} = \frac{E[(X - \mu)^3]}{(E[(X - \mu)^2])^{3/2}} = \frac{\kappa_3}{\kappa_2^{3/2}}$$
+
+## Curtosis
+
+Qué tan alargada es la cola de una distribución, cuando se aleja de la mayoría de los valores.
+
+$$mode\ skewness = \frac{\mu - \nu}{s}$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

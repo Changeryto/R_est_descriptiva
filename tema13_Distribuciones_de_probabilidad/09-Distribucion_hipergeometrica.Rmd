@@ -1,0 +1,124 @@
+---
+title: "Distribución Hipergeométrica"
+author: "Téllez Gerardo Rubén"
+date: "3/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## V.A
+
+Consideremos el experimento "extraer a la vez (o una detrás de otra, sin retornarlos) $n$ objetos donde hay $N$ de tipo A, y $M$ de tipo B". Si $X$ es una variable aleatoria que mide el "número de objetos del tipo A", diremos que $X$ se distribuye como una Hipergeométrica con parámetros $N,\ M,\ n$
+
+$$X \sim H(N, M, n)$$
+
++ El __dominio__ de la función será $D_X = \{0, 1, 2,\ -n \}$ (en general)
++ La __función de densidad__ vendrá dada por
+
+$$f(k) = \frac{{N \choose k} \times {M \choose n-k}}{{N+M \choose n}}$$
+
+Tenemos objetos de dos tipos y sacamos objetos y no los regresamos.
+
+Parte de la regla de Laplace.
+
++ La función de distribución vendrá dada por
+
+$$F(X) = \Bigg \{ \begin{matrix} 0 & si\ x < 0 \\ \sum_{k=0}^{x} & si\ 0 \le x < n \\ 1 & si\ x \ge n \end{matrix}$$
+
++ Esperanza $E(X) = \frac{nN}{N + M}$
++ Varianza $Var(X) = \frac{nNM}{(N+M)^2} \times \frac{N + M - n}{N + M -1}$
+
+n = total de objetos extraídos
+N = objetos de tipo A
+M = objetos de tipo B
+
+
+El códifo de la distribución Hipergeométrica:
+
++ En `R` está en el paquete stats: `dhyper(x, m, n, k), phyper(1, m, n, k), qhyper(p, m, n, k), rhyper(nn, m, n, k)` donde `m` es el número de objetos del primer tipo, `n` el número de objetos del segundo tipo y `k` el número de extracciones realizadas.
++ En `Python` tenemos las funciones del paquete `scipy.stats.hypergeom: pmf(k,M,n,M), cdf(k,M,n,N), ppf(q,M,n,N), rvs(M,n,N,size)` donde `M` es el número de objetos del primer tipo, `N` el número de objetos del segundo tipo y `n` el número de extracciones realizadas.
+
+## Ejemplo
+
+Supongamos que tenemos 20 animales, de los cuales 7 son perros, y el resto no son perros. Queremos medir, la probabilidad de encontrar un número determinado de perros si elegimos $x = 12$ animales al azar.
+
+## En R
+
+```{r}
+M = 7
+N = 13
+x = 12
+
+dhyper(x = 0:12, m = M, n = N, k = x)
+# Probabilidad de que salga un perro, de que salgan 2 perros, de que salgan3 perros... 
+#de que salgan k perros. Es imposible que salgan más perros de los que hay.
+
+plot(dhyper(x = 0:12, m = M, n = N, k = x), type="h")
+
+phyper(q = 0:12, m = M, n = N, k = x)
+# Probabilidad acumulada de que salgan x o menos perros
+plot(phyper(q = 0:12, m = M, n = N, k = x), type="h")
+
+
+qhyper(p = 0.5, m=M, n=N, k=x) #Mediana
+
+
+```
+
+```{r}
+data=rhyper(nn = 10000, m = M, n = N, k = x)
+hist(data, breaks=8)
+```
+
+## En Python
+
+```{python}
+from scipy.stats import hypergeom
+import matplotlib.pyplot as plt
+import numpy as np
+
+[M, n, N] = [20, 7, 12] #De 20, se extraen 12, 7 son de los que quiero
+
+rv = hypergeom(M, n, N)
+x = np.arange(n+1)
+y = rv.pmf(x)
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(x, y, "bo")
+ax.vlines(x, 0, y, lw=2, alpha = 0.5)
+ax.set_xlabel("Número de perros entre los 12 elegidos al azar")
+ax.set_ylabel("Distribución de probabilidad de una H(13, 7, 12)")
+plt.show()
+
+
+
+
+
+```
+
+```{python}
+mean, var, skew, kurt = rv.stats(moments="mvsk")
+
+print("Media:", mean)
+print("Varianza:", var)
+print("Sesgo:", skew)
+print("Curtosis:", kurt)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

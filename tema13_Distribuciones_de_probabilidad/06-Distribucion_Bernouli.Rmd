@@ -1,0 +1,160 @@
+---
+title: "La distribución de Bernouli"
+author: "Téllez Gerardo Rubén"
+date: "1/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::knit_engines$set(python = reticulate::eng_python)
+#reticulate::use_python("/Users/ruben/bin/pyrhon")
+```
+
+## Distribución de Bernouli
+
+Si $X$ es variable aleatoria que mide el "número de éxitos" y se realiza un único experimento con dos posibles resultados (éxito de valor 1, o fracaso, de valor 0), diremos que $X$ se distribuye como una Bernouli con parámetro $p$
+
+$$X \sim Be(p)$$
+
+donde $p$ es la probabilidad de éxito, y $q = 1 - p$ es la probabilidad de fracaso.
+
++ El dominio de X será $X(\Omega) = {0,1}$
++ La función de probabilidad vendrá dada por
+
+$$f(k) = p^k (1-p)^{1-k} = \Bigg \{ \begin{matrix} p & si\ k = 1 \\ 1-p & si\ k = 0 \\ 0 & en\ cualquier\ otro\ caso \end{matrix}$$
+
+Se entiende como éxito el suceso que nos interesa estudiar.
+
+
++ La función de distribución vendrá dada por
+
+$$F(k) = \Bigg \{ \begin{matrix} 0 & si\ k < 0 \\ q & si\ 0 \le k \le 1 \\ 1 & si\ k \ge 1 \end{matrix}$$
++ Esperanza $E(X) = p$
++ Varianza $Var(X) = pq$, $q = 1-p$
+
+## Esperanza
+
+Ya que:
+
+$$E(X) = \sum_{x \in D_X}{x \times f(x)}$$
+
+$$E(X) = (0 \times f(0)) + (1 \times f(1))$$
+Suponiendo que el $p(éxito) = 0.5$
+
+$$E(X) = (0 \times 0.5) + (1 \times 0.5) = 0 + 0.5 = 0.5 = p$$
+De forma general:
+
+$$E(X) = 0 \times P(X = 0) + 1 \times P(X = 1) = P(X = 1 ) = p$$
+
+p es probabilidad de éxito.
+
+## Varianza
+
+$$Var(X) = E(X^2) - (E(X))^2$$
+
+$$Var(X) = (0^2 \times 0.5 + 1^2 \times 0.5) - (0.5)^2 = (0.5) - 0.25 = 0.25$$
+
+$$Var(X) = p \times (1-p) = 0.5 \times 0.5 = 0.25$$
+
+De forma general:
+
+$$Var(X) = E(X^2) - (E(X))^2$$
+
+$$E(X^2) = (0^2 \times (1 - p) + 1^2 \times p) = p$$
+
+$$E(X) = 0 \times (1 - p) + 1 \times p = p$$
+
+$$(E(x))^2 = p^2$$
+
+Factorizando
+
+$$p - p^2  = p(1 - p) = p \times q$$
+
+Queda demostrado.
+
+## Distribución de Bernoulli
+
+El código de la distribución de Bernoulli:
+
++ En __R__ tenemos las funciones del paquete `Rlab: dbenr(x,prob), pbenr(q,prob), qbenr(), rbenr(n, prob)` donde `prob` es la probabilidad de éxito.
++ En `Python` tenemos las funciones del paquete `scipy.stats.bernoulli: pmf(k,p), cdf(k,p), ppf(q,p), rvs(p, size)` donde `p` es la probabilidad de éxito.
+
+
+## Ejemplos en R
+
+### Función de densidad
+$$f(k) = p^k(1-p)^{1-p}, k\in \{0,1 \}$$
+
+Donde $p$ es la probabilidad de éxito.
+
+
+Sea $X = Be(p = 0.7)$, (70% probabilidad de éxito)
+
+```{r}
+paste("Probabilidad de sacar 0 =",Rlab::dbern(0, 0.7)) #Probabilidad de sacar 0
+paste("Probabilidad de sacar 1 =",Rlab::dbern(1, 0.7))#Probabilidad de sacar 1
+```
+
+### Función de distribución o acumulada.
+
+```{r}
+Rlab::pbern(0, prob = 0.7) #Probabilidad acumulada de sacar 0 es el 0.3
+Rlab::pbern(1, prob = 0.7) #Probabilidad acumulada de sacar 1 (o probabilidad de sacar 0 o 1) es el 1.
+```
+
+
+### Sacar los cuantiles
+
+```{r}
+Rlab::qbern(p = c(0.5), prob = 0.7) #Mediana de la distribución es 1 al ser este el 0.7/1
+
+Rlab::qbern(p = c(0.25), prob = 0.7) #Primer cuartil
+```
+
+### Sacar valores aleatorios
+
+```{r}
+Rlab::rbern(100, prob = 0.7) -> dat
+barplot(prop.table(table(dat)), ylim=c(0, 1))
+```
+## Ejemplos en Python
+
+
+
+
+```{python}
+from scipy.stats import bernoulli
+import matplotlib.pyplot as plt
+
+p = 0.7
+
+#La función stats genera bastantes valores
+
+mean, var, skew, kurt = bernoulli.stats(p, moments="mvsk")
+
+print("Media:", mean)
+print("Varianza:", var)
+print("Sesgo:", skew)
+print("Curtosis:", kurt)
+
+fix, ax = plt.subplots(1,1)
+x = bernoulli.rvs(p, size=1000)
+ax.hist(x)
+plt.show()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,77 @@
+---
+title: "Distribución Binomial Negativa"
+author: "Téllez Gerardo Rubén"
+date: "4/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## V.A
+
+Si $X$ es una variable aleatoria que mide el "número de repeticiones" hasta observar los $r$ ensayos de Bernoulli, diremos que $X$ se distribuye como una Binomial Negativa con parámetros $r$ y $p$.
+
+$$X \sim BN(r, p)$$
+
+donde $p$ es la probabilidad de éxito, y r el número de exitos
+
++ El _dominio_ de $X$ será $D_X = \{r, r +1, r+2,...\}$
++ La _función de densidad_ vendrá dada por
+
+$$f(k) = {k-1\choose r-1} p^r (1-p^{k-r}), k \ge r$$
+
+Número de intentos hasta conseguir r éxitos.
+
+Ajuste de la función de densidad de la binomial.
+
++ La _función de distribución_ no tiene expresión analítica.
++ _Esperanza_ $E(X) = \frac{r}{p}$
++ _Varianza_ $Var(X) = r\times \frac{1-p}{p^2}$
+
+## El problema de los cigarrillos
+
+Tenemos dos cajas de 20 cigarrillos, una en la izquierda y ptra en la derecha.
+
+Se va fumando independientemente uno a lado de otro. Cuando se ha acabado una caja de cigarrillos, ¿Cuántos quedarán en la otra?
+
+## Función de densidad
+
+Distribución de probabilidad de buscar 5 éxitos con probabilidad 0.5.
+
+```{r}
+plot(x = dnbinom(size = 5, x = 0:20, prob = 0.5), type="h")
+```
+
+Vease que de 0 a 
+
+
+```{r}
+plot(x=dnbinom(0:5,size = 5, prob = 0.5), type="h")
+```
+
+## Código
+
++En R. `dbinom(x, size, prop), pnbinom(1, size, prop), qnbinom(p, size, prop), rbinom(n, size, prop)` donde `size` es el número de casos exitosos y `prob` la probabilidad del éxito.
+
++ En `Python` tenemos las funciones del paquete `scipy.stats.nbinom; pmf(k,n,p), cdf(k,n,p), ppf(q,n,p), rvs(n,p)` donde `n` es el número de casos exitosos y `p` la probabilidad del éxito.
+
+
+## Distribuciones de probabilidad discreta más importantes.
+
+
+Distribución | Instrucción | Parámetros
+-------------|-------------|-----------
+Binomial     | `binom`     | tamaño de la muestra `n` y probabilidad de éxito $p$
+Geométrica   | `geom`      | probabilidad de éxito $p$
+Hipergeométerica | `hyper`  | N obj, M obj, n total obj
+Poisson      | `pois`       | esperanza $\lambda$
+Binomial Negativa | `nbinom`| número de éxitos $r$ y probabilidad de éxito $p$
+
+
+
+
+
+
+

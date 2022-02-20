@@ -1,0 +1,83 @@
+---
+title: "Variables aleatorias discretas"
+author: "Téllez Gerardo Rubén"
+date: "31/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Variables aleatorias discretas
+
+_Variable aleatoria discreta._ Una v.a $X : \Omega \rightarrow \mathbb{R}$ es discreta cuando $D_x$ es finito o un subconjunto de $\mathbb{N}$
+
+_Función de densidad_. Es la función $f : \mathbb{R} \rightarrow [0,1]$ definida por
+
+$$f(x) = p(X = x)$$
+
+Nótese que $f(x) = 0$ si $x \notin D_X$. Por tanto, interpretaremos la función de densidad como la función.
+
+$$f : D_X \rightarrow [0,1]$$
+
+## Esperanza
+
+_Esperanza de una v.a. discreta_. Sea $f : D_X \rightarrow [0,1]$ la densidad de $X$, entonces la esperanza respecto de la densidad es la suma ponderada de los elementos de $D_X$, multiplicando cada elemento $x$ de $D_X$ por su proabilidad. Multiplicando cada elemento por su probabilidad.
+
+Por ejemplo, en dados, 1 * 1/6 + 2 * 1/6 + ... + 6 * 1/6. Porque la probabilidad de sacar cualquiera es 1/6
+
+$$E(X) = \sum_{x \in D_X}{x \times f(x)}$$
+
+
+
+Si $g : D_X \rightarrow \mathbb{R}$ es una aplicación:
+
+$$E(g(x)) = \sum_{x \in D_X}{g(x) \times f(x)}$$
+
+Por ejemplo, la esperanza de $X^2$ sería $X^2$ por la probabilidad de que tome esos valores.
+
+La esperanza es fundamentan en las variables aleatorias discretas. Cada dominio por su probabilidad o cada elemento por su probabilidad.
+
+## Varianza
+
+_Varianza de una v.a. discreta._ Sea $f : D_X \rightarrow [0,1]$ la densidad de $X$, entonces la varianza respecto de la densidad es el valor esperado de la diferencia al cuadrado entre $X$ y su valor medio $E(X)$,
+
+$$Var(X) = E((X - E(X))^2)$$
+
+La varianza mide como de variados son los resultados de $X$ respecto de la media.
+
+Demostrable:
+
+$$Var(X) = E(X^2) - (E(X))^2$$
+
+Si $X$ es una v.a. discreta y $g : D_X \rightarrow \mathbb{R}$ una función,
+
+$$Var(g(X)) = E((g(X)))^2) = E(g(X)^2) - (E(g(X)))^2$$
+
+## Desviación estándar
+
+_DA de una v.a. discreta._ Sea $f : D_X \rightarrow [0,1]$ la densidad de $X$, entonces la desviación estándar respecto de la densidad es:
+
+$$\sigma(X) = \sqrt{Var(X)}$$
+
+Las unidades de varianza son las de $X$ al cuadrado. En cambio, las de la desviación típica son las mismas unidades que las de X.
+
+Si $X$ es una v.a. discreta y $g : D_X \rightarrow \mathbb{R}$ una función,
+
+$$\sigma(g(X)) = \sqrt{Var(g(X))}$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

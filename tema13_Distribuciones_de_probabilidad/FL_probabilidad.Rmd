@@ -1,0 +1,105 @@
+---
+title: "Probabilidad de flip-flops en una hora de 3 fosfolípidos"
+author: "Téllez Gerardo Rubén"
+date: "5/2/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(latex2exp)
+```
+
+## Introducción
+
+En un estudio realizado por Liu, J., & Conboy, J. en el 2005, se determinó la tasa de flip-flops de procesos unimoleculares de 3 distintos fosfolípidos en una bicapa lipídica artificial, mediante la medición por microscopía de fluorescencia usando lípidos deuterados. Se recuperan los datos de $\sim 5°C$ por debajo de la transformación de fase $T_m$ para 1,2-dimiristoil-sn-glicero-3-fosfocolina, dipalmitoilfosfatidilcolina y distearoilfosfatidilcolina.
+
++ Para 1,2-dimiristoil-sn-glicero-3-fosfocolina: $196 \times 10^{-5}\ flips/seg$
++ Para dipalmitoilfosfatidilcolina: $42.2 \times 10^{-5}\ flips/seg$
++ Para distearoilfosfatidilcolina: $15.2 \times 10^{-5}\ flips/seg$
+
+La distribución de Poisson es una distribución discreta, que expresa a partir de una frecuencia media de sucesos ocurridos en un intervalo, la probabilidad de que ocurra un determinado número de sucesos.
+
+$$Poi(\lambda) = \frac{e^{-\lambda} \times \lambda^k}{k!}$$
+
+Donde $\lambda$ es la frecuencia de observaciones esperadas o medias en un intervalo, y k el número de ocurrencias del cuál se determinará su probabilidad.
+
+Por criterios de legibilidad, se transforma la frecuencia sobre segundo a frecuencia sobre hora.
+
++ $\frac{196 \times 10^{-5}\ flips}{seg} \times \frac{3600\ seg}{hora} = 7.056\ flips/hora$
++ $\frac{42.2 \times 10^{-5}\ flips}{seg} \times \frac{3600\ seg}{hora} = 1.5192\ flips/hora$
++ $\frac{15.2 \times 10^{-5}\ flips}{seg} \times \frac{3600\ seg}{hora} = 0.5472\ flips/hora$
+
+
+## Gráficos de probabilidad
+
+
+```{r}
+tasa.DMPC = 196e-5 #/sec  #DMPC = 1,2-dimiristoil-sn-glicero-3-fosfocolina 
+tasa.DPPC = 42.2e-5 #/sec #DPPC = Dipalmitoilfosfatidilcolina
+tasa.DSPC = 15.2e-5 #/sec #DSPC = Distearoilfosfatidilcolina
+
+# Tasas por hora
+
+hor.DMPC = tasa.DMPC * 3600
+hor.DPPC = tasa.DPPC * 3600
+hor.DSPC = tasa.DSPC * 3600
+
+
+fl.p = 0:20 #Número de flips en una hora probables
+dist = dpois(x = fl.p,lambda = hor.DMPC) #Probabilidades de número de flips con esperanza hor.DMPC
+
+
+
+```
+
+```{r,fig.width=12, echo=TRUE}
+barplot(height =  dist, 
+        names.arg = fl.p, 
+        ylim=c(0, 0.6), 
+        ylab="Probabilidad del número de flips por hora",
+        xlab = "Número de flips por hora",
+        sub=TeX("$Fig\\, 1.\\, Distribución\\, Poi(\\lambda = 7.056)\\, que\\, representa\\, la\\, probabilidad\\, de\\, flips/hora\\, para\\, una\\, molécula\\, de\\, 1,2-dimiristoil-sn-glicero-3-fosfocolina$"))
+```
+
+
+
+```{r}
+dist2 = dpois(x = fl.p, lambda = hor.DPPC)
+
+
+
+
+```
+
+```{r, fig.width=11, echo=TRUE}
+barplot(height =  dist2, 
+        names.arg = fl.p, 
+        ylim=c(0, 0.6), 
+        ylab="Probabilidad del número de flips por hora",
+        xlab = "Número de flips por hora",
+        sub=TeX("$Fig\\, 2.\\, Distribución\\, Poi(\\lambda = 1.5192)\\, que\\, representa\\, la\\, probabilidad\\, de\\, flips/hora\\, para\\, una\\, molécula\\, de\\, dipalmitoilfosfatidilcolina$"))
+```
+
+
+```{r}
+dist3 = dpois(x = fl.p, lambda = hor.DSPC)
+
+```
+
+```{r, fig.width=11, echo=TRUE}
+barplot(height =  dist3, 
+        names.arg = fl.p, 
+        ylim=c(0, 0.6), 
+        ylab="Probabilidad del número de flips por hora",
+        xlab = "Número de flips por hora",
+        sub=TeX("$Fig\\, 3.\\, Distribución\\, Poi(\\lambda = 0.5472)\\, que\\, representa\\, la\\, probabilidad\\, de\\, flips/hora\\, para\\, una\\, molécula\\, de\\, distearoilfosfatidilcolina$"))
+```
+
+
+## Referencia
+
+Liu, J., & Conboy, J. (2005). 1,2-Diacyl-Phosphatidylcholine Flip-Flop Measured Directly by Sum-Frequency Vibrational Spectroscopy. Biophysical Journal, 89(4), 2522-2532. doi: 10.1529/biophysj.105.065672
+

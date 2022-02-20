@@ -1,0 +1,258 @@
+---
+title: "Tarea 15"
+author: "Téllez Gerardo Rubén"
+date: "10/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## En una universidad, se sabe que el 25% de los alumnos realizan algún tipo de deporte. Se ha obtenido una muestra de 30 alumnos.
+
+a) Si llamamos X a la variable aleatoria que cuenta el número de alumnos que realizan algún tipo de deporte, ¿qué tipo de distribución sigue X?
+
+**La distribución binomial**
+
+b) ¿Qué esperanza tiene X?
+
+```{r}
+
+f1 = dbinom(0:30, 30, 0.25)
+barplot(f1, ylim=c(0, 0.2), names.arg = 0:30)
+```
+
+Para: 
+$$D_X = \{ 0, 1, 2 \dots 30 \}\ y\ p = 0.25$$
+
+$$E(X) = \sum_{x \in D_X} x \times f(x) = 7.5$$
+
+$$E(X) = n \times p = 30 \times 0.25 = 7.5$$
+
+```{r}
+sum(0:30 * dbinom(0:30, 30, 0.25))
+
+30 * 0.25
+```
+
+
+
+c) ¿Y varianza?
+
+$$Var(X) = 30 \times 0.25 \times 0.75$$
+
+```{r}
+30*0.25 *0.75
+```
+
+
+d) Calcula con R (o Python) la probabilidad de que más de 25 alumnos practiquen algún deporte.
+
+
+```{r}
+pbinom(25, 30, 0.25, lower.tail = FALSE)
+```
+
+
+
+e) Calcula con R (o Python) la probabilidad de que exactamente 15 alumnos practiquen algún deporte.
+
+```{r}
+dbinom(15, 30, 0.25)
+```
+
+
+f) Calcula con R (o Python) la probabilidad de que de 10 alumnos o menos practiquen algún deporte.
+
+```{r}
+pbinom(10, 30, 0.25)
+```
+
+
+## El número medio de accidentes de coche en la ciudad de Mahón en 2 meses es de 2 accidentes.
+
+a) ¿Qué distribución sigue la v.a. que cuenta el número de accidentes en 2 meses?
+
+**Distribución de Poisson**
+
+b) Calcula la esperanza
+
+$$\lambda = 2$$
+
+```{r}
+barplot(dpois(0:10, 2), xlab="Accidentes cada 2 meses", ylab="P", ylim = c(0,0.5))
+```
+
+
+c) Calcula con R (o Python) la probabilidad de que no ocurra ningún accidente en 2 meses.
+
+```{r}
+ppois(0, 2)
+```
+
+
+## El 40% de un pueblo a las afueras de la ciudad de Pensilvania ve un concurso que dan por la tele. El concurso llama por teléfono a 15 personas del pueblo elegidas al azar. ¿De qué distribución se trata?
+
+**Distribución hipergeométrica**
+
+## En un bol muy grande tenemos, en total, 70 fresas, de entre las cuales 10 están podridas. Tomando un puñado de 20 fresas al azar y sin reemplazar ninguna de ellas, ¿qué distribución sigue la v.a. que cuenta el número de fresas podridas?
+
+**Hipergeométrica**
+
+```{r}
+#Fresa podrida = bolas blancas
+
+n = 70
+N = 10
+M = 70-10
+
+barplot(dhyper(x = 0:10, m = N, n = M, k = 20))
+```
+
+
+Da también la esperanza y la varianza de esta variable aleatoria.
+
+```{r}
+#Esperanza
+sum(dhyper(x = 0:10, m = N, n = M, k = 20) * 0:10)
+
+(20 * 10)/(60 + 10)
+
+#Varianza
+
+((20 * 10 * 60)/(70^2)) * ((70 - 20)/(70-1))
+```
+
+
+## Un test de matemáticas consta de 200 preguntas de verdadero o falso. Para una persona que respondiese al azar, ¿qué distribución seguiría la v.a. que cuenta el número de preguntas acertadas?
+
+**Distribución binomial**
+
+Da también la esperanza y la varianza de esta variable aleatoria.
+
+```{r}
+plot(y=dbinom(0:200, 200, 0.5), type="h",x=0:200)
+```
+
+```{r}
+#Esperanza
+sum(dbinom(0:200, 200, 0.5) * 0:200)
+200*0.5
+
+#Varianza
+200*0.5*0.5
+```
+
+
+
+## Un test de matemáticas consta de 200 preguntas. Cada pregunta consta de 4 posibles respuestas con solo una correcta. Para una persona que respondiese al azar, ¿qué distribución seguiría la v.a. que cuenta el número de preguntas acertadas?
+
+**Binomial**
+
+Da también la esperanza y la varianza de esta variable aleatoria.
+
+```{r}
+plot(y=dbinom(0:200, 200, 0.25), type="h",x=0:200)
+```
+
+```{r}
+#Esperanza
+sum(dbinom(0:200, 200, 0.25) * 0:200)
+200*0.25
+
+#Varianza
+200*0.25*0.75
+```
+
+## Un test de matemáticas consta de 200 preguntas de verdadero o falso. Para una persona que respondiese al azar y por orden, ¿qué distribución seguiría la v.a. que cuenta el número de preguntas respondidas hasta el primer acierto?
+
+**Distribución geométrica**
+
+```{r}
+plot(y=dgeom(1:200-1, 0.5), x=1:200, type="h")
+```
+
+
+Da también la esperanza y la varianza de esta variable aleatoria.
+
+```{r}
+#Esperanza
+sum(dgeom(1:200-1, 0.5) * (1:200))
+
+(1 / 0.5)
+
+#Varianza
+(1-0.5)/(0.5^2)
+```
+
+
+## Para evitar ser arrestado al pasar el control de seguridad, un viajero ha colocado 7 pastillas de droga en una botella que contiene 14 píldoras de vitaminas, las cuales son muy similares a las otras. Si el policía de turno selecciona 4 pastillas aleatoriamente para analizarlas, ¿qué distribución sigue la v.a. que cuenta el número de pastillas de droga?
+
+**Distribución hipergeométrica**
+
+```{r}
+#Droga = bolas blancas
+
+barplot(dhyper(x = 0:4, m = 7, n = 12, k = 4), ylim = c(0,1), names.arg = 0:4)
+```
+
+
+## Un servicio dedicado a la reparación de aires acondicionados recibe de media 27 llamadas diarias. ¿Qué distribución sigue la v.a. que cuenta el número de llamadas diarias?
+
+**Distribución de Poisson**
+
+```{r}
+plot(y=dpois(0:50, 27), x=0:50, type="h")
+```
+
+
+## Se lanza 53 veces un dado. ¿Qué distribución sigue la v.a. que cuenta cuántas veces ha salido un número impar? ¿Y la v.a. que cuenta el número de veces que ha salido un número par? ¿Y la v.a. que cuenta las veces que hemos obtenido exactamente el número 5?
+
+**Distribución binomial**
+**Distribución binomial**
+**Distribución binomial**
+
+## El precio medio del litro de gasolina durante el próximo año se estima que puede oscilar entre 1.09€ y 2.53€. ¿De qué distribución de probabilidad se trata?
+
+**Distribución uniforme**
+
+```{r}
+plot(x=seq(1,3,0.001), y = dunif(seq(1,3,0.001), 1.09, 2.53), type="l", ylim=c(0,1))
+```
+
+
+Da la esperanza
+
+```{r}
+## Esperanza
+(1.09 + 2.53)/2
+
+# Varianza
+((2.53 - 1.09)^2)/12
+
+```
+
+
+
+## En una tienda del centro comercial, el tiempo medio de cola para poder pagar en caja es de 7 minutos. ¿De qué distribución de probabilidad se trata?
+
+**Distribución exponencial**
+
+```{r}
+plot(dexp(seq(0,14, 0.01), rate = 7), x=seq(0,14, 0.01), type="l")
+```
+
+
+Da la esperanza y varianza
+
+```{r}
+# Esperanza
+1 / 7
+
+# Varianza
+1/7
+```
+
+
+

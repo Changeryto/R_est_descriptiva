@@ -1,0 +1,85 @@
+---
+title: "Varibles aleatorias"
+author: "Téllez Gerardo Rubén"
+date: "31/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Variables aleatorias
+
+Una v.a. sobre $\Omega$ es una aplicación $X: \Omega \rightarrow \mathbb{R}$ que asigna a cada suceso elemental $\omega$ un número real $X(\omega)$
+
+Puede entenderse como una descripción numérica de los resultados de un experimento aleatorio.
+
+*Dominio de una variable aleatoria*. $Dx$, es el conjunto de los valores que puede tomar la variable aleatoria.
+
+Es una especie de descripción numérica de los sucesos del espacio muestral.
+
+## Sucesos de variables aleatorias
+
+Una variable aleatoria puede definir sucesos, de los cuales queremos conocer la probabilidad $p$
+
+-   $p(X = a) = p(\{\omega \in \Omega | X(\omega) = a\})$
+-   $p(X < b) = p(\{\omega \in \Omega | X(\omega) < b\})$
+-   $p(X \le b) = p(\{\omega \in \Omega | X(\omega) \le b\})$
+-   $p(a < X) = p({\omega \in \Omega | a <X(\omega)})$
+-   $p(a \le X) = p({\omega \in \Omega | a \le X(\omega)})$
+-   $p(a \le X \le b) = p({\omega \in \Omega | a \le X(\omega) \le b})$
+-   $p(a < X < b) = p({\omega \in \Omega | a < X(\omega) < b})$
+-   $p(X \in A) = p(\{ \omega \in \Omega | X(\omega) \in A \})$
+
+
+## Función de distribución. Es una función
+
+$$F : \mathbb{R} \rightarrow [0,1]$$
+
+definida por $F(x) = p(X \le x)$ "El valor acumulado de todas las probabilidades anteriores a X"
+
+$F(1)$ en un dado sería 1/6, menor o igual a 1
+$F(2)$ en un dado sería 2/6, menor o igual a 2
+$F(27)$ en un dado sería 6/6, menor o igual a 27
+
+Esta función no tiene por qué ser continua.
+
+Sea $F$ una función de distribución de una v.a. $X$ y digamos
+
+$$F(a^-) = \lim_{x \rightarrow a}{F(x)}$$
+Si a = 3 en un dado, antes de llegar a 3, por la izquierda el 1 y 2 han pasado, mientras que por la derecha, han pasado 6, 5, 4.
+
+Se cumplen las propiedades
+
++ $p(X \le a) = F(a)$
++ $p(X < a) = \lim _{b \rightarrow a, b < a}{p(X \le b) = lim_{b \rightarrow a, b < a} F(b) = F(a^-)}$
++ $p(X = a) = p(X \le a) - p(X < a) = F(a) - F(a^-)$
++ $p(a \le X \le b) = p(X \le b) - p(X < a) = F(b) - F(a^-)$
+
+## Cuantiles
+
+_Cuantil de orden $p$ de una v.a. X._ Es el $x_p \in \mathbb{R}$ más pequeño tal que $F{x_p} \ge p$
+
+Nótese que la mediana es el cuantil de orden 0.5.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

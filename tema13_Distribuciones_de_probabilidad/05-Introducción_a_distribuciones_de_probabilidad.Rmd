@@ -1,0 +1,36 @@
+---
+title: "Introducción a distribuciones de probabilidad"
+author: "Téllez Gerardo Rubén"
+date: "1/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Las distribuciones más conocidas
+
+## Distribuciones en R
+
+Dada cualquier variable aleatoria, $va$, R nos da cuatro funciones para poder trabajar con ellas.
+
++ `dva(x,...)`: Función de densidad o de probabilidad $f(x)$ de la variable aleatoria para el valor $x$ del dominio de definición.
++ `pva(x,...)`: Función de distribución (acumulada) $F(x)$ de la variable aleatoria para el valor $x$ del dominio de definición.
++ `qva(p,...)`: Cuantil $p-ésimo$ de la variable aleatoria (el valor de $x$ más pequeño tal que $F(x) \ge p$).
++ `rva(n,...)`: Generador de $n$ observaciones siguiendo la distribución de la variable aleatoria.
+
+## Distribuciones en Python
+
+Dada cualquier variable aleatoria, en Python tenemos las mismas cuatro funciones, sin que su nombre dependa de la misma.
+
++ `.pmf(k,...)` o `pdf(x,...)`: Función de probabilidad $f(k)$ o de densidad $f(x)$ de la variable aleatoria para los valores k o x del dominio.
++ `.cdf(x,...)`: Función de distribución $F(x)$ de la variable aleatoria para el valor $k$ del dominio.
++ `.ppf(o,...)`: Cuantil $p-ésimo$ de la variable aleatoria (el valor de $x$ más pequeño tal que $F(x) \ge p$).
++ `.rvs(size,...)`: Generador de $size$ observaciones siguiendo la distribusión de la variable aleatoria.
+
+
+
+
+
+

@@ -1,0 +1,348 @@
+---
+title: "Distribución binomial"
+author: "Téllez Gerardo Rubén"
+date: "1/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Distribución Binomial
+
+Si $X$ es variable aleatoria que mide "número de éxitos" (ya no sólo si hay éxito o fracaso) y se realizan $n$ ensayos de Bernoulli independientes entre sí, diremos que $X$ se distribuye como una Binomial con parámetros $n$ y $p$
+
+$$X \sim  B(n, p)$$
+
+donde $p$ es la probabilidad de éxito y $q = 1 - p$ es la probabilidad de fracaso.
+
+La ordenación de los $k$ éxitos es lo que proporciona esta función de densidad
+
++ El dominio de $X$ será $D_X = {0,1,2, \dots , n}$
++ La función de densidad vendrá dada por:
+
+$$f(k) = nCk \times p^k \times (1-p)^{n-k} = {n \choose k} p^k (1-p)^{n-k}$$
++ La función de distribución o acumulada:
+
+$$F(X) = \Bigg \{ \begin{matrix} 0 & si\ k < 0 \\ \sum_{k_0}^{x} f(k) & si\ 0 \le x<n \\ 1 & si\ x \ge n \end{matrix}$$
+
++ Esperanza $E(X) = np$
++ Varianza $Var(X) = npq$
+
+__Atención__: Fíjate que la distribución de Bernoulli es un caso particular de la Binomial. Basta tomar $n = 1$ y tendremos que $X \sim Be(p)$ y $X \sim B(1,p)$ son equivalentes.
+
+
+
+## Esperanza
+
+Siendo:
+
+$$E(X) = \sum_{x \in Dx} x \times f(x)$$
+
+## Esperanza
+
+$$E(X) = \sum_{x=0}^{n} x \times {n \choose x} p^x (1 - p)^{n-x}$$
+
+Cada evento, por la probabilidad de que aparezca.
+
+$$E(X) = \sum_{x=0}^{n} x \times \frac{n!}{x!(n-x)!} p^x (1 - p)^{n-x}$$
+
+$$E(X) = \sum_{x=0}^{n} x \times \frac{n}{x} {n-1 \choose x-1} p^x (1 - p)^{n-x}$$
+$$E(X) = n \times \sum_{x=0}^{n} {n-1 \choose x-1} p^x (1 - p)^{n-x}$$
+
+$$Si\ m = x-1$$
+
+$$E(X) = n \times \sum_{m=0}^{n-1} {n-1 \choose m} p^{m + 1} (1 - p)^{n-m+1}$$
+
+$$E(X) = n \times \sum_{m=0}^{n-1} {n-1 \choose m} p^{m + 1} (1 - p)^{n-m+1}$$
+
+$$E(X) = np \times \sum_{m=0}^{n-1} {n-1 \choose m} p^{m} (1 - p)^{(n-1)-k}$$
+
+$$E(X) = np(p+1-p)^{n-1}=np$$
+
+## Ejemplo
+
+Suponiendo que la probabilidad de éxito es del 10% y de fracaso del 90% (éxito de los comercios de Herbalife)
+¿Cuál es la probabilidad de que 5 de 100 negocios tengan éxito?
+
+$$f(5) = p(X = 5) = {100 \choose 5} 0.1^{5}(0.9)^{95} = 0.0338658$$
+
+¿Cuál es la probabilidad desde 0 hasta 3 negocios de 100 tengan éxito?
+
+```{r}
+pt = 0
+for(n in 0:3){
+  pt = pt + (choose(100, n) * 0.1^n * (0.9)^(100-n))
+}
+
+pt
+```
+
+
+$$F(3) = p(X \le 3) = p(X=0) + p(X=1) + P(X=2) + P(X=3) = \sum_{x \in \{0, 1,2,3\}} {100 \choose x} \times 0.1^x \times 0.9^{100 - x} = 0.007836487$$
+
+¿Cuál es la probabilidad de que 10 o más negocios hasta los 100 tengan éxito?
+
+$$p(X \ge 10) = p(X = 10) \dots p(X = 100) = 0.5487098$$
+
+```{r}
+pt = 0
+for(n in 10:100){
+  pt = pt + (choose(100, n) * 0.1^n * (0.9)^(100-n))
+}
+
+pt
+```
+
+## Ejemplo Distribución de probabilidad acumualda (k o menos tengan éxito)
+
+```{r}
+pt = 0
+fpt = c()
+for(n in 1:100){
+  pt = pt + (choose(100, n) * 0.1^n * (0.9)^(100-n))
+  fpt = c(fpt, pt)
+}
+plot(x=1:100, y=fpt, xlab="X", ylab = "p(k <= X)", type="h")
+pt
+```
+
+Usando el paquete stats
+
+```{r}
+plot(stats::pbinom(0:50, 50, 0.1), type="h", main="Con el paquete stats")
+```
+
+
+
+## Ejemplo Distribución de probabilidad de la variable aleatoria
+
+```{r}
+p = 0
+fp = c()
+for(n in 0:100){
+  p = (choose(100, n) * 0.1^n * (0.9)^(100-n))
+  fp = c(fp, p)
+}
+
+plot(x = 0:100, y = fp, type = "h", ylab="p(X = k)", xlab="k")
+
+
+```
+
+Observa que lo más probable es que 11 negocios de los 100 negocios tengan éxito.
+
+```{r}
+plot(stats::dbinom(0:100, 100, 0.1), type ="h",ylab="",xlab="", main="Disribución con el paquete stats")
+```
+
+
+$$p(X = 11) = {100 \choose 11} \times 0.1^{11} \times 0.9^{89} = 0.1318653$$
+
+
+## Distribución binomial
+
+Atención. Fijaos que la distribución de Bernoilli es un caso particular de la Binomial $n=1$ y tendremos que $X \sim Be(p)$ y $X \sim B(1, p)$ son equivalentes.
+
+
+## Función de probabilidad de una B(50, 0.5)
+
+Suponiendo que el éxito sea sacar cara, en 50 lanzamientos de moneda, lo más probable es sacar 25 caras.
+
+$$p(X = 25) = {50 \choose 25} \times 0.5^{25} \times 0.5^{25} = 0.1122752$$
+```{r}
+stats::dbinom(25, 50, 0.5)
+```
+
+
+
+```{r}
+n = 0:50
+p = (choose(50, n) * 0.5^n * (0.5)^(50-n))
+plot(p, xlab="",ylab="", type="h", main="Probabilidad de que X = x")
+
+```
+
+## Función de distribución de una probabilidad.
+
+$$F(k) = P(X \le k) = P(X=0) + P(X=1) + P(X=2) + \dots + P(X=k) = \sum_{x =0}^{k} {100 \choose x} \times p^x \times q^{n - x}$$
+
+
+```{r}
+n = 0:50
+f = cumsum((choose(50, n) * 0.5^n * (0.5)^(50-n)))
+plot(f,  xlab="",ylab="", type="h", main="Probabilidad de que X >= x")
+```
+
+## Código de la distribución binomial
+
+El código de la distribución Binomial:
+
++ En R tenemos las funciones de `stats`, `dbinom(x=exitos, size=intentos, prob=p.exito)` para obtener la probabilidad $P(X=x)$, `pbinom(q=max.exitos,size=intentos,prob=p.exito)` función de densidad $F(X) = P(X \le x)$, `qbinom(p=cuantil, size=intentos,prob=p.exito)` , `rbinom(n=muestras, size=intentos.hipotéticos, prob=p.exito)` obtener una muestra aleatoria de n tamaño.
+
++ En Python tenemos las funciones del paquete `scipy.stats.binomial`: `pmf(k=exitos,n=intentos,p=p_exito)` para obtener la probabilidad $P(X=x)$, `cdf(k=max_exitos,n=intentos,p=p_exito)` función de densidad $F(X) = P(X \le x)$, `ppf(q,n,p)` cuantil q, `rvs(n=intentos,p=p_exito,size=tamaño)` muestra aleatoria
+
+
+```{r}
+stats::dbinom(25, 50, 0.5)
+stats::pbinom(25, 50, 0.5)
+stats::qbinom(0.25, 50, 0.5)
+stats::rbinom(3, 50, 0.5)
+```
+
+
+```{python}
+from scipy import stats as st
+
+print(st.binom.pmf(25, 50, 0.5)) #igual que stats::dbinom(25, 50, 0.5)
+print(st.binom.cdf(25, 50, 0.5)) #igual que stats::pbinom(25, 50, 0.5)
+print(st.binom.ppf(0.25,50, 0.5)) #igual que stats::qbinom(0.25, 50, 0.5)
+print(st.binom.rvs(n=50, p=0.5, size=3)) #igual que stats::rbinom(3, 50, 0.5) 
+```
+## Ejercicio
+
+
+
+
+Sea $X = B(n = 30, p = 0.6)$
+
+#### $$P(X = n)$$
+
+
+```{r}
+n = 30
+p = 0.6
+k = 0:n
+dbe = dbinom(x = k, size = n, prob = p)
+dbe
+```
+
+```{r}
+plot(dbe, type="h", xlab="k", ylab="P(X = k)")
+```
+
+
+#### $$P =(X \le n)$$
+
+```{r}
+plot(pbinom(k, n, p), type="h")
+
+```
+
+
+
+#### Cuantiles
+
+```{r}
+qbinom(0.25, n, p)
+qbinom(0.5, n, p)
+qbinom(0.75, n, p)
+```
+Se puede deducir que están bastante concentrados.
+
+
+
+#### Aleatorios
+
+En R
+
+```{r}
+random = rbinom(100000, n, p)
+hist(random, breaks=0:n, freq = FALSE, ylim=c(0,0.25))
+lines(density(random), col="purple")
+rug(jitter(random))
+```
+
+__En Python__
+
+```{python}
+from scipy.stats import binom
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, ax = plt.subplots(1,1)
+n = 7
+p = 0.4
+
+mean, var, skew, kurt = binom.stats(n, p, moments = "mvsk")
+
+x = np.arange(binom.ppf(0.00001,n,p), binom.ppf(0.99999,n,p))
+
+ax.plot(x, binom.pmf(x, n, p), "bo", ms=8,label="Función de densidad de una B(7, 0.4)")
+ax.vlines(x, 0, binom.pmf(x,n,p),colors="b", lw=4, alpha=0.5)
+plt.show()
+
+
+
+```
+
+```{python}
+fig, ax = plt.subplots(1,1)
+x = np.arange(0,n+1)
+
+ax.plot(x, binom.pmf(x, n, p), "bo", ms=8,label="Función de densidad de una B(7, 0.4)")
+ax.vlines(x, 0, binom.pmf(x,n,p),colors="b", lw=4, alpha=0.5)
+
+rv = binom(n,p)
+ax.vlines(x,0,rv.pmf(x), colors="k", linestyles="--", lw=1, label="Distribución teórica")
+
+ax.legend(loc="best",frameon=True)
+
+plt.show()
+
+print("Media:", mean)
+print("Varianza:", var)
+print("Sesgo:", skew)
+print("Curtosis:", kurt)
+```
+
+
+__Distribución acumulada__
+
+```{python}
+fig, ax = plt.subplots(1,1)
+x = np.arange(0,n+1)
+
+ax.plot(x, binom.cdf(x, n, p), "bo", ms=8,label="Función de distribución acumulada de una B(7, 0.4)")
+ax.vlines(x, 0, binom.cdf(x,n,p),colors="b", lw=4, alpha=0.5)
+
+rv = binom(n,p)
+ax.vlines(x,0,rv.cdf(x), colors="k", linestyles="--", lw=1, label="Distribución acumualda teórica")
+
+ax.legend(loc="best",frameon=True)
+
+plt.show()
+```
+
+__Aleatorios__
+
+
+```{python}
+fix, ax = plt.subplots(1,1)
+r = binom.rvs(n = n, p = p, size=10000)
+ax.hist(r, bins=n)
+plt.show()
+```
+
+__En R__
+
+```{r}
+plot(x=0:7, y=dbinom(0:7, 7, 0.4), type="h", col="blue", lwd=7)
+points(x=0:7, y=dbinom(0:7, 7, 0.4), lwd=7, col="blue")
+#curve(dbinom(0:7, 7, 0.4),add = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

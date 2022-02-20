@@ -1,0 +1,66 @@
+---
+title: "El concepto de probabilidad"
+author: "Téllez Gerardo Rubén"
+date: "31/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introducción a distribuciones de probabilidad
+
+### Conceptos básicos
+
+_Experimento aleatorio_: Experimento que efectuado en las mismas condiciones puede dar lugar a resultados diferentes.
+
+_Suceso elemental_: Cada uno de los posibles resultados del experimento aleatorio.
+
+_Espacio muestral_: Conjunto $\Omega$ formado por todos los sucesos elementales del experimento aleatorio.
+
+_Suceso_: Subconjunto del espacio muestral $(\{x,y,x\})$
+
+_Suceso total o seguro_: $\Omega$, $\Omega = \{x,y,z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,ñ,o,p,q,r,s,t,u,v,w\}$
+
+_Suceso vacío o imposible_: $\emptyset = \{\}$
+
+### Sucesos
+
+Operaciones con sucesos. Sean $A, B \subseteq \Omega$ sucesos. Entonces,
+
++ $A \cup B$ es el suceso unión (resultados pertenecen a $A$ o a $B$, o a ambos)
++ $A \cap B$ es el suceso intersección (resultados pertenecen a $A \ y \ B$)
++ $A^c$, Suceso complementario, resultados no pertenecen a A.
++ $A - B = A \cap B^c$ es el suceso diferencia (resultados que pertenecen a $A$ pero no a $B$)
++ __Sucesos incompatibles o mutuamente excluyentes__. Si $A \cap B = \emptyset$
+
+### Proabilidad
+
++ _Probabilidad de un suceso_. Número entre 0 y 1 (ambos incluidos) que mide la expectativa de que se dé este suceso.
+
+Ejemplos:
+
++ La probabilidad de sacar un 1 al lanzar un dado legal de 6 caras es $1/6$
++ La probabilidad de sacar un 6 en un dado de 4 caras es $0$
++ La probabilidad de sacar 6 al tirar un dado de 20 caras es $1/20$
+
+
+_Probabilidad_. Sea $\Omega$ el espacio muestral de un experimento aleatorio. Suponiendo que $\Omega$ es _finito_, una probabilidad sobre $\Omega$ es una aplicación.
+
+$$p : P (\Omega) \rightarrow [0,1]$$
+que satisface
+
++ $0 \le p(A) \le 1 \forall A \in P(\Omega)$
++ $p(\Omega) = 1$
++ Si $\{A_1, \dots, A_n\}$ son sucesos incompatibles dos a dos $(A_i \cap A_j = \emptyset \forall i \neq j)$, entonces
+
+$$p(A_1 \cup \cdots \cup A_n) = p(A_1) + \cdots + p(A_n))$$
+
+__Notación:__ Si $a \in \Omega$, es decir es un elemento en lugar de un subconjunto, o en otras palabras es un conjunto unitario, escribimos $p(a)$ en vez de $p(\{a\})$.
+
+
+
+
+
+

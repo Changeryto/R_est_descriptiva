@@ -1,0 +1,88 @@
+---
+title: "Variables aleatorias continuas"
+author: "Téllez Gerardo Rubén"
+date: "5/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Definición
+
+_Variable aleatoria continua_. Una v.a. $X : \Omega \to \mathbb{R}$ es continua cuando su función de distribución $F : \mathbb{R} \to [0,1]$ es continua
+
+En este caso, $F_X(x) = F_X(x^-)$ y, por este motivo,
+
+$$p(X = x) = 0 \forall x \in \mathbb{R}$$
+pero esto no significa que sean sucesos imposibles.
+
+
+## Función de densidad
+
+Función $f : \mathbb{R} \to \mathbb{R}$ que satisface
+
++ $f(x) \ge 0 \forall x \in \mathbb{R}$
++ $\int_{- \infty}^{+ \infty}{f(t)dt = 1}$
+
+Una función de densidad puede tener puntos de discontinuidad.
+
+## Variable aleatoria continua
+
+Toda variable aleatoria $X$ con función de distribución
+
+$$F(X) = \int_{- \infty}^{x}{f(t)dt \forall x \ in \mathbb{R}} $$
+para cualquier densidad $f$ es una v.a. continua.
+
+Es decir que acumula la densidad desde -infinito hasta el punto x.
+
+Diremos entonces que $f$ es la función de densidad $X$
+
+A partir de ahora, consideraremos solamente las v.a. $X$ continuas que tienen función de densidad.
+
+## Esperanza
+
+Esperanza de una v.a. continua. Sea $X$ v.a. continua con densidad $f_X$. La esperanza de $X$ es
+
+$$E(X) = \int_{- \infty}^{+ \infty}{x \times fx(x) dx}$$
+
+Si el dominio $D_X$ de $X$ es un intervalo de extremos $a < b$, entonces
+
+$$E(X) = \int_{a}^{ b}{x \times fx(x) dx}$$
+
+Sea $g : D_X \to \mathbb{R}$ una función continua. Entonces,
+
+$$E(g(X)) = \int_{- \infty}^{+ \infty}{g(x) \times fx(x) dx}$$
+
+Si el dominio $D_X$ de $X$ es un intervalo de extremos $a < b$, entonces.
+
+$$E(g(X)) = \int_{a}^{ b}{g(x) \times fx(x) dx}$$
+
+
+## Varianza
+
+Igual al caso discreto
+
+$$Var(X) = E((X - E(X))^2)$$
+
+y se puede demostrar que
+
+$$Var(X) = E(X^2) - (E(X))^2$$
+
+## Desviación estándar
+
+$$\sigma = \sqrt{Var(X)}$$
+
+## Distribuciones continuas
+
++ Uniforme
++ Exponencial
++ Normal
++ Chi cuadrado
++ t de Student
++ F de Fisher
+
+
+
+

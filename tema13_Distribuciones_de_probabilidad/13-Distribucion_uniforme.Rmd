@@ -1,0 +1,120 @@
+---
+title: "Distribicuón uniforme"
+author: "Téllez Gerardo Rubén"
+date: "7/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## V.A.
+
+Una v.a. continua $X$ tiene distribución uniforme sobre el intervalo real $[a,b]$ con $a < b, X \sim U(a,b)$ si su función de densidad es.
+
+$$fx(x) \Bigg\{ \begin{matrix} \frac{1}{b-a} & si\ a \le x \le b \\0 & en\ cualquier\ otro\ caso \end{matrix}$$
+
+Modela el elegir un elemento del intervalo $[a,b]$ de manera equiprobable.
+
+Elegir un número al azar entre a y b, el área bajo la curva es 1.
+
+
++ El dominio de $X$ será $D_X = [a,b]$
++ La función de distribución vendrá dada por
+
+$$F_x(X) = \Bigg \{ \begin{matrix} 0 & si\ x<a \\ \frac{x-a}{b-a} & si\ a \le x \le b \\ 1 & si\ x \ge b \end{matrix}$$
+
++ Esperanza $E(X) = \frac{a+b}{2}$
++ Varianza $Var(X) = \frac{(b-a)^2}{12}$
+
+
+## Ejemplo
+
+Probabilidad de tomar un número aleatorio entre 0 y 4
+
+```{r}
+plot(y = dunif(seq(0, 5, 0.01), 1, 4), x = seq(0, 5, 0.01), type = "l", lwd=2, col="purple", ylim = c(0, 0.4))
+```
+
+Función de densidad de la probabilidad anterior
+
+```{r}
+plot(y = punif(seq(0, 5, 0.01), 1, 4), x = seq(0, 5, 0.01), type = "l", lwd=2, col="purple", ylim = c(0, 1))
+```
+
+
+
+## Instrucciones
+
+En R.
+`dunif(x, min, max), punif(q, min, max), qunif(q, min, max, runif(n, min, max)` donde `min` y `max` son los extremos de los intervalos de la distribución uniforme.
+
+En Python
+Temenos las funciones de `scipy.stats.uniform: pmf(k, loc, scale), cdf(k, los, scale), ppf(q, loc, scale), rvs(n, loc, scaler)` donde la distribución uniforme está definida en el intervalo `[loc, loc+scale]`.
+
+
+## Ejemplos en R
+
+Supongamos que $X \sim U[0,1]$ podemos estudiar sus parámetros.
+
+```{r}
+a = 0
+b = 1
+x = seq(-0.1, 1.1, 0.01)
+plot(dunif(x, min = a, max = b), type="l")
+
+plot(punif(x, a, b), type="l")
+```
+
+```{r}
+qunif(0.5, a, b)
+```
+
+```{r}
+runif(1000000, a, b) -> dats
+
+hist(dats)
+```
+
+
+## En Python
+
+```{python}
+
+
+from scipy.stats import uniform
+import matplotlib.pyplot as plt
+import numpy as np
+
+a = 0
+b = 1
+
+loc = a
+scale = b-a #Donde se quiere que acabe, menos el inicio
+
+rv = uniform(loc = loc, scale = scale)
+
+fig, ax = plt.subplots(1,1)
+mean, var, skew, kurt = rv.stats(moments="mvsk")
+
+print("Media:", mean)
+print("Varianza:", var)
+print("Sesgo:", skew)
+print("Curtosis:", kurt)
+
+
+
+x = np.linspace(-0.1, 1.1, 120)
+
+ax.plot(x, rv.pdf(x), "k-", lw=2, label="U(0,1)")
+
+r = rv.rvs(size = 100000)
+ax.hist(r, density = True, histtype = "stepfilled", alpha = 0.25)
+
+ax.legend(loc = "best")
+plt.show()
+```
+
+
+

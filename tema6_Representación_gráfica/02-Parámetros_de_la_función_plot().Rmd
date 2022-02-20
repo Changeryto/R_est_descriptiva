@@ -1,0 +1,139 @@
+---
+title: "Parámetros de la función plot()"
+author: "Téllez Gerardo Rubén"
+date: "5/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Parámetros iniciales
+
+__log = eje__: para indicar escala logarítmica
+
++ __main="Título"__: para colocar un título al gráfico, si en lugar de texto se coloca una función se obtendrá una expresión matemática
++ __xlab="Etiqueta"__: poner etiqueta al eje _X_
++ __yalb="Etiqueta"__: para poner etiqueta al eje _y_
++ __pch=n__: para escoger el símbolo de los puntos, _n_ = 0:25, El valor por defecto es pch=1
++ __cex = 1:__ para elegir el tamaño de los símbolos
++ __col="color en ingles o código hexagesimal"__
+
+## Ejemplo: modelo de crecimiento logístico
+Se llevan 10 venados a una isla con capacidad de carga de K = 300, inicialmente, con el tipo de alimento en la isla, el aumento porcentual de la población es de r = 12% anual
+```{r}
+
+P = function(t, Parametro_K, Parametro_P0, Parametro_r){
+  (Parametro_K * Parametro_P0 * exp(Parametro_r * t))/(Parametro_K + Parametro_P0 * exp(Parametro_r*t - 1))
+}
+pl = P(0:100, 300, 10, 0.12)
+
+plot(pl, main = "Aumento de venados en 100 años", xlab = "Años", ylab = "Venados", pch=20, cex=0.4, col="chocolate4")
+```
+__par(mcrow=c(filas,columnas))__: Para colocar gráficos según el número de filas y colúmnas
+
+## Ejemplo
+Sucesión de Fibonacci, parte de la suma de los dos números anteriores
+```{r, echo=FALSE, fig.align='center', fig.cap='Sucesiones de Fibonacci.'}
+n = 1:20
+fib = (1/sqrt(5))*((1 + sqrt(5))/2)^n - (1/sqrt(5))*((1 - sqrt(5))/2)^n
+fib
+par(mfrow =c(1, 2))
+plot(fib, xlab="n", ylab=expression(F[n]),
+     main = "Sucesión de Fibonacci \n(doble escala logarítmica)",
+     pch=21, cex=1.2, col="powderblue", bg="orchid", log="xy")
+plot(fib, xlab="n", ylab=expression(F[n]),
+     main = "Sucesión de Fibonacci \nescala lineal",pch=21, cex=1.2, col="powderblue", bg="orchid" )
+par(mfrow=c(1,1))
+```
+
+# Parámetros especiales
+
++ __type = "tipo"__: para elegir el tipo de gráfico deseado:
+  - __p:__ puntos (valor por defecto)
+  - __l:__ líneas rectas que unen puntos que no tienen símolo
+  - __b__: lineas rectas que unesn puntos con símbolo, las línes no transpasan los puntos
+  - __o__: similar al anterior, las líneas sí transpasan los puntos.
+  - __h__: histograma de líneas
+  - __s__: histograma de escalones
+  - __n__: para no dibujar los puntos
+
+
+```{r}
+
+P = function(t, Parametro_K, Parametro_P0, Parametro_r){
+  (Parametro_K * Parametro_P0 * exp(Parametro_r * t))/(Parametro_K + Parametro_P0 * exp(Parametro_r*t - 1))
+}
+pl = P(0:20, 300, 10, 0.12)
+
+par(mfrow=c(3, 2))
+
+plot(pl, main = "Aumento de venados en 20 años", xlab = "Años", ylab = "Venados", pch=20, cex=0.4, col="darkorchid4", type = "p")
+plot(pl, main = "Aumento de venados en 20 años", xlab = "Años", ylab = "Venados", pch=20, cex=0.4, col="darkorchid4", type = "b")
+plot(pl, main = "Aumento de venados en 20 años", xlab = "Años", ylab = "Venados", pch=20, cex=0.4, col="darkorchid4", type = "o")
+plot(pl, main = "Aumento de venados en 20 años", xlab = "Años", ylab = "Venados", pch=20, cex=0.4, col="darkorchid4", type = "s")
+plot(pl, main = "Aumento de venados en 20 años", xlab = "Años", ylab = "Venados", pch=20, cex=0.4, col="darkorchid4", type = "l")
+plot(pl, main = "Aumento de venados en 20 años", xlab = "Años", ylab = "Venados", pch=20, cex=0.4, col="darkorchid4", type = "h")
+plot(pl, main = "Aumento de venados en 20 años", xlab = "Años", ylab = "Venados", pch=20, cex=0.4, col="darkorchid4", type = "n")
+```
+
++ __lty="tipo"__: para especificar el típo de linea
+  - "solid" : 1 ; línea continua (por defecto)
+  - "dashed" : 2 : línea discontinua
+  - "dotted" : 3 : línea de puntos
+  - "dotdashed" : 4 : línea que alterna puntos y rayas
++ __lwd=1__: para especificar el grosor de las líneas
++ __xlim=c(inicio, fin)__: para especificar el rango del eje _x_
++ __ylim=c(inicio, fin)__: para especificar el rango del eje _y_
++ __xaxp__: para modificar posiciones de las marcas en el eje _x_
++ __yaxp__: para modificar posiciones de las marcas en el eje _y_
+
+```{r}
+pl = P(0:20, 300, 10, 0.12)
+
+plot(pl, main = "Aumento de venados en 20 años", xlab = "Años", ylab = "Venados", pch=5, cex=0.4, col="deeppink3", xaxp=c(0, 20, 20), ylim=c(0, 100), yaxp=c(0, 100, 20))
+```
+
+```{r}
+x = (2*(1:20))
+y = (-1)^(1:20)*5*(1:20)
+plot(x, y, main ="Ejemplo del profesor", pch=8, cex=1, type="b", lty=4, lwd=4, xaxp=c(0, 40, 2), yaxp=c(-100, 100, 8))
+```
+
+```{r}
+plot(n, fib, pch=21, col="red", bg="yellow", cex=1.2, type= "o", lty="dashed", lwd=2, xlim=c(1, 10), ylim=c(1, 100), xaxp=c(1, 10, 3), yaxp=c(1, 100, 20))
+```
+```{r}
+plot(n, fib, pch=21, col="maroon3", bg="yellow", cex=1.2, type= "h", lty="solid", lwd = 15)
+```
+
+```{r}
+?par
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

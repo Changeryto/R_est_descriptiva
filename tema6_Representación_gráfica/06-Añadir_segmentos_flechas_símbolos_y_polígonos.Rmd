@@ -1,0 +1,34 @@
+---
+title: "Añadir segmentos, flechas, símbolos y polígonos"
+author: "Téllez Gerardo Rubén"
+date: "8/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Añadir elementos al gráfico
+
++ __segments:__ para añadir segmentos a un gráfico existente
++ __arrows:__ para añadir flechas a un gráfico existente
++ __polygon:__ para añadir polígonos cerrados especificando sus vértices a un gráfico existente
+
+```{r}
+x = c(5*(1:20))
+plot(x, (c(exp(-x)+(-1)^x*x/2*sin(x)^2)),
+     main = "Gráfico con varios elementos")
+segments(10, 0, 40, 0, col = "red", lwd=4)
+
+arrows(10, 0, 40, -10, col = "blue", length = 0.25, angle = 5, code = 3)
+
+symbols(40, 0, stars = cbind(1, 0.5, 1, 0.5, 1, 0.5, 1, 0.5, 1, 0.5), add=TRUE, lwd=3, inches=0.5)
+
+symbols(40, 0, stars = cbind(1, 0.5, 1, 0.5, 1, 0.5, 1, 0.5, 1, 0.5), add=TRUE, lwd=3)
+
+polygon(c(20, 30, 40), c(10, -10, 10), col="gold", density = 3, angle = 90, lty = 4, lwd = 5)
+
+
+```
+

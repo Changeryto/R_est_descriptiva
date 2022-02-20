@@ -1,0 +1,18 @@
+La figura es la zona básica de representación, "Una ventana", donde se habilita la posibilidad
+de representación gráfica
+
+Dentro de la figura irán los ejes, el rectángulo con los ejes ya marcados
+
+Es decir, los ejes están dentro de la figura
+
+Si no se quiere que cada dibujo se sobreponga, usar el método plt.hold()
+
+Esto permite "borrar" el gráfico y sus ejes anteriores.
+
+
+Subplot permite definir zonas de dibujos, es decir definir subrangos de dibujo
+para no sobreponer ni borrar
+
+plt.subplot(1, 1) Indica una fila y una columna
+plt.subplot(1, 2) Indica una fila y dos columnas
+

@@ -1,0 +1,77 @@
+---
+title: "Plot"
+author: "Téllez Gerardo Rubén"
+date: "5/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Representación gráfica
+
+Requiere de la función plot(), sirve para muchos de los gráficos del paquete básico stat.
+
+
+## Gráficos con la función `plot()`
+
++ __plot(x, y)__: para dibujar un gráfico básico de puntos, donde _x, y_ son vectores numéricos
+  - __plot(x)__ = __plot(1:length(x), x)__
++ __plot(x, función)__: para dibujar un gráfico con la función, en el dominio x
+
+
+```{r}
+alumnos = c(1:10)
+notas = c(2, 5, 7, 9, 8, 3, 5, 6, 10, 7)
+plot(alumnos, notas)
+```
+
+
+# Pié de foto (caption)
+
+El parámetro fig.x permite múltiples funciones, fig.cap=string nos permite agregar un pie de gráfico junto con "Figure x.", además fig,align nos permite editar la posición, hay múltiples fig.parametros
+
+```{r primer_plot, fig.cap="Gráfico básico mostrando el uso de plot"}
+x = c(2, 6, 4, 9, -1)
+y = c(1, 8, 4, -2, 4)
+
+plot(x, y)
+```
+
+# Sin Y
+
+De no incorporar Y, R toma el parámetro x como si fuera el vector Y de datos
+```{r}
+#Se crea un vector de longitud N automático.
+plot(2^(1:6))
+```
+
+# Función f(x)
+
+Podemos agregar una función para graficarla en la función _f(x)_
+
+```{r}
+
+
+Crecimiento = function(x){
+  x^2
+}
+
+
+plot(Crecimiento)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

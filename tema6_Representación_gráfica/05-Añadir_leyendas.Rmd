@@ -1,0 +1,34 @@
+---
+title: "Añadir leyendas a los gráficos"
+author: "Téllez Gerardo Rubén"
+date: "8/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Añadir elementos al gráfico
+
++ __legend(posición, legend="...")__: para añadir una leyenda
+  - La posición indica donde queremos situar la leyenda. Para ser o bien las coordenadas de la esquina superior izquierda de nuestra leyenda, o bien una de las palabras siguientes.
+    - "bottom"  | "bottomright" | "bottomleft"
+    - "top" | "topright" | "topleft"
+    - "center" | "right" | "left
+queremos identificar a las curvas en la leyenda  
+
+```{r}
+x = seq(0, 2*pi, 0.1)
+plot(x, sin(x), type="l", col="blue", lwd=3, xlab="x")
+lines(x, cos(x), col="green", lwd=3)
+lines(x, tan(x), col="purple", lwd=3)
+
+legend("bottomleft", 
+       col=c("blue", "green", "purple"), 
+       legend=c("Seno", "Coseno", "Tangente"), 
+       lwd=3, 
+       bty = "l"
+       )
+```
+

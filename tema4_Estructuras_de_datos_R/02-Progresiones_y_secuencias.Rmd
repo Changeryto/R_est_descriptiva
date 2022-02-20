@@ -1,0 +1,75 @@
+---
+title: "Progresiones y secuencias"
+author: "Téllez Gerardo Rubén"
+date: "13/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Una progresión aritmética es una sucesión de números tales que la __diferencia__, _d_, de cualquier par de términos sucesivos de la sucencia es constante.
+
+
+Progresión aritmética de diferencia _d_:
+$$a_n = a_1 + (n-1) \cdot d$$
+
+Para generar una progresión aritmética:
+```{r}
+#seq(inicio, fin, by=paso, length.out=n_valores)
+q <- seq(5, 60, by=3)
+q
+
+#Orden decreciente
+w <- seq(900, 9, by=-9)
+w
+
+#length.out
+
+e <- seq(0, 100, length.out=5)
+e
+
+f <- seq(0, by=50, length.out=10)
+f
+
+g <- seq(4, 40, length.out=10)
+g
+
+#Sintaxis de dos puntos
+h <- 12:22
+h
+
+i <- 40:-20
+i
+
+j <- -(10:20)
+j
+```
+
+## Ejercicio
+
+* Imprime los números del 1 al 20
+* Imprime los primeros 20 números pares
+* Imprime 30 números equidistantes entre el 17 y el 98, mostrando sólo 4 cifras significativas
+
+```{r}
+a <- 1:20
+a
+
+b <- seq(0, by=2, length.ou=20)
+b
+
+d <- seq(17, 98, length.out=30)
+print(d, 4)
+```
+
+## La sitáxis c() se refiere a concatenar.
+
+```{r}
+m <- c(rep(pi, 5), 5:10, -7)
+m
+
+p <- c(0, m, "Cariño", "Te", "Amo")
+p
+```
+

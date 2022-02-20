@@ -1,0 +1,163 @@
+---
+title: "Funciones y orden de vectores"
+author: "Téllez Gerardo Rubén"
+date: "13/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Funciones
+Cuando queremos aplicar una función a cada uno de los elementos de un vector de datos, la función __sapply__ nos ahorra tener que programar bucles en R.
+
+* __sapply(nombre_del_vector, FUN=nombre_de_función):__ para aplicar una función a todos los elementos del vector
+* sqrt(x): calcula un nuevo vector con las raices cuadradas de cada uno de los elementos del vector _x_
+* podemos operar un vector como si fuera una variable individual cuando sea una operación predefinida
+
+```{r}
+x <- 1:10
+q = x + pi
+q
+
+w <- sqrt(x)
+w
+
+e <- 2^x
+e
+
+m <- (1:10)^(1:10)
+m
+```
+
+\pagebreak
+
+## Funciones predefinidas para vectores
+
+* __length(x):__ calcula la longitud del vector _x_
+* __max(x):__ regresa el máximo del vector _x_
+* __min(x):__ regresa el mínimo del vector __x__
+* __sum(x):__ calcula la suma de las entradas del vector (cummin/ cumprod/ cummax/ )
+* __prod(x):__ calcula el producto de las entradas del vector _x_
+* __mean(x):__ calcula la media aritmética $\mu /  \bar{x}$ de las entradas del vector x
+* __diff(x):__ calcula y devuelve un vector con las restas sucesivas de cada entrada (el primero restado al segundo, el segundo restado al tercero, etc.)
+* __cumsum:__ calcula y devuelve el vector formado por las sumas acumuladas:
+  + Permite definir sucesiones descritas mediante sumatorios
+  + Cada entrada de __cumsum()__ es la suma de entradas de _x_ hasta su posición
+* __sort(x):__ ordena el vector en el orden creciente o alfabético (natural)
+* __rev(x):__ invierte el orden de los elementos del vector x
+
+```{r}
+length(1:10)
+max(1:10)
+min(1:10)
+sum(1:10)
+prod(1:10)
+sort(10:1)
+rev(1:10)
+```
+
+
+```{r}
+f <- seq(2, 206, by=12)
+a = mean(f)
+paste(sprintf("Media aritmética: %f", a))
+b = diff(f)
+b
+c = cumsum(f)
+c
+```
+
+\pagebreak
+
+## Funciones definidas por el usuario
+
+Defino la función: 
+$$\frac{n\cdot 2 + 1}{2} \cdot 1.987207$$
+
+```{r}
+cv <- function(n){
+  ((n*2 + 1)/2) * 1.987207
+}
+```
+
+
+Un vector operado por cv con la función sapply:
+```{r}
+n <- 1:3
+r <- sapply(n, FUN = cv)
+r
+```
+
+
+## Coeficiente de determinación, ejemplo
+
+En la regresión lineal tenemos el coeficiente de determinación.
+Cuando hago la regresión lineal directamente de una serie de puntos, necesito ver si se ajustan a una recta
+
+
+```{r}
+cd = function(x){ summary(lm((1:4)~c(1:3,x)))$r.squared}
+x <- 1:10
+t <- sapply(x, FUN = cd)
+t
+```
+
+
+\pagebreak
+
+## Para tener los 100 primeros elementos de la fórmula:
+
+$$5x^2 + 10x +15$$
+
+```{r}
+seg_grad <- function(x){(5*x^2) + (10*x) +15}
+y <- sapply(0:100, FUN=seg_grad)
+y
+```
+Con la fórmula del pH:
+
+$$pH = -log[H_{3}O^{+}]$$ 
+
+```{r}
+ph <- function(M){
+  -log10(M)
+}
+
+M <- seq(0.0001, 0.01, by=0.0001)
+
+u <- sapply(M, ph)
+u
+```
+
+
+Cálculo de un limite:
+$$\frac{n^2}{(n^2 +1)}$$
+
+```{r}
+lim = function(n){(n^2)/(n^2 + 1)}
+n = 1:100
+v = sapply(n, lim)
+v
+```
+
+\pagebreak
+
+## Ejercicio
+*Combinar las dos funciones, sort y rev, para crear una función que dado un vector _x_ os lo devuelva ordenado en orden decreciente
+```{r}
+x <- c(5, 84, 52, 98, 0, 10, 12)
+ej <- function(x){
+  rev(sort(x))
+}
+ej(x)
+```
+De revertir el orden de las funciones sólo obtendría el vector en el orden natural
+
+Hay un parámetro en sort(), __decreasing = BOOL, por defecto en FALSE, que permite el mismo resultado:
+```{r}
+x <- c(5, 84, 52, 98, 0, 10, 12)
+sort(x, decreasing = TRUE)
+```
+

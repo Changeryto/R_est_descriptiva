@@ -1,0 +1,127 @@
+---
+title: "Subvectores"
+author: "Téllez Gerardo Rubén"
+date: "14/3/2021"
+output: pdf_document
+---
+## Para marcar parte de un vector
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+* __vector[i]:__ da la i-esima entrada del vector
+  + Los índices de R empiezan en 1 (no como en Py)
+  + __vector[lenght(vector)]:__ nos da la última entrada del vector
+  + __vector[a:b]:__ si _a_ y _b_ son dos números naturales, nos da el subvector con las entradas del vector original que van de la posición a-ésima hasta la b-ésima
+  + __vector[-i]:__ si _i_ es un númemro, este subvector tendrá todas las entradas excepto la i-ésima. 
+  + __vector[i]:__ Si i es un vector actúa como vector de índices, y crea un vector con los _i_ índices.
+  + __vector[-x]:__ si _x_ es un vector, otorga el complemento del vector _x_
+  + __vector[lenght(x)]:__ otorga la útlima entrada, _lenght(x)_ en realidad debuelve en índice último, por lo que puede restarse algún número para obtener las entradas de índices anteriores
+```{r}
+a <- c(1, 2, 3, 4, 5, 5.2)
+
+i = 1:3
+a[i]
+j = 3:1
+a[j]
+
+
+```
+
+```{r}
+x <- seq(3, 50, by=3.5)
+x
+
+x[3]
+
+x[length(x)]
+
+x[length(x)-2]
+
+x[-i]
+x[i]
+```
+
+
+* También podemos usar operadores lógicos:
+  + ==
+  + !=
+  + >=
+  + <=
+  + <
+  + >
+  + !: "NO" LÓGICO
+  + &: "Y" lógico
+  + |: "O" lógico
+  
+```{r}
+v = c(14, 5, 8, 40, 8, 71, 4)
+v[3]
+
+#Para quitar las entradas 3 y 5
+v[-c(3,5)]
+
+#Diferente de 40 y más grande de 10
+v[v != 40 & v>10]
+
+#Aquellos más grandes que 10 o iguales a 5
+v[v > 10 | v == 5]
+
+#Para filtrar aquellos que no sean menores a 10
+v[!x <10]
+```
+## Condicionales de vectores
+
+* __which(x cumple condición):__ Para obtener los índices de las entradas del vector_x_ que satisfacen la condición dada
+* __which.min(x):__ Para obtener la posición en el que _x_ tiene su valor mínimo (en caso de empate se da el primero)
+* __which(x==min(x)):__ Da todas las posiciones en las que el que el vector _x_ tiiene su valor mínimo (siempre se dan todas las posiciones)
+* __which.max(x):__ Para obtener la primera posición donde _x_ obtiene su valor máximo
+* __which(x==max(x)):__ Da todas las posiciones en las que el que el vector _x_ tiiene su valor máximo (siempre se dan todas las posiciones)
+
+
+```{r}
+x <- seq(3, 50, by=3.5)
+x
+
+#Para obtener las entradas de índices pares
+x[seq(1, length(x), by=2)]
+
+#Para quitar los de posición par
+x[-seq(1, length(x), by=2)]
+
+#Para obtener los valores pares
+x[which(x %% 2 == 0)]
+
+#Para obtener los últimos 3 elementos
+x[(length(x)-2) :length(x)]
+
+#Para filtrar el cuarto, sexto y décimo
+x[c(4, 5, 10)]
+
+```
+
+## Regresar cadenas booleanas
+
+```{r}
+bx = x < 5
+bx
+
+y = seq(3, 50, length.out=14)
+x < y
+```
+
+## Vector vacío
+
+Un vector vacío se regresa cuando no hay elementos que satisfagan la condición.
+
+```{r}
+x[x ==50]
+
+which(x <2)
+
+v = c()
+v
+```
+
+
+
+

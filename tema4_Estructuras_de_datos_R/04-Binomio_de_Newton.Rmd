@@ -1,0 +1,42 @@
+---
+title: "Binomio de Newton"
+author: "Téllez Gerardo Rubén"
+date: "14/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Producto notable
+
+La formula del producto notable es:
+$$(a + b)^2 = a^2 + 2ab + b^2$$
+
+## Función
+```{r}
+binomio_cuadrado = function(a, b){
+  a^2 + 2*a*b + b^2
+}
+
+binomio_cuadrado(1, 2)
+```
+
+# Binomio de Newton
+
+Fórmula:
+
+$$(a + b)^n = \sum_{k=0}^n {n\choose k} \cdot a^{n-k} \cdot b^k   = {0 \choose n} * a^{n} * b^{0} \cdots {n \choose n}*a^0 * b^n$$
+
+
+## Función
+```{r}
+binomio_newton <- function(a, b, n){
+  cumsum(choose(n, (0:n))* a^{n-(0:n)} * b^(0:n))[n + 1]
+}
+
+binomio_newton(1, 2, 2)
+
+binomio_newton(3, 4, 14)
+```
+

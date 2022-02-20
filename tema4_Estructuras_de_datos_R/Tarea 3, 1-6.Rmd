@@ -1,0 +1,106 @@
+---
+title: "Tarea 3, 1-6"
+author: "Téllez Gerardo Rubén"
+date: "6/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Cread un vector llamado "Harry" formado por la sucesión de números consecutivos entre el -10 y 27. Pedidle a R que os devuelva el elemento de índice 7. Escribid el resultado.
+
+```{r}
+Harry <- c(-10:27)
+Harry[7]
+```
+
+
+2. Dad el máximo de la sucesión (100*2^n -7*3^n) con n=0,...,200
+```{r}
+sucesion1 <- function(n) {100*2^n-7*3^n}
+A <- sucesion1(0:200)
+max(A)
+```
+
+
+3. Cread la sucesión de números consecutivos entre 0 y 40. A continuación, cread el vector (3*5^n - 1) con n=0,...,40. Ponedle como nombre x. Ahora, dad el subvector de los elementos que son estrictamente mayores que 3.5
+
+```{r}
+s = 0:40
+sucesion2 <- function(n) {3*5^n - 1}
+x <- sucesion2(s)
+x[x > 3.5]
+
+```
+
+
+4. Cread una función que os devuelva la parte real, la imaginaria, el módulo, el argumento y el conjugado de un número, mostrando solo 2 cifras significativas
+
+RECOMENDACIÓN: En algún momento os hará falta utilizar vectores
+
+```{r}
+funcion1 <- function(n) {print(list(Parte_real = Re(n),
+                              Parte_imaginaria = Im(n), 
+                              Modulo = Mod(n), 
+                              Argumento = Arg(n), 
+                              Conjugado = Conj(n)), 2)}
+funcion1(8.91+3.21i)
+```
+
+
+5. Cread una función que resuelva ecuaciones de segundo grado (de la forma Ax^2+Bx+C=0). No importa, por ahora, que tengáis en cuenta las que no tienen solución
+
+```{r}
+segundo_grado <- function(vect) {c(((-vect[2] + sqrt(vect[2]^2 - 4*vect[1]*vect[3]))/2*vect[1]), ((-vect[2] - sqrt(vect[2]^2 - 4*vect[1]*vect[3]))/2*vect[1]))}
+
+segundo_grado(c(1, -5, 6))
+```
+
+
+RECOMENDACIÓN: En algún momento os hará falta utilizar vectores
+
+6. Tomando el vector vec = c(0,9,98,2,6,7,5,19,88,20,16,0), dad 3 opciones diferentes para calcular el subvector c(9,19,20,16)
+
+```{r}
+vec <- c(0,9,98,2,6,7,5,19,88,20,16,0)
+
+# Calcular c(9,19,20,16)
+#1:
+vec[c(2, 8, 10, 11)]
+
+#2:
+vec[vec == 9 | vec == 19 | vec == 20 | vec == 16]
+
+#3
+vec[vec >= 9 & vec <=20]
+
+#4
+vec[!vec > 20 & !vec < 9 ]
+```
+
+Tomando el vector vec definido en el apartado anterior, buscad
+
+    - qué entradas son pares
+
+    - qué entradas no son pares y mayores que 20
+
+    - dónde toma vec su valor máximo
+
+    - dónde toma vec sus valores mínimos
+```{r}
+#Entradas pares
+vec[(vec %% 2) == 0]
+
+#Entradas no pares y mayores que 20
+vec[(vec %% 2) != 0 & vec > 20]
+
+#Dónde vec toma su valor máximo
+which.max(vec)
+
+#Dónde toma vec sus valores mínimos
+which(vec == min(vec))
+```
+    
+    

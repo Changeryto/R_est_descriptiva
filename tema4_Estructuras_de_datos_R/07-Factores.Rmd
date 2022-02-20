@@ -1,0 +1,109 @@
+---
+title: "Factores"
+author: "Téllez Gerardo Rubén"
+date: "2/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Factores
+
+Similar a un vector, con estructura más rica que permite usarlo para clasificar las observaciones.
+
++ __levels:__ atributo del factor. Cada elemento del factor es igual a un nivel. Los niveles clasifican las entradas del factor. Se ordenan por orden alfabético
++ Para definir un factor, primero se define un vector y se transforma por las funciones __factor()__ o __as.factor()__.
+
+
+Normalmente los niveles son palabras.
+
+
+```{r}
+nombres <- c("Juan", "Antonio", "Ricardo", "María", "Rosa", "Yuko", "Ernesto")
+nombres.factor = factor(nombres)
+
+
+# as.factor convierte el vector en factores
+#toma como niveles los que aparecen dentro del factor
+
+# factor() define un factor a partir del vector
+#Un par de parámetros permite modificar algunas cosas
+```
+
+
+Todo lo que se quiera convertir de texto a factor para clasificar los datos, se usan los factores en lugar del string.
+
+
+Cuando se hace un vector con la intención de clasificar datos, es más conveniente convertirlo a factor.
+
+
+# La Función factor()
+
++ __factor(vector, levels=...)__: define un factor a partir del vector y dispone de algunos parámetros que permiten modificar el factor que se crea.
+  - __levels:__ permite especificar los niveles e incluso añadir niveles que no aparecen en el vector.
+  - __labels:__ permite cambiar los nombres de los. niveles
++ __levels(factor):__ regresa los niveles del factor.
+
+
+Cuando usemos factor(), podemos especificar los niveles de factor
+```{r}
+sexo = c("M", "H", "H","M", "H", "H", "M", "H", "H","M", "H", "H", "M")
+sexo.factor = factor(sexo)
+sexo.factor
+
+sexo.factor_2 = as.factor(sexo)
+sexo.factor_2
+
+#La diferencia se nota al requerir más niveles.
+sexo.factor_3 = factor(sexo, levels = c("M", "H", "Q"))
+#Se especificó un nivel adicional
+sexo.factor_3
+
+
+#Para aportar etiquetas
+sexo.factor_4 = factor(sexo, levels = c("M", "H", "Q"), labels = c("Mujer", "Hombre", "Quimera"))
+sexo.factor_4
+```
+Es muy importante dar etiquetas significativas.
+
+
+## Función levels()
+La función levels() permite cambiar el nombre directamente a los nombres del factor
+```{r}
+levels(sexo.factor_4)
+levels(sexo.factor_4) = c("Femenino", "Masculino", "Hibrido")
+levels(sexo.factor_4)
+```
+Bastante útil cuando en particular tenemos por ejemplo notas
+```{r}
+notas <- c(0, 6, 10, 10, 6, 0, 10, 6, 6, 10, 0, 0)
+notas.factor <- factor(notas)
+levels(notas.factor)
+levels(notas.factor) <- c("Reprobado", "Suficiente", "Sobresaliente")
+levels(notas.factor)
+notas.factor
+
+#Para agrupar niveles distintos al mismo nivel
+levels(notas.factor) <- c("Repobado", "Aprobado", "Aprobado")
+notas.factor
+```
+
+# Factor ordenado
+
+Es un factor donde los niveles siguen un orden
+
++ __ordered(vector, levels=...):__ función que define un factor ordenado y tiene los mismos parámetros que factor.
+
+```{r}
+notas
+ordered(notas, labels = c("Reprobado", "Suficiente", "Sobresaliente"))
+
+```
+Los niveles ahora estará ordenados de manera que __Reprobado < Suficiente < Sobresaliente__
+
+
+
+
+

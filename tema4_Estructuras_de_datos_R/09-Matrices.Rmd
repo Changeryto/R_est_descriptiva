@@ -1,0 +1,166 @@
+---
+title: "Matrices"
+author: "Téllez Gerardo Rubén"
+date: "4/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Cómo se definen
+
++ __matrix(vector, nrow=n, byrow=valor_lógico):__ para definir una matriz de _n_ filas formada por las entradas del vector
+  - __nrow:__ número de filas
+  - __burow:__ TRUE la matriz se constitulle por filas, FALSE (por defecto) la matríz se constituye por colúmnas
+  - __ncol:__ número de columnas (puede usarse en lugar de _ncol:_)
+  
++ R muestra las matrices indicando como [i,] la fila i-esima y [,j] la columna j-esima
++ Todas las entradas de una matríz han de ser del mismo tipo de datos
+  
+
+Ejemplo:
+```{r}
+#Para construir una matriz con los números del 1 al 12 definido en columnas
+M <- matrix(1:12, nrow= 4 )
+M
+
+#Definido en filas
+N <- matrix(1:12, nrow = 4, byrow = TRUE)
+N
+
+#En tres filas
+M1 <- matrix(1:12, nrow= 3 )
+M1
+```
+
+# Advertencias
+
+Querer un numero _n_ de filas que no sean múltiplo o submúltiplo de la cantidad de datos despliega una advertencia __REPITIENDO LOS DATOS EN LA MATRIZ GENERADA__
+
+```{r}
+M2 <- matrix(1:7, nrow = 5)
+M2
+```
+De crear una matríz con un solo número en lugar de un vector, se arroja la matriz con todas las entradas del mismo número
+```{r}
+matrix(7, nrow = 5, ncol = 5) #De usar sólo un nx, otorga una sola columna o fila
+```
+
+# Ejercicio
+
++ ¿Cómo definirías una matriz constante? Es decir, ¿Cómo definirías una matríz _A_ tal que $\forall \ i = 1, \dots, n; \ j = 1,\dots, m; a_{i,j} = k$ siendo $k \in \mathbb{R}$? Como R no admite incognitas, prueba para ek caso específico $n = 3, \ m = 5, \ k = 0$
++ Con el vector vec = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) crea la matriz
+$$\begin{pmatrix} 1 & 4 & 7 & 10 \\ 2 & 5 & 8 & 11 \\ 3 & 6 & 9 & 12 \end{pmatrix}$$
+```{r}
+
+#Para el caso específico
+matrix(0, nrow = 3, ncol = 5)
+
+#Con el vector
+vec <- 1:12
+m1 =matrix(vec, nrow = 3)
+m1
+```
+
+# Cómo construirlas
+
+Más que usar la función matrix() se suelen usar las funciones rbind(vectores...) y cbind(vectores...)
+
+
++ __rbind(vector1, vector2, ...):__ construye la matriz de filas _vector1, vector2, ..._.
++ __cbind(vector1, vector2, ...):__ construye la matriz de columnas _vector1, vector2, ..._.
+  - Los vectores han de tener la misma longitud
+  - También sirve para añadir columnas o filas a una matriz o concatenar por columnas o filas, matrices con el mismo número de filas o columnas.
++ __diag(vector):__ para construir una matriz diagonal con un vector dado
+  - Si aplicamos un _diag()_ a un número _n_, produce una matriz identidad del orden _n_
+
+
+Ejemplo c y r bind:
+```{r}
+rbind(m1, c(10, 20, 30, 40), c(100, 200, 300, 400))
+cbind(m1, c(10, 20, 30), c(100, 200, 300))
+```
+Una matriz diagonal es aquella que sólo tiene números en la diagonal, como las matrices solución de Gauss-Jordan.
+```{r}
+diag(1:4)
+diag(5, nrow = 3)
+```
+
+# Submatrices
+
+Similar a subvectores, permite acceder a sitios específicos de matrices.
+
++ __matriz[i, j]:__ indica la entrada (i, j) de la matriz, siendo _i, j,_ $\in, \ \mathbb{N}$. Si _i y j_ son vectores de índices, estaremos definiendo la submatriz con las filas pertenecientes al vectos _i_ y las columnas pertenecientes al vector _j_.
++ __matriz[i,]:__ indica la fila i-ésima de la matriz, siendo _i_ $\in \mathbb{N}$
++ __matriz[,j]:__ indica la columna j-ésima de la matriz, siendo _j_ $\in \mathbb{N}$
+  -Si _i o j_ es un vector de índices, estaremos definiendo la submatriz con las filas o columnas pertenecientes al vector i o j.
+  
+
+Ejemplo:
+```{r}
+m1
+m1[2,]
+m1[,4]
+m1[2, 4]
+
+Va <- 1:2
+Vb <- 3:4
+m1[Va, Vb]
+```
+
+# Funciones de las matrices
+
++ __diag(matriz):__ para obtener la diagonal de la matríz
++ __nrow(matriz):__ devuelve el número de filas de la matriz
++ __ncol(matriz):__ devuelve el número de columnas de la matríz
++ __dim(matriz):__ devuelve las dimensiones de la matríz
++ __sum(matrz):__ la suma de todas las entradas de la matriz
++ __prod(matrz):__ la suma de todas las entradas de la matriz
++ __mean(matriz):__ la media aritmética de todas las entradas de la matriz
+
+```{r}
+diag(m1)
+nrow(m1)
+ncol(m1)
+dim(m1)
+sum(m1)
+prod(m1)
+mean(m1)
+```
+Funciones por filas o columnas
+
++ __colSums(matriz):__ sumas por entradas de la matríz
++ __rowSums(matriz):__ sumas por filas de la matriz
++ __colMeans(matriz):__ medias por colúmnas de la matriz
++ __rowMeans(matriz):__ medias por filas de la matriz
+```{r}
+colSums(m1)
+rowSums(m1)
+colMeans(m1)
+rowMeans(m1)
+```
+
+# Funciones por filas o columnas, función apply
+
+__apply(matriz, MARGIN = X, FUN = función)
++ X = 1: por filas
++ X = 2: por columnas
++ X = c
+```{r}
+apply(m1, MARGIN = 1, FUN = function(x){sqrt(sum(x^2))})
+apply(m1, MARGIN = 2, FUN = function(x){sqrt(sum(x^2))})
+apply(m1, MARGIN = c(1, 2), FUN = function(x){x^2})
+```
+
+Ejemplo
+Dada la matríz
+$$\begin{pmatrix}  1 & 4 & 7 \\ 2 & 5 & 8 \\ 3 & 6 & 9 \end{pmatrix}$$
+
+```{r}
+A <- matrix(1:9, ncol = 3)
+dim(A)
+diag(A)
+```
+

@@ -1,0 +1,83 @@
+---
+title: "Listas"
+author: "Téllez Gerardo Rubén"
+date: "4/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+La principal restricción de un vector es que todos los datos deben ser del mismo tipo
+
+
+# List
+__List.__ Lista formada por diferentes objetos, no necesariamente del mismo tipo, cada cual con un nombre interno.
+
++ __list(...):__ función que crea una lista
+  - Para obtener una componente concreta usamos la instrucción list$componente
+  - También podemos indicar el objeto por su posición usando dobles corchetes: __list[[i]]__. Lo que obtendremos es una lista formada por ese único componente, no el objeto que forma el componente.
+  
+
+Para crear una lista.
+```{r}
+x <- c(1, 5, -5, -7, 4, -9)
+L <- list(nombre = "temperaturas", datos = x, media = mean(x), sumas = cumsum(x))
+```
+
+Observese que en la sintaxis de list() uno mete como argumentos los argumentos que se desean en la lista asignando el valor que se desea.
+
+
+Todas las variables son propias de la lista, no se pueden obtener sin llamar a la lista
+
+
+# Para acceder a un componente de la lista
+
+Según nombre de la varaible: _lista$variable_
+```{r}
+L$nombre
+L$media
+L$datos
+L$sumas
+```
+Según índice: __ista$[[indice]]__
+```{r}
+L[[1]]
+L[[3]]
+L[[2]]
+L[[4]]
+```
+Usar un solo corchete arrojará una lista en lugar de un vector
+```{r}
+a = L[4] #Una lista que no puede operarse
+b= L[[4]]
+
+a
+# a+10 _Imposible realizar
+b+10
+```
+# Funciones para la lista
+
++ __str(lista):__ para conocer la estructura interna de una lista.
++ __names(lista):__ para saber los nombres de la lista.
+
+```{r}
+str(L)
+names(L)
+```
+
+# Modelos lineales otorgan resultados en forma de lista
+Toda la información es enorme, y se entrega a manera de lista
+```{r}
+summary(lm(c(1, 2, 3, 4)~c(1, 2, 3, 6)))
+```
+
+
+
+
+
+
+
+
+

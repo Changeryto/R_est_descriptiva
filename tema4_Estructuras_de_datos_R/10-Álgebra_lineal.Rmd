@@ -1,0 +1,126 @@
+---
+title: "Algebra lineal"
+author: "Téllez Gerardo Rubén"
+date: "5/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Opraciones
++ **t(matriz):** para obtener la transpuesta de la matríz (cambia las filas por colúmnas)
++ **+**: para sumar matrices
++ __*__: producto escalar por una matríz
++ __%*%__: para multiplicar matrices
++ __mtr.exp(matriz, n)__: para elevar la matríz a _n_
+  - Del paquete **Biodem**, no calcula potencias exactas, las aproxima.
++ __%%__: para elevar matríces
+  - Del paquete **expm**, no calcula las potencias exactas, las aproxima
+
+```{r}
+m1 = matrix(data = seq(7, 63, by=7), nrow=3)
+m1
+
+m2 = matrix(data = seq(10, 90, by=10), nrow = 3)
+m2
+
+t(m2)
+
+m2 * 10
+
+m2 %*% m1 #Deben coincidir el número de filas con el número de colúmnas
+
+m2 %% m1
+```
+
+# Ejercicio
+
+Observa qué ocurre si, siendo _A_ = $\begin{pmatrix} 2 & 0 & 2 \\ 1 & 2 & 3 \\ 0 & 1 & 3 \end{pmatrix}$ y _B_ = $\begin{pmatrix} 3 & 2 & 1 \\ 1 & 0 &0 \\ 1 & 1 & 1 \end{pmatrix}$, realizamos las operaciones _A * B_, $A^2 \ y \ B^3$.
+
+
+```{r}
+A = matrix(data = c(2, 0, 2, 1, 2, 3, 0, 1, 3), byrow = TRUE, nrow = 3)
+B = matrix(data = c(3, 1, 1, 2, 0, 1, 1, 0, 1), nrow = 3)
+
+# A*B
+A * B
+
+#(A)^2
+A %*% A
+
+#(B)^3
+B %*% B %*% B
+```
+
+# Operacones de álgebra lineal
+
++ __det(matriz):__ para calcular el deteminante de la matriz CUADRADA
++ __qr(matriz)$rank:__ para calcular el rango de una matriz DEVUELVE UNA LISTA
++ __solve(matriz)__: para calcular la inversa de una matríz invertible
+  - También sirve para resolver sistemas de ecuaciones lineales. Para ellos introduciremos __solve(matriz, b)__, donde _b_ es el vector de términos independientes. INTRODUCIR LA MTRÍZ CUADRADA
+```{r}
+M = rbind(c(1, 4, 2), c(0, 1, 3), c(1, 8, 9))
+
+#Para obtener el determinante (producto de los valores propios)
+det(M)
+
+#Rango de la matríz
+qr(M)$rank
+
+#Para obtener la matriz inversa
+solve(M)
+
+#Para obtener la matriz identidad
+round(solve(M)%*%M, 1)
+
+#Sistemas de ecuaciones lineales
+vector_de_terminos_independientes <- c(2, 3, 6)
+solve(M, vector_de_terminos_independientes) #Regresa el vector respuesta
+```
+
+
+# Vectores y valores propios
++ __eigen(matriz)__: para calcular los valores (vaps) y vectores propios (veps)
+  - __eigen(matriz)$values__: devuelve el vector con los vaps de la matríz en orden decreciente de su valor absoluto y repetidos tantas veces como su multiplicidad algebraica.
+  - __eigen(matriz)$vectors__: devuelve una matriz cuyas colúmnas son los veps de la matriz.
+  
+```{r}
+eigen(M)
+
+eigen(M)$values
+
+eigen(M)$vectors
+```
+
+# Ejercicio
+
+Comprueba con los datos del ejemplo anterior, que si _P_ es la matriz de vectores propios de _M_ en columna y _D_ la matriz diagonal cuyas entradas son los valores propios de _M_, entonces se cumple la siguiente igualdad llamada **descomposición canónica:**
+
+$$M = P \cdot D \cdot P^{-1}$$
+
+```{r}
+M = A
+P = eigen(M)$vectors
+D = diag(c(eigen(M)$values), nrow = 3)
+
+M
+P %*% D %*% solve(P)
+```
+
+Si hay algún vap con multiplicidad algebráica mayor que 1 (osease que aparece más de una vez), la función __eigen()__ da tantos valores de este vap cmo su multiplicidad algebraica indica. Además, en este caso, R intenta que los veps asociados a cada uno de los vaps sean _linealmente independientes_.
+Por lo tanto, cuando como resultado obtenemos veps repetidos asociados a un vap de multiplicidad algebraica mayor que 1, es porque para este vap no existen tantos veps linealmente independientes como su multiplicidad algebraica, y por consiguiente, la matriz no es _diagonizable_.
+
+```{r}
+m4 <- matrix(c(0, 1, 0, -7, 3, -1, 16, -3, 4), nrow=3, byrow = TRUE)
+m4
+eigen(m4)
+#Observese que el vep 2 es igual que el vep 3.
+```
+
+
+
+
+
+

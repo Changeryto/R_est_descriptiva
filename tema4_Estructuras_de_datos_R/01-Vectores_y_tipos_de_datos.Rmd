@@ -1,0 +1,108 @@
+---
+title: "Vectores y tipos de datos"
+author: "Téllez Gerardo Rubén"
+date: "13/3/2021"
+output: pdf_document
+---
+Un vector es una secuencia ordenada de datos. R contiene por ejemplo:
+
+
+**logical**: lógicos (__TRUE o FALSE__)
+
+
+**integer**: números enteros, $\mathbb{Z}$
+
+
+**numeric**: números reales, $\mathbb{R}$
+
+
+**complex**: números complejos, $\mathbb{C}$
+
+
+**character**: palabras
+
+Todos los datos tienen que ser del mismo tipo en el vactor.
+Para mezclarlos habría que hacer listas
+
+
+Una mezcla de datos definirá el vector según la jerarquía (inferior más relevante)
+
+
+## Vector básico
+* c(): para definir un vector
+* scan(): para definir un vector a partír de un documento, o leer manualmente
+* fix(x): para modificar visualmente el vector x
+
+```{r, results='markup'}
+c(1,2,3)
+
+rep(c("Azúl"), 7) #la función rep() repite otra función, n veces
+
+a = c(2, TRUE, 3.25, 4i, "Rubén")
+
+a
+
+fix(a) #Para modificarlo manualmente
+
+a
+
+class(a) #Para identificar qué clase de vector es
+```
+__La sitáxis c() se refiere a concatenar.__
+
+Para definir un vector a partir de una URL con datos, sólo hace falta la función scan() y la url o txt
+
+
+## Función scan
+
+Para crear un vector que contenga 3 copias de 1 9 9 8 0 7 2 6 con la función scan:
+
+```{r}
+#  En consola
+#w <- scan()
+#1: 1 9 9 8 0 7 2 6
+#9: 1 9 9 8 0 7 2 6
+#17: 1 9 9 8 0 7 2 6
+#Read 24 items
+#[1] 1 9 9 8 0 7 2 6 1 9 9 8 0 7 2 6 1 9 9 8 0 7 2 6
+```
+
+## Ejecricio
+* Repetir mi año de nacimiento 10 veces
+
+```{r}
+#> a = scan()
+#1: 2001
+#2: 2001
+#3: 2001
+#4: 2001
+#5: 2001
+#6: 2001
+#7: 2001
+#8: 2001
+#9: 2001
+#10: 2001
+#11: 
+#Read 10 items
+```
+
+
+* Crear el vector que contenga entradas 16, 0, 1, 20, 1, 7, 88, 5, 1, 9, llamarlo vec y modificar la cuarta entrada con la función fix(), para cambiar 20 por 12
+
+```{r}
+vec <- c(16, 0, 1, 20, 1, 7, 88, 5, 1, 9)
+vec
+fix(vec)
+vec
+```
+
+* Si hubiera que cambiar el separador decimal, en la función scan() indicar el (dec=) Ejemplo: scan(dec=",")
+* Para especificar de antemano el tipo de vector, usar el parámetro (what=) Ejemplo: scan(what="character")
+
+
+Para hacer una repetición de varios valores con rep:
+```{r}
+s <- rep(c(78, 79, 80), 10)
+s
+```
+

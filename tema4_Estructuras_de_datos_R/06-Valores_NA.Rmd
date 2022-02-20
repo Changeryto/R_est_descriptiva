@@ -1,0 +1,113 @@
+---
+title: "Valores NA"
+author: "Téllez Gerardo Rubén"
+date: "27/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Valores NA
+
+NA 'Not avaliable' indican que las entradas correspondientes a las entradas a esos índices no existe.
+
+Se van a usar cuando no conozcamos un valor.
+
+
+Podemos obtener valores booleanos a partir de condicionales.
+
+```{r}
+length(1:100) > 400
+
+length(1:100) > 4
+```
+
+Para hacer que una posición cambie de valor en un índice, incluyendo un valor no asignado para el índice
+
+```{r}
+x <- seq(3, 50, by=3.5)
+x[3]
+
+x[3] = 20
+x
+
+x[16] #NA
+
+x[16]=55 
+x
+```
+
+Para hacer una suma a elementos de un vector
+```{r}
+x
+x[2:5] = x[2:5] + 1
+x
+```
+
+
+
+Para agregar entradas a índices NA
+```{r}
+x[length(x) + 5] = 100
+x
+```
+
+Operar con un vector con NAs va probablemtene a entregar un NA
+```{r}
+cumsum(x)
+sum(x)
+```
+# Eliminar NAs
+
+Para operar con un vector con NAs podemos usar un el parámetro na.rm = TRUE
+```{r}
+sum(x, na.rm = TRUE)
+mean(x, na.rm = TRUE)
+```
+
+Para remover las entradas de los vectores que sean NA
+```{r}
+xi = x
+# xi = xi[-which(xi == NA)] Esto no funciona, porque el NA no es un valor en sí mismo, no se puede compara con un elemento, usar is.na(x)
+xi_A <- xi[-which(is.na(xi))]
+
+#También habría podido pedir las entradas done no son NA
+x[!is.na(x)]
+```
+
+
+En estadística es común cambiar los NA por un valor, comunmente la Media $\bar{x} / \mu$
+
+```{r}
+xi_u = xi
+xi_u[which(is.na(xi))] = mean(xi_A)
+xi_u
+```
+
+Drásticamente se puede omitir las posiciones de NAs, __NO RECOMENDADO PARA ESTADÍSTICA DESCRIPTIVA__ para funciones estadísticas.
+```{r}
+x_om = na.omit(x)
+x_om
+cumsum(x_om)
+sum(x_om)
+```
+
+Para eliminar los attr que arrastran los na.omit u otros
+```{r}
+attr(x_om, "na.action") = NULL
+```
+También es raro necesitar de eliminar los atributos.
+
+# Operaciones acumulativas
+
+No puedo usar el parámetro na.rm = TRUE para funciones acumulativas como cumsum, en cambio debo otorgar el vector libre de NAs
+```{r}
+cumsum(x[!is.na(x)])
+```
+
+
+
+
+

@@ -1,0 +1,280 @@
+---
+title: "01-Regresion_lineal"
+author: "Téllez Gerardo Rubén"
+date: "30/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## La regresión lineal
+
+En algún momento de la vida habréis visto una línea recta o algún otro tipo de curva en un gráfico que se ajusta a las observaciones representadas por medio de puntos en el plano.
+
+En general, la situación es la siguiente: supongamos que tenemos una serie de puntos en el plano cartesiano $\mathbb{R}^2$, de la forma.
+
+$$(x_1, y_1),\ \dots\ ,(x_n, y_n)  $$
+
+que representan las observaciones de dos variables numéricas. Digamos que $x$ es la edad e $y$ el peso de $n$ estudiantes.
+
+## Obetivo
+
+Describir la relación entre la _variable independiente_, $x$, y la _variable dependiente_, $y$, a partir de estas observaciones.
+
+Para ello, lo que haremos será buscar una función $y = f(x)$ cuya gráfica se aproxime lo máximo posible a uestros pares ordenados $(x_i, y_i)_{i=1, \dots, n}$.
+
+Esta función nos dará un modelo matemático de cómo se comportan estas observaciones, lo cual nos permitirá entender mejor los mecanismos que relacionan las variables estudiadas o incluso, nos dará la oportunidad de hacer predicciones sobre futuras observaciones.
+
+## Opciones
+
+### Minimización de los errores cuadráticos
+
+La primera opción es la más fácil. Consiste en estudiar los puntos satisfacen una relación lineal de la forma.
+
+$$y = ax + b$$
+
+con $a,b \in \mathbb{R}$
+En este caso, se busca la recta $y = ax + b$ que mejor se aproxime a los puntos dados imponiendo que la suma de los cuadrados de las diferencias entre los valores $y_i$ y sus aproximaciones $\tilde{y} = ax_i + b$ sea mínima. Es decir, que:
+
+$$\sum_{i=1}^{n}(y_i - \tilde{y}_i)^2$$
+
+Sea la mínima posible.
+
+## Calculando rectas de regresión.
+
+El objetivo es determinar si existe relación lineal entre ambas variables.
+
+Por lo general, cuando tenemos una serie de observaciones emparejadas, la forma natural de almacenarlos en R es mediante una tabla de datos. Y la que más conocemos nosotros es el DF.
+
+Como puedes recordar de temas anteriores, la ventaja de trabajar con este tipo de organización de datos es que luego se pueden hacer muchas cosas.
+
+
+## Ejemplo 1
+
+```{r}
+body = read.table("https://raw.githubusercontent.com/joanby/r-basic/master/data/bodyfat.txt",
+                  header = TRUE,
+                  sep = " ")
+
+body2 = body[, c(2,4)]
+names(body2) = c("Grasa", "Peso")
+
+str(body2)
+
+head(body2)
+```
+
+Estimar el peso como función lineal de la grasa. Al analizar los datos, siempre es recomendable empezar con una representación grpafica que nos permita hacernos a la idea de lo que tenemos.
+
+Esto se consigue haciendo uso de la función `plot`, ya que hemos estudiado en detalle en lecciones anteriores. No obstante para lo que necesitamos en este tema nos conformamos con un gráfuco básico que nos muestre la distribución
+
+```{r}
+plot(body2)
+ml = lm(body2$Peso ~ body2$Grasa)
+abline(ml,
+       lwd=3,
+       col="red")
+ml
+```
+
+Primero va el vector de las variables dependientes y luego de la tilde el de las variables independientes.
+
+Esto se debe a que R toma el significado de la tilde como "en función de". Es decir, la interpretación de `lm(y~x)` en R es "la recta de regresión de $y$ en función de $x$"
+
+Si los vectores `y` y `x` son, este orden, la primera y segunda columna de un DF de 2 variables, sería suficiente aplicar `lm` al data frame.
+
+En general, usar la notación anterior.
+
+## Ejemplo 1
+
+```{r}
+lm(body2$Peso ~ body2$Grasa)
+```
+
+Devuelve el propio modelo y los coeficientes.
+
+`(Intercept)` es el término independiente (unión con el eje y), y el coeficiente de la variable, y `el_nombre_de_x` es la pendiente.
+
+Para estimar el peso hay que multiplicar Grasa por 2.151, y sumar 137.738.
+
+$$y = 2.151x + 137.738$$
+
+Se puede añadir con abline la función de regresión.
+
+
+## Coeficiente de determinación
+
+Hay que tener en cuenta que el análisis llevado a cabo hasta el momento de los pares de valores $(x_i, y_i)$ ha sido puramente descriptivo.
+
+Es decir, hemos mostrado que estos datos son consistentes con una función lineal, pero no hemos demostrado que la variable dependiente sea función aproximadamente lineal de la variable dependiente. Esto último necesitaría una demostración matemática, o bien un argumento biológico, pero no basta con una simple comprobación numérica.
+
+
+Podemos utilizar lo hecho hasta ahora para predecir valores $\tilde{y}_i$ en función de los $x_i$ resolviendo una simple ecuación lineal.
+
+
+El _coeficiente de determinación_, $R^2$, nos es útil para evaluar numéricamente si la relación lineal obtenida es significativa o no.
+
+No explicaremos de momento cómo se define. Está entre 0 y 1. Si $R^2$ es mayor a 0.9, consideramos que el ajuste es bueno, significativo y útil.
+
+La función `summary` aplicada al `lm` nos muestra los contenidos de este objeto. Entre ellos encontramos `Multiple R-squared`, que es el coeficiente de determinación $R^2$.
+
+```{r}
+summary(ml)
+```
+
++ Min es el residuo o error mínimo
++ Max es el máximo error
++ 137 es ordenada al origen
++ 2.15 la pendiente
+
+R-squared y Adjusted R-squared se presentan
+
+La baja $R^2$ no permite afirmar que el modelo sea efectivamente lineal por sí mismo.
+
+## Transformaciones logarítmicas
+
+No todos los modelos existentes van a ser rectas, pero aplicando transformaciones sí que se pueden obtener rectas.
+
+Estas se pueden transformar a lineales mediante _cambio de escala_, las leyes exponenciales están presentes en las poblaciones.
+
+A la hora de hacer las transformaciones lineales se pueden llevar a cabo mediante una transformación de escala.
+
+Lo habitual es encontrar gráficos con ejes en escala lineal.
+
+A veces es conveniente dibujar alguno de los ejes en escala logarítmica, de modo que la misma distancia entre las marcas significa el mismo cociente entre sus valores. En otras palabras, un eje en escala logarítmica representa el logaritmo de sus valores en escala lineal.
+
+Diremos que un gráfico está en escala semilogarítmica cuando su eje de abscisas está en escala lineal y el de ordenadas en log.
+
+Diremos que un gráfico está en escala doble logarítmica cuando ambos ejes están en escala logarítmica.
+
+### Interpretación gráfica
+
+Si al representar unos puntos $(x_i, y_i)$ en escala semilogarítmica observamos que siguen aproximadamente una recta, querrá decir que los valores $\log{(y)}$ siguen una ley aprox lineal en los valores $x$, y por tanto que $y$ sigue una ley aproximadamente exponencial en $x$.
+
+En efecto, lo $\log{(y)} = ax + b$, entonces,
+
+$$y = 10^{log(y)} = 10^{ax} \times10^{b} = \alpha^{x} \beta$$
+
+Con $\alpha = 10^a\ y\ \beta = 10^b $
+
+
+Si al representar unos puntos $(x_i, y_i)$ en escala doble logarítmica observamos que siguen aproximadamente una recta, querrá decir que los valores $\log{(y)}$ siguen una ley aprox lineal en los valores $x$, y por tanto que $y$ sigue una ley aproximadamente potencial en $x$.
+
+En efecto, si $log(y) = a log(x) + b$, entonces, por propiedades de logs.
+
+$$y = 10^{log(y)} = 10^{a\ log(x) + b} = (10^{log(x)})^a \times 10^b = x^a \beta$$
+
+con $\beta = 10^b$
+
+
+## Ejercicio: relaciones exponenciales.
+
+```{r}
+dep = c(1.2, 3.6, 12, 36)
+ind = c(20, 35, 61, 82)
+
+plot(ind, dep, main="Escala lineal", type="b")
+plot(ind, dep, log="y", main="Escala semilog", type="b")
+```
+
+```{r}
+mod = lm(log10(dep)~ind)
+mod
+```
+
+```{r}
+summary(mod)
+```
+
+Lo que obtenemos es que
+
+$$log(dep) = (0.23 \times ind) - 0.33$$
+
+es una buenta aproximación de nuestros datos.
+ Con lo cual
+ 
+ $$dep = 10^{0.023 \times ind} \times 10^{0.23} = 1.054^{ind} \times 0.468$$
+
+```{r}
+plot(ind, dep, main="Curva de regresión")
+curve(1.054^x*0.468, add=TRUE, col="purple")
+```
+Observese cómo el factor es tan elevado, pues pasa por cada punto.
+
+
+## Ejercicio: relaciones potenciales
+
+```{r}
+tiempo = 1:10
+gramos = c(0.097, 0.709, 2.698, 6.928, 15.242, 29.944, 52.902, 83.903, 120.612, 161.711)
+df = data.frame(tiempo, gramos)
+
+plot(df)
+plot(df, log="x")
+plot(df, log="xy")
+```
+
+```{r}
+mod = lm(log10(gramos)~log10(tiempo), data = df)
+mod
+```
+
+```{r}
+summary(mod)
+```
+
+Lo que acabamos de obtener es que
+
+$$log(gramos) = (3.298 \times log(tiempo)) - 1.093$$
+
+Con lo cual es una buena aproximación de nuestros datos:
+
+$$gramos = 10^{3.298 \times log(tiempo)} \times 10^{-1.093} = tiempo^{3.298} \times 0.081$$
+
+```{r}
+plot(df)
+curve(x^(3.298) * 0.081, add=TRUE, col="purple")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

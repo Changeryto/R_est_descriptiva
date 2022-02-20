@@ -1,0 +1,138 @@
+---
+title: "Algebra lineal"
+author: "Téllez Gerardo Rubén"
+date: "2/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Declarar matrices, filas y colúmnas
+
+## Vanilla
+
+```{python}
+
+# Declarar filas
+row = [1, 2, 3]
+print(row)
+
+# Declarar columnas
+col = [[1], [2], [3]]
+print(col)
+
+# Delcarar matríces, que en realidad son una tupla de listas
+M = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+print(M)
+```
+
+Declarar submatrices
+```{python}
+#Primera fila
+M[0]
+
+#Primer elemento
+M[0][0]
+```
+
+
+## Usando NumPy
+
+
+```{python}
+import numpy as np
+
+#Declarar matrices
+M1 = np.array(([1,2,3], [4, 5, 6], [7, 8, 9]))
+print(M1)
+
+M2 = np.array(([1,2,3], [4, 5, 6], [7, 8, 9]), dtype='complex')
+print(M2)
+
+## De ceros
+M3 = np.zeros((2,3))
+print(M3)
+
+# De unos
+M4 = np.ones((2,3))
+print(M4)
+
+
+#Para conocer el orden de la matríz
+print(np.shape(M1))
+```
+
+Sumar matrices
+
+```{python}
+A = np.array(([1, 2], [3, 4]))
+B = np.array(([3,0], [1, -1]))
+
+# Suma de matrices
+print(A + B, "\n")
+
+# Producto tensorial
+print(A * B, "\n")
+
+# Producto de matrices
+print(A.dot(B), "\n") #M.dor(M1) es la operación de producto matricial
+
+# Matrices transpuestas
+print(A.transpose(), "\n")
+
+# Suma de los elementos de la diagonal
+print(A.trace(), "\n")
+
+# Potencia de la matriz
+print(np.linalg.matrix_power(A, 2))
+```
+
+Paquete _np.linalg._, con múltiples operaciones de álgebra lineal.
+```{python}
+# Rango de la matriz
+print(np.linalg.matrix_rank(A), "\n")
+
+# Potencia de la matriz (A^5)
+print(np.linalg.matrix_power(A, 5), "\n")
+
+# Determinante
+print(np.linalg.det(A), "\n")
+
+# Inversa de matriz
+print(np.linalg.inv(A), "\n")
+
+# Matriz identidad
+print(np.linalg.inv(A).dot(A), "\n")
+
+# Matriz no invertible
+Mni = np.array(([1, 2, 3], [0, 0, 5], [0, 0, 6]))
+print(Mni, "\n")
+print(np.linalg.matrix_rank(Mni), "\n")
+
+try:
+  print(np.linalg.inv(Mni))
+except Exception as ex:
+  print("La matríz es no invertible", ex, type(ex))
+```
+Las matrices con un rango inferior a su número de filas/columnas o que no son cuadradas no se pueden invertir.
+
+Para imprimir la fila de una matriz:
+```{python}
+for row in M1:
+  print(row[0])
+```
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,364 @@
+---
+title: "Tarea 5"
+author: "Téllez Gerardo Rubén"
+date: "2/5/2021"
+output: pdf_document
+---
+# Preguntas de esta tarea
+
+Crea una función que reciba los tres coeficientes a, b y c para resolver una ecuación de segundo grado. Muestra la solución por pantalla y ayúdate de la librería Math para acceder a la función raíz cuadrada.
+
+```{python}
+import math as mt
+
+class Chicharronera:
+  
+  def __init__(self, a, b, c):
+    self.__a = a
+    self.__b = b
+    self.__c = c
+    
+  def sumando(self):
+    try:
+      s = (- self.__b + ((mt.pow(self.__b, 2)- (4*self.__a*self.__c))**(1/2)))/ (2*self.__a)
+      return ("X1 = " + str(s))
+    except Exception as ex:
+      print("Excepción", ex, type(ex))
+  
+  def restando(self):
+    try:
+      r = (- self.__b - ((mt.pow(self.__b, 2)- (4*self.__a*self.__c)))**(1/2))/ (2*self.__a)
+      return "X2 = " + str(r)
+    except Exception as ex:
+      print("Excepción", ex, type(ex))
+  
+  def dos_resultados(self):
+    try:
+      s = (- self.__b + ((mt.pow(self.__b, 2)- (4*self.__a*self.__c))**(1/2)))/ (2*self.__a)
+      r = (- self.__b - ((mt.pow(self.__b, 2)- (4*self.__a*self.__c)))**(1/2))/ (2*self.__a)
+      return "X1 = " + str(s) + "\n" + "X2 = " + str(r) 
+    except Exception as ex:
+      print("Excepción", ex, type(ex))
+
+
+# De la ecuación
+# 4x^2 + 7x + 6 = 0
+
+# Sumando
+ec_a = Chicharronera(4, 2, 6)
+
+print(ec_a.sumando())
+
+# Restando
+print(ec_a.restando())
+
+# Ambos
+print(ec_a.dos_resultados())
+```
+
+
+Crea una función que lea una frase de teclado y nos diga si es o no un palíndromo (frase que se lee igual de izquierda a derecha o al revés como por ejemplo La ruta nos aportó otro paso natural.)
+
+```{python}
+def sin_tilde(s):
+    remplazo = (
+        ("á", "a"),
+        ("é", "e"),
+        ("í", "i"),
+        ("ó", "o"),
+        ("ú", "u"),
+    )
+    for a, b in remplazo:
+        s = s.replace(a, b).replace(a.upper(), b.upper())
+    return s
+
+p = input("Frase a analizar: ")
+
+
+np = []
+p_inv = []
+
+for l in p:
+    if l != " ":
+        np.append(sin_tilde(l.upper()))
+        p_inv.insert(0, sin_tilde(l.upper()))
+    else:
+        continue
+    
+if np == p_inv:
+    print("La palabra ---", p, "--- SÍ es un palíndromo")
+else:
+    print("La palabra ---", p, "--- NO es un palíndromo")
+```
+
+
+Crea un diccionario que tenga por claves los números del 1 al 10 y como valores sus raíces cuadradas
+
+```{python}
+import math as m
+
+dic = {
+  "0" : m.sqrt( 0 ),
+  "1" : m.sqrt( 1 ),
+  "2" : m.sqrt( 2 ),
+  "3" : m.sqrt( 3 ),
+  "4" : m.sqrt( 4 ),
+  "5" : m.sqrt( 5 ),
+  "6" : m.sqrt( 6 ),
+  "7" : m.sqrt( 7 ),
+  "8" : m.sqrt( 8 ),
+  "9" : m.sqrt( 9 ),
+  "10" : m.sqrt( 10 )
+}
+```
+
+
+Crea un diccionario que tenga como claves las letras del alfabeto castellano y como valores los símbolos del código morse (los tienes todos en la Wikipedia). A continuación crea un programa que lea una frase del teclado y te la convierta a Morse utilizando el diccionario anterior.
+
+```{python}
+abc_morse = {
+    "A": ".-",
+    "B": "-...",
+    "C": "-.-.",
+    "D": "-..",
+    "E": ".",
+    "F": "..-.",
+    "G": "--.",
+    "H": "....",
+    "I": "..",
+    "J": ".---",
+    "K": "-.-",
+    "L": ".-..",
+    "M": "--",
+    "N": "-.",
+    "Ñ": "--.--",
+    "O": "---",
+    "P": ".--.",
+    "Q": "--.-",
+    "R": ".-.",
+    "S": "...",
+    "T": "-",
+    "U": "..-",
+    "V": "...-",
+    "W": ".--",
+    "X": "-..-",
+    "Y": "-.--",
+    "Z": "--..",
+    " ": "/"
+    }
+
+f = input("Frase a traducir: ")
+
+m = ""
+for l in f:
+    try:
+        m += abc_morse.get(l.upper())
+        m += " "
+    except Exception as ex:
+        print("Por favor no coloques acentos ni caracteres especiales", type(ex))
+
+print("\nTraducción: \n" + m)
+    
+```
+
+
+Crea una función que dados dos diccionarios nos diga que claves están presentes en ambos.
+
+```{python}
+dic_a = {
+  "a": "ambos",
+  "b": "ambos",
+  "c": "diferentes"
+}
+dic_b = {
+  "a": "ambos",
+  "b": "ambos",
+  "d": "diferentes"
+}
+
+while True:
+    try:
+        u = eval(input("Introduce el diccionario 1: "))
+    except Exception:
+        print("Ese diccionario no existe")
+    
+    try:    
+        v = eval(input("Introduce el diccionario 2: "))
+    except Exception:
+        print("Ese diccionario no existe")
+    else:
+        break
+
+ambos = ""
+
+for k in u.keys():
+    for l in v.keys():
+        if k == l:
+            ambos += l
+            ambos += " | "
+        else:
+            continue
+
+if ambos == "":
+    print("No hay llaves compartidas")
+else:
+    print("Llaves compartidas: ", ambos)
+
+```
+
+
+Crea una función que dado un número N nos diga si es primo o no (tiene que ir dividiendo por todos los números x comprendidos entre 2 y el propio número N menos uno y ver si el cociente de N/x tiene resto entero o no).
+
+```{python}
+import numpy as np
+n = int(input("Número a analizar: "))
+
+
+q = []
+
+for i in range(2, n):
+    q.append(n % i != 0)
+        
+if np.all(q):
+    print("El número", n, "SÍ es primo")
+else:
+    print("El número", n, " NO es primo")
+```
+
+
+Investiga la documentación de la clase string y crea un método que lea una frase del teclado y escriba la primera letra de cada palabra en Mayúscula.
+
+```{python}
+f = input("Frase a arreglar: ")
+
+fa = f.split(" ")
+
+r = ""
+for p in fa:
+    r += p.capitalize()
+    r += " "
+    
+print("Frase arreglada\n" + r)
+```
+
+
+Crea una función que calcule el máximo común divisor de dos números introducidos por el usuario por teclado.
+
+```{r}
+while True:
+    try:
+        n1 = int(input("Número uno: "))
+        n2 = int(input("Número dos: "))
+    except Exception:
+        print("Coloca correctamente los números")
+    else:
+        break
+        
+div_de_n1 = []
+div_de_n2 = []
+div_com = []
+
+for n in range(1, (n1)):
+    if n1 % n == 0:
+        div_de_n1.append(n)
+
+for n in range(1, (n2+1)):
+    if n2 % n == 0:
+        div_de_n2.append(n)
+        
+for div in div_de_n1:
+    for dav in div_de_n2:
+        if div == dav:
+            div_com.append(dav)
+            
+
+print("\nMCD: ", div_com[-1])
+```
+
+
+Investiga el Cifrado del César y crea una función que lo reproduzca en Python. Cada letra del mensaje original se desplaza tres posiciones en el alfabeto estándar. La A se convierte en la D, la B se convierte en la E, la C se convierte en la F... y cuando se acaba el alfabeto se le vuelve a dar la vuelta: la X se convierte en la A, la Y en la B y la X en la C. Los números no sufren ninguna modificación.
+
+```{python}
+cesar = {
+    "A": "D",
+    "B": "E",
+    "C": "F",
+    "D": "G",
+    "E": "H",
+    "F": "I",
+    "G": "J",
+    "H": "K",
+    "I": "L",
+    "J": "M",
+    "K": "N",
+    "L": "O",
+    "M": "P",
+    "N": "Q",
+    "O": "R",
+    "P": "S",
+    "Q": "T",
+    "R": "U",
+    "S": "V",
+    "T": "W",
+    "U": "X",
+    "V": "Y",
+    "W": "Z",
+    "X": "A",
+    "Y": "B",
+    "Z": "C",
+    " ": " "
+}
+
+f = input("Frase a convertir: ")
+fn = ""
+for l in f:
+    try:
+        fn += cesar.get(l.upper())
+    except:
+        fn += l
+    
+print("\nNueva frase:\n" + fn)
+```
+
+
+Dado una lista de nombres de persona, escribe un algoritmo que los ordene de tres formas diferentes:
+
+A. De forma alfabética
+
+B. De forma alfabética invertida
+
+C. De nombre más corto al más largo.
+```{python}
+n = input("Nombre: ")
+
+ns = n.split( )
+
+#Forma alfabética
+fal = sorted(ns)
+fa = ""
+
+for p in fal:
+    fa += p
+    fa += " "
+print("Forma alfabética:", fa)
+
+#Forma invertida
+
+fi = ""
+
+for p in reversed(ns):
+    fi += p
+    fi += " "
+print("Forma invertida:", fi)
+
+#Corto a largo
+
+cll = sorted(ns, key=len)
+cl = ""
+
+for p in cll:    
+    cl += p
+    cl += " "
+print("Corto a largo:", cl)
+```
+

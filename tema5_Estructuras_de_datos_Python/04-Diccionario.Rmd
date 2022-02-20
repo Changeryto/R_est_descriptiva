@@ -1,0 +1,74 @@
+---
+title: "Diccionarios"
+author: "Téllez Gerardo Rubén"
+date: "24/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Place holder concatenation
+```{python}
+nombre = "Rubén"
+#Place holder concatenation
+print("Hola, soy %s" %nombre)
+
+
+ne = 8
+print("Esto es un número entero %d" %ne)
+
+nd = 8.58854
+print("Esto es un número decimal, con 3 decimales %.3f" %nd)
+
+print("Esto es un número decimal, con 5 decimales %.5f" %nd)
+```
+
+# Declarar diccionarios
+
+Ultima estructura de datos propia de Python (además del set)
+Colección no ordenada de pares de valores.
+
+
+Contiene identificadores únicos que guarda una serie de valores, se indexa una posición y se asocia a una clave.
+
+Internamente los diccionarios se formatean con orden alfabético.
+
+```{python}
+edades = {
+  "Juan Gabriel": 30,
+  "María": 20,
+  "Antonio": 45,
+  "Ruben": 19
+}
+
+#Acceder a una posición
+
+print("La edad de Rubén es:", edades["Ruben"], "años")
+```
+
+# Funciones de los diccionarios
+
++ __diccionario.keys()__: Regresa todas las llaves guardadas
++ __len(diccionario)__: Regresa la longitud.
++ __"llave" in diccionario__: Regresa el valor booleano de si se encuentra la llave en el diccionario.
++ __del diccionario("llave")__: Elimina la llave del diccionario.
+
+La mayoría de parámetros en Math Plot Lib se suelen dar los parámetros de la librería otorgando un diccionario (colores de las barras, puntos, etc.)
+
+```{python}
+print(edades.keys())
+print("Ruben" in edades)
+```
+
+```{python}
+notas = {
+  "Alina": 5.6,
+  "Camila": 7.0,
+  "Rodrigo": False
+}
+```
+
+
+

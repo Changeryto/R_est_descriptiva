@@ -1,0 +1,87 @@
+---
+title: "Bucles"
+author: "Téllez Gerardo Rubén"
+date: "12/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Bucles for
+
+Permite _iterar_ sobre una colección
+
+_Para cada_ __x__ _en colección, proceder a:_
+
+```{python}
+L3 = [2, 3, 5, 7, 11]
+for num in L3:
+  print("Número:", num)
+
+for v in range(0,30):
+  print("Número del rango:", v)
+```
+También funcionan en String
+
+```{python}
+for letra in "Ruben":
+  print(letra)
+```
+Para el promedio en una lista, __ejemplo exagerado, ya hay métodos para eso__:
+
+```{python}
+notas = [3.5, 6.7, 8, 9, 4.5]
+sum = 0
+for nota in notas:
+  sum += nota
+print("El promedio es", sum / (len(notas)))
+```
+
+# Bucles while
+
+Se repiten hasta que una condición booleana sea falsa
+
+```{python}
+contador = 0
+while contador <= 10:
+  print("Contador actual:", contador)
+  contador += 1
+```
+
+Para imprimir índices de una lista en el ciclo while:
+
+```{python}
+primos = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+for idx, n in enumerate(primos):
+  print(idx, n)
+```
+
+Acceder a los índices para después acceder a los objetos
+```{python}
+primos = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+for idx in range(len(primos)):
+  print("Indice:", idx, "Numero:", primos[idx])
+```
+
+# Criba de Eratostenes
+
+```{python}
+con = 3
+numeros = [2]
+while con != 301:
+    numeros.append(con)
+    con += 1
+    
+for n in numeros:
+    print("Primo:", n)
+    for m in range(2, 301):
+        try:
+            numeros.remove(n * m)
+        except:
+            continue
+```
+
+
+

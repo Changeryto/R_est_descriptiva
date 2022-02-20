@@ -1,0 +1,190 @@
+---
+title: "NumPy"
+author: "Téllez Gerardo Rubén"
+date: "1/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Uso de array
+
+Requiere usar datos homogeneos
+Amplia los modulos de python
+
+Importar
+```{python}
+import numpy as np
+```
+Puede crear objetos a partir de listas
+```{python}
+L1 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+x1 = np.array(L1)
+print(x1)
+```
+
+# Tipos de datos
+
+Especificar con _dtype = 'tipo'_
+
+## tipos
+
+_'float32'_: Permite el generar la lista con valor decimal
+
+```{python}
+x2 = np.array(L1, dtype = 'float32')
+print(x2)
+```
+
+_'bool'_: Listas de valores booleanos
+```{python}
+L2 = []
+for n in L1:
+  if n > 5:
+      L2.append(True)
+  else:
+      L2.append(False)
+  
+x3 = np.array(L2, dtype = 'bool')
+print(x3)
+```
+
+_'int'_: Lista de enteros
+variantes: 'intc', 'intp', 'int8', 'int16', 'int32', 'int64'
+```{python}
+x4 = np.array(L1, dtype='int')
+print(x4)
+```
+
+_'uint'_: Enteros sin signo
+variantes: 'uint', 'int8', 'uint16', 'uint32', 'uint64'
+```{python}
+x5 = np.array(L1, dtype='uint')
+print(L1)
+```
+
+_'float'_: De punto flotante
+variantes: 'float16/32/64" = half/omision/double
+```{python}
+x6 = np.array(L1, dtype='float')
+print(x6)
+```
+
+_complex_: Números complejos
+La mitd va para la real y la mitad para la imaginaria
+variantes: complex64/128
+```{python}
+x7 = np.array([3+4j, 8+1j], dtype='complex128')
+print(x7)
+```
+
+
+# Matrices
+
+Matrices de ceros
+```{python}
+filas = 3
+columnas = 4
+n0 = np.zeros((filas, columnas))
+print(n0)
+```
+
+Matrices de unos
+```{python}
+n1 = np.ones((filas, columnas))
+print(n1)
+```
+
+Reordenar matrices constantes
+```{python}
+print(n0.reshape(4, 3))
+```
+Generar matrices a partir de repetir array
+```{python}
+m1 = np.array([L1, L1, L1])
+print(m1)
+```
+
+Aplanar un array, osea hacerlo una lista
+```{python}
+print(np.ravel(m1))
+#Similar a np.flatten
+```
+Cambiar el orden de filas y columnas
+```{python}
+print(np.transpose(m1))
+```
+
+Reescala las matrices, pero empieza a llenar espacios vacíos de ser necesario
+```{python}
+print(np.resize(m1, (6, 12)))
+```
+
+
+
+# Rangos
+
+Listas de rangos
+Similar a seq()
+```{python}
+
+r = np.arange(10, 101, 5, dtype='float')
+print(r)
+```
+
+_np.linspace_: crea array con inicio y fin, de longitud específica.
+Similar a seq(x, y, length=z)
+```{python}
+rl = np.linspace(0, 5, num=10)
+print(rl)
+```
+
+# Ejercicios
+
+## Crear un array de datos con los calores entre 5 y 120
+
+```{python}
+a = np.arange(5, 120, dtype='int')
+print(a)
+```
+## Crear una matriz 4*4 con los valores desde 0 hasta 15
+```{python}
+La = np.arange(0, 3)
+Lb = np.arange(4, 7)
+Lc = np.arange(8, 11)
+Ld = np.arange(12, 15)
+Ma = np.array([La, Lb, Lc, Ld])
+print(Ma)
+```
+
+## Crear la matríz identidad 7 * 7
+```{python}
+Mi = np.identity(7)
+print(Mi)
+```
+
+## Crear un array de 20 elementos y transformarlos en 5*5 matriz
+```{python}
+Lx = np.arange(1, 21)
+Ma = np.array( [Lx[0:5], Lx[5:10], Lx[10:15], Lx[15:20], [0,0,0,0,0] ])
+print(Ma)
+```
+
+
+## Crear un array con 20 números con los valores entre 0 y 5, espaciados de forma uniforme
+
+```{python}
+u = np.linspace(0,5, num=20)
+print(u)
+```
+
+
+
+
+
+
+
+

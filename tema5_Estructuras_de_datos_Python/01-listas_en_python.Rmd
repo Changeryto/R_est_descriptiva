@@ -1,0 +1,125 @@
+---
+title: "Listas en Python"
+author: "Téllez Gerardo Rubén"
+date: "9/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Definición
+
+Son listas que permiten almacenar una colección de objetos en un orden determinado.
+Se pueden acceder, añadir o eliminar objetos de forma sencilla.
+
+```{python}
+#Lista vacía
+L1 = []
+
+#Lista con valores iniciales
+L2 = ["a", "e", "i", "o", "u"]
+
+#Lista con valores enteros
+L3 = [2, 3, 5, 7, 11]
+
+#Lista heterogénea con varios tipos de datos diferentes
+L4 = ["a", 5, True, "Rubén Téllez"]
+
+#Repetir listas
+L5 = [0]*10
+
+
+print("Lista vacía:", L1)
+print("Lista con valores iniciales:", L2)
+print("Lista con valores enteros:", L3)
+print("Lista heterogénea con varios tipos de datos diferentes:", L4)
+print("Lista con 10 ceros, similar a rep(vec, n):", L5)
+
+```
+# Indices
+
+Las listas en Python empiezan en el número 0, igual que Python o Java.
+Es decir, considera el 0 como el primer número natural.
+
+
+Se accede mediante la sintaxis de corchete, permite modificarlo.
+
+
+
+Intentar acceder a un índice fuera de rango arroja un error.
+
+
+Se puede acceder a una sublista, es decir accesos de posiciones múltiples, tal que 
++ __Lista[0:4]__: Empieza en 0 y acaba en 3, pero incluirá 4 valores.
++ __Lista[:5]__: Recupera los índices antes del indicado.
++ __Lista[1:]__: Recupera los índices del indice indicado hasta el último.
++ __Lista[1::2]__: De uno en adelante, de dos en dos, el primer elemento es el primer índice, el segundo elemento los saltos
+```{python}
+L3 = [2, 3, 5, 7, 11]
+
+print(L3)
+
+print(L3[0::2])
+
+L3[0] = 10
+
+print(L3)
+
+print(L3[-1]) #Obtener el último elemento
+
+
+```
+
+```{python}
+L3 = [2, 3, 5, 7, 11]
+print(L3[0:4])
+
+#Para modificar valores múltiples de golpe
+L3[2:5] = (10, 20, 30)
+
+print(L3)
+```
+# Metodos de las listas
+
++ __lista.append(x)__: Agrega _x_ al final de la lista
++ __lista.insert(indice, x)__: Agrega _x_ exactamente antes del indice
++ __lista.remove(x)__: Elimina _x_ de la lista, sólo el primer objeto
++ __lista.clear()__: Elimina todos los elementos de una lista
++ __lista.pop()__: Elimina el último elemento de una lista
++ __del lista[indice]__: Remover el índice indicado de una lista
++ __lista.reverse()__: Invierte el orden de la lista
++ __lista.count(x)__: Para contar las ocurrencias de un elemento _x_
++ __lista.index(x)__: Para recuperar el índice donde se encuentra _x_
++ __len(lista)__: Para contar los elementos de una lista
++ __x in lista__: Devuelve el bool de si está _x_ en la lista
+
+```{python}
+L3 = [2, 3, 5, 7, 11]
+print(L3)
+
+L3.append(100)
+print(L3)
+
+L3.remove(2)
+print(L3)
+
+print(L3.count(100))
+
+print(L3.index(100))
+
+print(100 in L3)
+
+print(len(L3))
+
+print(L3.reverse())
+
+print(L3.clear())
+
+```
+
+
+
+
+

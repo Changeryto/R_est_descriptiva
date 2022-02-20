@@ -1,0 +1,186 @@
+---
+title: '"Potencial de NumPy"'
+author: "Téllez Gerardo Rubén"
+date: "2/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Funciones universales (ufunc)
+
+Son funciones que realizan operaciones sobre cada elemento en el array sin necesitad de declara bucles (como las de R)
+
+## Operaciones unarias
+Operan elemento a elemento
++ sqrt
++ sin
++ cos
++ **2
+
+```{python}
+import numpy as np
+x = np.arange(10)
+
+print(x + 3)
+print(x*3)
+print(x/3, "\n")
+
+
+alpha = np.linspace(0, 2*np.pi, 4)
+print("Seno:" ,np.sin(alpha))
+print("Coseno:"  ,np.cos(alpha))
+print("Tangenete:", np.tan(alpha), "\n")
+
+
+print("Exponencial:", np.exp(x))
+print("Base 2:", np.exp2(x))
+print("Potencia", np.power(3, x))
+print("Potencia", np.power(x, 3), "\n")
+
+print("Logaritmo base 10:", np.log10(x))
+
+
+
+```
+
+
+## Operaciones binarias
+Reciben dos arrays y devuelven arrays (casi siempre uno) como resultado
++ maximum
++ minimum
+
+
+# Manejo estadístico (ufunc, unarias)
+
+Es recomendable la librería NumPy.
+NP tiene dos tipos de funciones estadísticas, aquellas que funcionan de manera regular, y aquellas que se libran de los valores NA.
+
+
+## Suma:
+$$\sum_{i=1}^{n}{Xi}$$
+```{python}
+#Sumar los valores de la lista
+
+y = np.array([10, 20, 30, 40, 50, np.nan])
+print(np.sum(y))
+
+#Sin NAs
+print(np.nansum(y)) #Ignora los nan
+
+
+```
+
+## Producto:
+$$X_1 \cdot X_2 \cdot X_3 \dots X_n$$
+
+```{python}
+print(np.prod(x))
+print(np.nanprod(y))
+```
+
+## Media:
+$$\overline{X} = \frac{\sum_{i=1}^{n}{Xi}}{n}$$
+```{python}
+print(np.mean(x))
+print(np.nanmean(y))
+```
+
+## Mediana:
+
+Valor a la mitad de los datos
+```{python}
+print(np.median(x))
+print(np.nanmedian(y))
+```
+
+
+
+## Máximo y mínimo:
+```{python}
+print(np.max(x))
+print(np.nanmax(y))
+
+print(np.min(x))
+print(np.nanmin(y))
+```
+
+## Desviación estándar:
+
+$$S = \sqrt{\frac{\sum{(X_1-\overline{X})^2\dots(X_n-\overline{X})^2}}{N-1}}$$
+```{python}
+print(np.std(x))
+print(np.nanstd(y))
+```
+
+## Varianza:
+$$S^2 = \frac{\sum{(X_1-\overline{X})^2\dots(X_n-\overline{X})^2}}{N-1}$$
+```{python}
+print(np.var(x))
+print(np.nanvar(y))
+```
+
+## Posición en la que se encuentra el index más pequeño y más grande:
+
+```{python}
+np.argmin(x)
+np.argmax(x)
+
+np.nanargmin(y)
+np.nanargmax(y)
+```
+
+## Percentil:
+$$P = L_{i} + \frac{1}{f_i}\cdot \left( \frac{kN}{100} - f_a \right)$$
+```{python}
+#Percentil 50
+np.percentile(x, q=0.5)
+np.nanpercentile(y, q=0.5)
+# Percentil 95
+np.percentile(x, q=0.95)
+np.nanpercentile(y, q=0.95)
+
+```
+
+## any y all
+
+```{python}
+tf = [True, False, True, False]
+# ¿Alguno es verdaderos?
+np.any(tf)
+# ¿Todos son verdaderos?
+np.all(tf)
+```
+
+# Parámetros axis
+
+```{python}
+np.random.seed(seed=0)
+r = np.random.random((3, 5))
+print(r)
+```
+Se puede agregar una _axis_ para especificar la dimensión.
+```{python}
+# Regresa una suma por columnas
+r.sum(axis=0)
+
+#Regresa una suma por filas
+r.sum(axis=1)
+```
+
+# NumPy Random
+
+Se basa según las diferentes distribuciones de probabilidad que existen.
+```{python}
+#Números aleatorios
+print(np.random.random((4, 4)))
+
+#Números pseudoaleatorios a partir de una semilla
+# Sembrar una semilla para desaleatorizar los datos
+np.random.seed(seed=0)
+```
+
+
+

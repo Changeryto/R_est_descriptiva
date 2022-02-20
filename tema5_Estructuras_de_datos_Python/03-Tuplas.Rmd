@@ -1,0 +1,101 @@
+---
+title: "Tupla"
+author: "Téllez Gerardo Rubén"
+date: "21/4/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+No puede modificarse, tiene tamaño y contenido fijo.
+
+Esto puede ser útil en programación para que el sistema reserve un espacio plenamente fijo, no se requiere _memoria de swap_.
+
+```{python}
+tupla1 = (1)
+
+print(tupla1)
+
+t2 = (1, 3, 6, 4)
+
+print(t2)
+
+t3 = (50, "Azulito", 6.31, [5, 2])
+print(t3)
+```
+
+Funciones similares a las istas, pero sin capacidad de ser modificadas
+
+```{python}
+print(t3[2])
+
+l3 = list(t3)
+print(l3)
+l3.append("Blanco")
+t3_2 = tuple(l3)
+print(t3_2)
+```
+
+# Asignación múltiple en las tuplas
+```{python}
+t2 = (1, 3, 6, 4)
+a, b, c, d = t2
+
+print(a)
+print(b)
+print(c)
+```
+
+
+# Ejercicio
+
+Programa sobre: leer una secuencia de números del teclado separado por comas, se transforma en una lista, mostrarlos como lista, transformarlos en tupla, mostrarlos como tupla.
+
+
+PISTA: función split(x)
+```{python}
+q = "Muy buenos días"
+print(q.split(" "))
+```
+```{python}
+#user = input("Introduce los números separados por coma y espacio: ")
+#Mod para knitr
+user = "7, 5, 8"
+
+ul = user.split(", ")
+
+  
+print("Lista:", ul)
+tupla = tuple(ul)
+print("Tupla:", tupla)
+```
+Ampliar para convertir en numeros operable
+```{python}
+ulop = []
+
+while True:
+    try:
+        #user = input("Introduce los números separados por coma y espacio: ")
+        #Mod para knitr
+        user = "5, 2, 1"
+        ul = user.split(", ")
+        for n in ul:
+            ulop.append(float(n))
+    except Exception:
+        print("por favor introduce sólo números")
+    else:
+        break
+  
+print("Lista:", ulop)
+tupla = tuple(ulop)
+print("Tupla:", tupla)
+
+#Para obtener la media de los números del usuario
+
+x = (sum(ulop)/len(ulop))
+print("Media:", x)
+```
+
+

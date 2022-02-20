@@ -1,0 +1,70 @@
+---
+title: "Copias y vistas de arrays"
+author: "Téllez Gerardo Rubén"
+date: "2/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Una de las fuentes de confusión típicas es saber cuando se está generando una copia o trabajando sobre el propio array de datos
+
+# Crear una variable que referencia al array
+
+El cambio que se haga en uno se hará de inmediato en el otro, no se crea una nueva copia, sólo se crea una referencia (acceso directo)
+```{python}
+import numpy as np
+x = np.arange(10)
+y = x
+
+y.shape = (2, 5)
+```
+
+# Crear una copia del mismo
+Para generar array secundarios
+
+```{python}
+z = x.copy()
+
+
+# No son el mismo
+print(z is x)
+
+# Los anteriores sí eran el mismo
+print(y is x)
+```
+```{python}
+p = np.arange(0, 12)
+print(p)
+p1 = p.reshape((3,4))
+print(p1)
+```
+
+# Vistas
+
+Nos permite crear nuevas vistas, cuyo cambio no afecta al array original
+
+```{python}
+t = p1.view()
+print(t)
+
+t.shape = (4, 3)
+print(t)
+
+print(t is p1)
+```
+
+Seleccionar una parte de un array es una vista, el objeto s se desvincula del objeto p1.
+Las vistas comparten la información pero son objetos diferentes.
+
+```{python}
+s = p1[0:2, 1:3]
+print(s)
+```
+
+
+
+
+

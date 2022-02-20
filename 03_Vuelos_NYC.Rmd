@@ -1,0 +1,63 @@
+---
+title: "Vuelos de NYC"
+author: "Téllez Gerardo Rubén"
+date: "18/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Vuelos de NYC
+
+```{r}
+data = nycflights13::flights
+
+summary(data)
+nrow(data)
+
+```
+
+```{r}
+library(reticulate)
+```
+
+# La distribución del retraso en los vuelos de orlando
+
+```{python}
+pydata = r.data
+
+pydata = pydata[pydata["dest"] == "ORD"]
+pydata = pydata[["carrier", "dep_delay", "arr_delay", "origin"]]
+
+pydata = pydata[pydata["arr_delay"] < 6*60]
+
+pydata.dropna()
+
+print(pydata.head())
+print(pydata.shape)
+```
+
+```{r}
+summary(py$pydata)
+boxplot(arr_delay ~ origin, data = py$pydata, main="Retraso de los vuelos a Orlando desde NYC")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

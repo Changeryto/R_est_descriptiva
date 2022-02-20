@@ -1,0 +1,72 @@
+---
+title: "Vuelos NYC ejemplo"
+author: "Téllez Gerardo Rubén"
+date: "19/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+## NYC
+
+```{r, warning=FALSE}
+library(tidyverse)
+data = nycflights13::flights
+data = drop_na(data)
+nrow(data)
+
+
+
+
+```
+
+```{r}
+library(ggplot2)
+
+mlv = lm(data$arr_delay ~ data$dep_delay)
+mlv
+summary(mlv)
+
+#plot(x = data$dep_delay, y = data$arr_delay)
+ggplot(data, aes(y = arr_delay, x = dep_delay))+
+  geom_point(colour="hotpink", alpha=0.5)+
+  geom_smooth(method = "lm")+
+  xlab("Retraso de salida")+
+  ylab("Retraso de llegada")
+```
+
+
+La relación entre sufrir determinado retraso de salida y aproximadamente el mismo tiempo de retraso de llegada es similar a la linealidad.
+
+
+
+
+```{r}
+data$air_time_class = cut(data$air_time, breaks = nclass.Sturges(data$air_time))
+
+
+data = subset(data, dep_delay < 40)
+
+boxplot(data$dep_delay ~ data$origin, notch=T)
+
+
+
+
+EWR = unlist(subset(data, origin == "EWR", 9))
+JFK = unlist(subset(data, origin == "JFK", 9))
+
+LGA = unlist(subset(data, origin == "LGA", 9))
+
+wilcox.test(EWR, JFK)
+wilcox.test(EWR, LGA)
+wilcox.test(LGA, JFK)
+```
+
+Es menos probable sufrir un retraso en el aueropuerto LGA que en los JFK y EWR
+
+
+
+
+

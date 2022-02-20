@@ -1,0 +1,291 @@
+---
+title: "Medidas de centralización en Python"
+author: "Téllez Gerardo Rubén"
+date: "19/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+## Análisis de los coches (mtcars)
+
+### Carga de datos
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from ggplot import mtcars
+
+data = mtcars
+data.index = mtcars["name"]
+
+print(data.head())
+
+```
+
+## Medidas de centralización
+
+
+```{python}
+print(data.mean())
+print(data.mean(axis=1)) #Media por filas
+
+print(data.median())
+
+print(data.mode())
+
+
+```
+
+
+## Medidas vs distribuciones
+
+
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from ggplot import mtcars
+
+
+norm_data = pd.DataFrame(np.random.normal(size=100000))
+
+norm_data.plot(kind = "density", figsize=(10,10))
+
+plt.vlines(norm_data.mean(), ymin=0, ymax=0.4, linewidth=5, color="green")
+
+plt.vlines(norm_data.median(), ymin=0, ymax=0.4, linewidth=2.0, color="red")
+
+plt.show()
+
+
+
+
+
+plt.clf()
+skewed_data = pd.DataFrame(np.random.exponential(size=100000))
+
+skewed_data.plot(kind = "density", figsize=(10,10), xlim=(-5,5))
+
+plt.vlines(skewed_data.mean(), ymin=0, ymax=1, linewidth=5, color="green")
+
+plt.vlines(skewed_data.median(), ymin=0, ymax=1, linewidth=2.0, color="red")
+
+plt.show()
+
+
+
+norm_data = np.random.normal(size=50)
+outliers = np.random.normal(15, size=3)
+
+combined_data = pd.DataFrame(np.concatenate((norm_data, outliers), axis=0))
+
+
+
+
+
+
+combined_data.plot(kind = "density", figsize=(10,10), xlim=(-5,20))
+
+
+plt.vlines(combined_data.mean(), ymin=0, ymax=0.2, linewidth=5, color="green")
+
+plt.vlines(combined_data.median(), ymin=0, ymax=0.2, linewidth=2.0, color="red")
+```
+
+
+## ¿Las millas por galón es una variable con sesgo?
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from ggplot import mtcars
+
+
+
+
+data = mtcars
+data.index = mtcars["name"]
+
+print(data.head())
+
+plt.clf()
+
+mpg = data["mpg"]
+
+mpg = mpg.sort_values()
+
+
+
+
+mpg.plot.hist(density=True, color="pink", bins=6)
+mpg.plot.kde()
+
+plt.vlines(mpg.median(), ymin=0,ymax=0.1, linewidth=2, color="red", label="Mediana de mpg")
+
+plt.vlines(mpg.mean(), ymin=0,ymax=0.1, linewidth=5, color="orange", label="Media de mpg")
+
+plt.legend(loc="best")
+
+plt.show()
+```
+
+Sí tiene sesgo esta variable y es ligeramente positivo, pero es muy pequeño.
+
+
+
+
+## Medidas de dispersión
+
++ Rango de _mpg_
+
+```{python}
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from ggplot import mtcars
+
+data = mtcars
+data.index = mtcars["name"]
+
+
+rang = max(data["mpg"]) - min(data["mpg"])
+
+print("Rango:",rang)
+
+
+
+five_nums = [data["mpg"].quantile(0), data["mpg"].quantile(0.25), data["mpg"].quantile(0.5), data["mpg"].quantile(0.75), data["mpg"].quantile(1)]
+
+print(five_nums)
+
+def f_nums(DF, var):
+  fn = [
+  DF[var].quantile(0),
+  DF[var].quantile(0.25),
+  DF[var].quantile(0.5),
+  DF[var].quantile(0.75),
+  DF[var].quantile(1)
+  ]
+  
+  return fn
+
+print(mtcars["mpg"].describe())
+
+
+# Rango intercuartílico
+print(mtcars["mpg"].quantile(0.75) - mtcars["mpg"].quantile(0.25))
+
+
+
+plt.clf()
+mtcars.boxplot(column="mpg", return_type="axes", figsize=(10,10))
+
+plt.text(0.75, y=mtcars["mpg"].quantile(0.25), s="1er quartil")
+
+plt.text(0.8, y=mtcars["mpg"].quantile(0.5), s="Mediana")
+
+plt.text(0.75, y=mtcars["mpg"].quantile(0.75), s="3er quartil")
+
+plt.text(0.9, y=mtcars["mpg"].quantile(0), s="Min")
+
+plt.text(0.9, y=mtcars["mpg"].quantile(1), s="Max")
+
+plt.text(0.7, y=mtcars["mpg"].quantile(0.5), s="RIC", rotation=90, size=25)
+
+
+plt.show()
+```
+
+5 percentiles ayudan a describir la distribución de una forma bastante completa.
+
+
+## Varianza y desviación estándar
+
+```{python}
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from ggplot import mtcars
+
+
+print(mtcars["mpg"].var())
+print(mtcars["mpg"].std())
+
+
+mad = abs(mtcars["mpg"]-mtcars["mpg"].median())
+k = 1.4826 #Valor deducido
+
+print(mad.median()*k)
+
+
+```
+
+La desviación mediana absoluta es una alternativa que se basa en la mediana.
+
+## El sesgo y la curtosis
+
+El sesgo indica la simetría o asimetría de una distribución
+
+La curtosis mide cómo de picuda es una distribución
+
+
+```{python}
+from ggplot import mtcars
+
+print(mtcars["mpg"].skew())
+print(mtcars["mpg"].kurt())
+```
+
+
+
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+norm = np.random.normal(size=100000)
+skew = np.concatenate((np.random.normal(size=35000)+2, np.random.exponential(size=65000)), axis=0)
+unif = np.random.uniform(-2,2,size=100000)
+
+peak = np.concatenate((np.random.exponential(size=50000), np.random.exponential(size=50000)*(-1)), axis=0)
+
+data = pd.DataFrame({
+  "normal": norm,
+  "skew": skew,
+  "unif": unif,
+  "peak": peak
+})
+
+
+plt.clf()
+data.plot(kind="density", figsize=(10,10), xlim=(-5,5))
+plt.show()
+
+print("Normal: Sesgo = %f, Curtosis = %f"%(data["normal"].skew(), data["normal"].kurt()))
+
+print("Normal+Exp: Sesgo = %f, Curtosis = %f"%(data["skew"].skew(), data["skew"].kurt()))
+
+print("Uniforme: Sesgo = %f, Curtosis = %f"%(data["unif"].skew(), data["unif"].kurt()))
+
+print("Peak: Sesgo = %f, Curtosis = %f"%(data["peak"].skew(), data["peak"].kurt()))
+```
+
+
+
+
+
+Las distribuciones con kurtosis cercano a 0 son las normales.
+
+
+
+

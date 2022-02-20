@@ -1,0 +1,293 @@
+---
+title: "Estadístico para datos agrupados"
+author: "Téllez Gerardo Rubén"
+date: "13/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Estadísticos
+
+Al tener una muestra de datos numéricos, conviene calcular los _estadísticos_ antes de realizar los agrupamientos, puesto que de lo contrario podemos perder información.
+
+No obstante, hay situaciones en que los datos los obtenemos ya agrupados. En estos casos, aún sigue siendo posible calcular los estadísticos y utilizarlos como aproximaciones de los estadísticos "reales", los cuales no conocemos.
+
+La media $\bar{x}$, la varianza $s ^2$, la desviación estándar $s$, de un conjunto de datos agrupados se calculan mediante las mismas fórmulas que para los datos no agrupados con la única diferencia de que sustituimos cada clase por su marca de clase y la contamos con su frecuencia.
+
+Es decir, si tenemos $k$ clases, con sus respectivas marcas $X_1 ,\dots, X_k$ con frecuencias absolutas $n_1, \dots n_k$ de forma que $n = \sum n_j$. Entonces.
+
+
+$$\bar{x} = \frac{\sum_{j=1}^{k}{n_j \times X_j}}{n}$$
+
+$$\sigma^2 = \frac{\sum_{j=1}^{k}{n_j \times X_j^2}}{n} - \bar{x}^2$$
+
+$$s^2 = \frac{\sum_{j=1}^{k}{n_j \times X_j^2}}{n-1} - \bar{x}^2$$
+
+$$s^2 = \frac{n}{n-1} \times \sigma^2$$
+
+$$s = \sqrt{s^2},\ \ \sigma = \sqrt{\sigma^2}$$
+
+## Intervalo modal
+
+Ya que no es posible calcular la moda, se sustituye por el _intervalo modal_, que es la clase con mayor frecuencia.
+
+En el caso en que un valor numérico fuera necesario, se tomaría su marca de clase.
+
+## Intevalo crítico para la mediana
+
+Se conoce como _intervalo crítico para la mediana_, $[L_c, L_{c+1})$, al primer intervalo donde la frecuencia relativa acumulada sea mayor o igual que 0.5
+
+Denotemos por $n_c$ su frecuencia absoluta, por $A_c = L_{c+1} - L_c$ su amplitud y por $N_{c-1}$ la frecuencia absoluta acumulada del intervalo inmediatamente anterior (en caso de ser $[L_c, L_{c+1}) = [L_1, L_2)$, entonces $N_{c-1}=0$). Entonces, $M$ será una aproximación para la mediana de los datos "reales" a partir de datos agrupados.
+
+$$M = L_c + A_c \times \frac{\frac{n}{2}-N_{c-1}}{n_c}$$
+
+## Aproximación de los cuantiles
+
+La fórmula anterior nos permite aproximar el cuantil $Q_p$ de los datos "reales" a partir de los datos agrupados:
+
+$$Q_p = L_p + A_p \times \frac{p \times n - N_{p-1}}{n_p}$$
+
+donde el intervalo $[L_p, L_{p+1})$ denota el primer intervalo cuya frecuencia relativa acumulada es mayor o igual a $p$.
+
+
+## Ejemplo 2
+
+Vamos a seguir trabajando con nuestra variable _cw_ y, esta vez, lo que haremos será calcular los estadísticos de la variable con los datos agrupados y, para acabar, la mediana y algunos cuantiles.
+
+```{r}
+crab = read.table("https://raw.githubusercontent.com/joanby/r-basic/master/data/datacrab.txt", header = TRUE, stringsAsFactors = TRUE, sep = " ")
+cw = crab$width
+
+TablaFrecs = function(x,k,A,p){
+  L = min(x)-p/2+A*(0:k)
+  x_cut = cut(x, breaks = L, right = FALSE, include.lowest = TRUE)
+  intervals = levels(x_cut)
+  mc = (L[1]+L[2])/2+A*(0:(k-1))
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals, mc, Fr.abs, Fr.cum.abs, Fr.rel, Fr.cum.rel)
+  tabla
+}
+
+
+TablaFrecs.L = function(x,L,V = FALSE){
+  x_cut = cut(x,  breaks = L, right = FALSE, include.lowest = V)
+  intervals = levels(x_cut)
+  mc = (L[1:(length(L)-1)] + L[2:length(L)])/2
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals,mc,Fr.abs,Fr.cum.abs,Fr.rel,Fr.cum.rel)
+  tabla
+}
+
+k = nclass.FD(cw)
+
+A = diff(range(cw))/k
+
+L1 = min(cw) #- (0.5 * 0.1)
+
+L = L1 + (0:k)*A 
+
+
+
+tabla = TablaFrecs.L(cw, L, V = TRUE)
+tabla
+```
+
+
+```{r}
+TOT = length(cw)
+TOT
+```
+
+## Media
+
+
+
+```{r}
+anchura.media = round(sum(tabla$Fr.abs*tabla$mc)/TOT,3)
+anchura.media
+```
+
+## Varianza
+
+```{r}
+v = (sum(tabla$Fr.abs * tabla$mc^2) / TOT) - anchura.media^2
+varianza = round(v,3)
+varianza
+```
+
+## Desviación estándar
+
+```{r}
+ds = sqrt(varianza)
+ds
+```
+
+## Intervalo modal
+
+El intervalo modal es el intervalo que más se repite.
+
+
+```{r}
+I.modal = tabla$intervals[which(tabla$Fr.abs == max(tabla$Fr.abs))]
+I.modal
+```
+
+Por lo tanto, con los datos de los que disponemos, podemos afirmar que la anchura de los cangrejos de la muestra es de 26.29 mm, con una desviación estándar de unos 4.54 mm,  que el grupo de anchuras más numeroso era el de $[24.85,\ 26.15)$.
+
+## Intervalo crítico para la mediana
+
+```{r}
+I.critico = tabla$intervals[which(tabla$Fr.cum.rel >= 0.5)]
+I.critico[1]
+```
+
+## Deducción de la mediana
+
+```{r}
+n = TOT
+Lc = L[6]
+Lc.pos = L[7]
+Ac = L[7]-L[6]
+#tabla$intervals[6] = "[25.8,26.8)"
+Nc.ant = tabla$Fr.cum.abs[5]
+nc = tabla$Fr.abs[6]
+M = Lc + Ac * ((n/2)-Nc.ant)/nc
+M
+median(cw)
+```
+
+## Cuantiles
+
+También podemos hacer aproximaciones de los cuantiles.Hemos creado una función `aprox.quantile.p` para no tener que copiar la operación cada vez que queramos calcular un cuantil aproximado.
+
+```{r}
+aprox.quantile.p = function(Lcrit, Acrit, n, p, Ncrit.ant, ncrit){
+  round(Lcrit+Acrit*(p*n-Ncrit.ant)/ncrit,3)
+}
+
+
+aprox.quantile.p(Lc, Ac, n, 0.25, Nc.ant, nc) #Primer cuartil
+```
+
+```{r}
+aprox.quantile.p(Lc, Ac, n, 0.75, Nc.ant, nc)
+```
+
+```{r}
+summary(cw)
+```
+
+## Usar las notas del ejemplo 3
+
+```{r}
+
+notas = c(6,0,3,3,8,2,7,9,10,0,8,3,1,10,4,5,10,6,10,8,7,10,5,
+          5,7,9,5,9,5,5,6,2,9,7,5,10,5,6,4,0,10,2,6,1,9,0,
+          9,9,7,6,4,8,9,8,9,4,1,9,8,6,0,9,10,2,6,0,5,9,
+          10,3,6,4,3,9,7,3,4,2,1,10,7,6,10,9,0,0,10,2,10,2,1,
+          5,2,3,0,8,4,0,7)
+# Definimos vector de extremos
+
+L = c(0,5,7,8,10)
+# Definimos notas1 como el resultado de la codificación en intervalos utilizados como 
+#etiquetas los propios intervalos
+
+notas1 = cut(notas, breaks = L, right = FALSE, include.lowest = TRUE)
+notas1
+
+
+#Definimos marcas de clase
+MC = (L[1:length(L)-1]+L[2:length(L)])/2
+#Definimos notas2 como el resultado de la codificación en intervalos utilizando como
+#etiquetas las marcas de clase
+notas2 = cut(notas, breaks = L, labels = MC, right = FALSE, include.lowest = TRUE, notas2)
+notas2
+```
+
+## Media
+
+```{r}
+media.notas = sum(as.vector(table(notas1)) * as.numeric(as.vector(levels(notas2)))) / length(notas)
+
+media.notas
+mean(notas)
+```
+
+## Varianza
+
+```{r}
+fr.abs = as.vector(table(notas1))
+mc = as.numeric(as.vector(levels(notas2)))
+var.notas = (sum(fr.abs * mc^2)/ length(notas)) - media.notas^2
+                   
+```
+
+
+## DS
+
+```{r}
+sqrt(var.notas)
+sd(notas)
+```
+
+## Intervalo modal
+
+```{r}
+I.modal = levels(notas1)[which(fr.abs == max(fr.abs))]
+
+I.modal
+```
+## Intervalo crítico para la media
+
+```{r}
+fr.cum = cumsum(prop.table(table(notas1)))
+I.critico = fr.cum[which(fr.cum >= 0.5)][1]
+I.critico
+```
+
+## Deducción de la mediana
+
+```{r}
+n = length(notas)
+
+Lc = L[2]
+Lc.pos = L[3]
+
+Ac = Lc.pos - Lc
+
+Nc.ant = fr.abs[1]
+
+nc = fr.abs[2]
+
+M = Lc + Ac * ((n/2) - Nc.ant)/nc
+M
+median(notas)
+```
+
+
+## Cuantiles
+
+```{r}
+aprox.quantile.p(Lc, Ac, n, 0.75, Nc.ant, nc)
+quantile(notas, 0.75)
+```
+
+
+
+
+
+
+
+
+
+
+

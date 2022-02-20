@@ -1,0 +1,162 @@
+---
+title: 'Ejercicio: un script para calcular la tabla de frecuencias con datos agrupados'
+author: "Téllez Gerardo Rubén"
+date: "11/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Agrupando datos con R
+
+Al agrupar datos, convertimos variable cuantitativa en un factor cuyos niveles son las clases en que ha sido dividida e identificamos cada dato con su clase.
+
+A la hora de etiquetar los niveles, podemos elegir 3 codificaciones.
+
++ Los intervalos
++ Las marcas de clase
++ El número de orden de cada intervalo
+
+
+## La función cut
+
+Esta función es la básica en R para agrupar un vector de datos numéricos y codificar sus valores con clases a las que pertenecen.
+
+su sintaxis básica es:
+
+`cut(x, breaks=..., labels=...,right=...)`
+
++ `x` es el valor numérico, con la variable cuantitativa
++ `breaks` puede ser un vector numérico formado por los extremos de los intervalos en los que queremos agrupar nuestros datos y que habremos calculado previamente. También puede ser el número $k$, en cuyo caso R agrupa los datos en $k$ clases. Para este caso, R divide el intervalo comprendido entre los valores mínimo y máximo de $x$ en $k$ intervalos y, a continuación, desplaza ligeramente el extremo inferior del primer intervalo a la izquierda y el extremo del último a la derecha.
++ `labels` vetor con las etiquetas de los intervalos.
++ `right` debe ser igualado a `FALSE` para que los intervalos sean cerrados por la izquierda y abiertos por la derecha.
++ `include.lowest` igualado a `TRUE` combinado con `right = FALSE` hace que el último intervalo sea cerrado. Puede sernos útil en algunos casos.
+
+
+Forma una lista de los elementos del vector original, codificados con las etiquetas de las clases a las que pertenecen. Bien puede ser un factor o un vector.
+
+
+## Estudiando datos agrupados
+
+### Frecuencias
+
+Una primera consideración es tratar las clases obtenidas en el paso anterior como los nivele de una variable ordinal y calcular sus frecuencias.
+
++ La frecuencia absoluta de una clase será el número de datos originales que pertenecen a la clase.
++ La frecuencia absoluta acumulada de una clase será el número de datos que pertenecen a dicha clase o alguna de las anteriores.
+
+## Tabla de frecuencias
+
+Normalmente, las frecuencias de un conjuntos de datos agrupados se suele representar en tablas.
+
+Intervalos | $X_j$ | $n_j$ | $N_j$ | $f_j$ | $F_j$ 
+-----------|-------|-------|-------|-------|------
+$[L_1, L_2)$ | $X_1$ | $n_1$ | $N_1$ | $f_1$ | $F_1$
+$[L_2, L_3)$ | $X_2$ | $n_2$ | $N_2$ | $f_2$ | $F_2$
+$\dots$ | $\dots$ | $\dots$ | $\dots$ | $\dots$ | $\dots$ | 
+$[L_k, L_{k+1})$ | $X_k$ | $n_k$ | $N_k$ | $f_k$ | $F_k$
+
+## La función `hist`
+
+El cálculo de las frecuencias con R podemos hacerlo mediante las funciones `table, prop.table y comsum`.
+
+También podemos utilizar la función `hist`, que internamente genera una list cuya componente `count` es el vector de frecuencias absolutas de las clases. Por consiguiente, para calcular estas frecuencias, podemos utilizar la sintaxis.
+
+`hist(x, breaks=..., right=FLASE, plot=FALSE)$count`
+
+
+Conviene igualar el parámetro `breaks` al vector de los extremos del intervalo debido a que `cut` y `hist` hacen uso de diferentes métodos para agrupar los datos cuando se especifica solamente el número $k$ de clases.
+
+El resultado de `hist` incluye la componente `mids` que contiene el vector de puntos medios de los intervalos, es decir, nuestras marcas de clase.
+
+## Tabla de frecuencias con R
+
+Podemos automatizar el cálculo de la ya tan mencionada tabla de frecuencias, utilizando las dos funciones que mostraremos a continuación.
+
+La primera sirve en el caso en que vayamos a tomar todas las clases de la misma amplitud. Sus parámetros son: $x$, el vector con los datos cuantitativos; $k$, el número de clases; $A$, su amplitud; y $p$, la precisión de los datos (p = 1 si la precisión son unidades, p = 0.1 si la precisión son décimas de unidad...).
+
+Por su parte, la segunda es para cuando conocemos los extremos de las clases. Sus parámetros son: $x$, el vector con los datos cuantitativos; $L$, el vector de extremos de clases; y $V$, un valor lógico, que ha de ser `TRUE` si queremos que el último intervalo sea cerrado, y `FALSE` en caso contrario.
+
+## Funciones
+
+```{r}
+TablaFrecs = function(x,k,A,p){
+  L = min(x)-p/2+A*(0:k)
+  x_cut = cut(x, breaks = L, right = FALSE)
+  intervals = levels(x_cut)
+  mc = (L[1]+L[2])/2+A*(0:(k-1))
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals, mc, Fr.abs, Fr.cum.abs, Fr.rel, Fr.cum.rel)
+  tabla
+}
+```
+
+```{r}
+TablaFrecs.L = function(x,L,V = FALSE){
+  x_cut = cut(x,  breaks = L, right = FALSE, include.lowest = V)
+  intervals = levels(x_cut)
+  mc = (L[1:(length(L)-1)] + L[2:length(L)])/2
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals,mc,Fr.abs,Fr.cum.abs,Fr.rel,Fr.cum.rel)
+  tabla
+}
+```
+
+## Ejemplo
+
+La tabla de frecuencias de la longitud de los pétalos de iris es:
+
+```{r}
+petals = iris$Sepal.Length
+
+TablaFrecs(x = petals, k = nclass.FD(petals), A = 0.5, p = 0.1)
+
+```
+
+Con la versión de los intervalos:
+
+```{r}
+A = diff(range(petals)) / 8
+A = 0.5
+L1 = min(petals) - (1/2 * 0.1)
+L2 = L1 + A
+
+L = L1 + A*(0:8)
+
+TablaFrecs.L(petals, L = L, V = FALSE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

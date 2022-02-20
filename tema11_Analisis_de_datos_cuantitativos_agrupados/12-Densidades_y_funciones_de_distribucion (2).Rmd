@@ -1,0 +1,144 @@
+---
+title: "Densidades y funciones de distribución"
+author: "Téllez Gerardo Rubén"
+date: "23/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Histogramas de frecuencias relativas
+
+En estos histogramas, es común superponer una curva que estime la densidad de la distribución de la variable cuantitativa definida por la característica que estamos midiendo.
+
+La _densidad_ de una variable es una curva cuya área comprendida entre el eje de las abscisas y la propia curva sobre un intervalo es igual a la fracción de individuos de la población que caen dentro de ese intervalo.
+
+Para hacernos una idea visual, imaginad que vais aumentando el tamaño de la muestra a la vez que agrupas los datos en un conjunto cada vez mayor de clases. Si el rango de los datos se mantiene constante, la amplitud de las clases del histograma irá menguando. Además, cuando $n$, el tamaño de la muestra, tiende a infinito, los intervalos tienden a ser puntos y, a su vez, las barras tienden a ser líneas verticales. Pues bien, los extremos superiores de estas líneas serán los que dibujen la densidad de la variable.
+
+## Campana de Gauss
+
+Es la densidad más famosa: la __Campana de Gauss__. ësta se corresponde con una variable que siga una distribución normal.
+
+La forma de la campana depende de dos parámetros: el valor medio, $\mu$, y su desviación estándar, $\sigma$.
+
+## Dibujando la curva de densidad
+
+Existen muchos métodos con los cuales estimar la densidad de distribución a partir de una muestra.
+
+Una de ellas es mediante la función `density` de R. Al aplicar a un conjunto de datos, produce una lista que incluye los vectores x e y que contienen la primera y segunda coordenadas, respectivamente, de 512 puntos de la forma $(x,y)$ sobre la curva de densidad estimada.
+
+Aplicando `plot` o `lines` a este resultado según toque, obtenemos la representación gráfica de esta curva.
+
+```{r}
+hist(iris$Petal.Length, freq = FALSE)
+lines(density(iris$Petal.Length))
+rug(jitter(iris$Petal.Length))
+```
+
+## Función completa para frecuencias relativas
+
+```{r}
+histRel = function(x, L){
+  h = hist(x, breaks=L, right=FALSE, plot=FALSE)
+  t = round(1.1*max(max(density(x)[[2]]), h$density),2)
+  plot(h, freq=FALSE, col="lightgray",
+       main="Histograma de frec. relativas\n y curva de densidad estimada",
+       #xaxt = "n",
+       yaxt = "n",
+       ylim = c(0,t),
+       xlab = "Intervalos",
+       ylab = "Densidades")
+  #axis(1, at = L)
+  text(h$mids, h$density/2, labels = round(h$counts/length(x),2), col="blue")
+  lines(density(x), col ="purple", lwd=2)
+}
+```
+
+
+```{r}
+histRel(iris$Petal.Length, nclass.FD(iris$Petal.Length))
+rug(jitter(iris$Petal.Length))
+```
+
+## Histograma de frecuencias relativas acumuladas
+
+En este último tipo de histograma, se suele superponer una curva que estime la _función de distribución_ de la variable definida por la característica que estamos midiendo.
+
+Esta función de distribución, en cada punto nos da la fracción de individuos de la población que caen a la izquierda de este punto: su frecuencia relativa acumulada.
+
+En general, la función de distribución en un valor determinado se obtiene hallando el área de la función de densidad que hay a la izquierda del valor.
+
+```{r}
+histRelCum = function(x, L){
+  h = hist(x, breaks=L, right=FALSE, plot=FALSE)
+  h$density = cumsum(h$counts)/length(x)
+  plot(h, freq=FALSE, col="lightgray",
+       main="Histograma de frec. relativas acumuladas\n y curva de densidad estimada",
+       #xaxt = "n",
+       xlab = "Intervalos",
+       ylab = "Densidades")
+  #axis(1, at = L)
+  text(h$mids, h$density/2, labels = round(h$density,2), col="blue")
+  dens.x = density(x)
+  dens.x$y = cumsum(dens.x$y)*(dens.x$x[2]-dens.x$x[1])
+  lines(dens.x, col ="purple", lwd=2)
+}
+```
+
+
+```{r}
+histRelCum(iris$Petal.Length, nclass.FD(iris$Petal.Length))
+rug(jitter(iris$Petal.Length))
+```
+
+## Ejercicio con Data Crab
+
+```{r}
+dc = read.table("https://raw.githubusercontent.com/joanby/r-basic/master/data/datacrab.txt",
+                header = TRUE,
+                stringsAsFactors = TRUE,
+                sep = " ")
+cw = dc$width
+```
+
+Dibujamos el histograma con _hist_ y luego observamos su información interna.
+
+```{r}
+hist(cw, breaks = nclass.FD(cw), right = FALSE, plot = FALSE)
+
+hist(cw, breaks = nclass.FD(cw), right = FALSE, plot = TRUE)
+```
+
+```{r}
+histRel(cw, nclass.FD(cw))
+rug(jitter(cw))
+```
+
+```{r}
+str(density(cw))
+```
+
+La curva de densidad que hemos obtenido en este gráfico tiene una forma de campana de Gauss. Para explorar este parecido, vamos a añadir al histograma la gráfcia de la función densidad de una distribución normal de mdida y desviación típica las del conjunto de datos original.
+
+Así, aplicando las instrucciones siguientes, acabamos obteniendo.
+
+```{r}
+histRel(cw, nclass.FD(cw))
+curve(dnorm(x, mean(cw), sd(cw)), col="red", add=TRUE, lty = "dashed", lwd=2)
+legend("topright", lwd=c(2,2), lty=c(1,4), col=c("purple", "red"), legend = c("Densidad estimada", "Densidad normal"))
+```
+
+## Relativo acumulado
+
+```{r}
+histRelCum(cw, nclass.FD(cw))
+```
+
+
+
+
+
+
+

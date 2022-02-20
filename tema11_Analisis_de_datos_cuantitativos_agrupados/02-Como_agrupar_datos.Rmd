@@ -1,0 +1,144 @@
+---
+title: "Cómo agrupar datos cuantitativos"
+author: "Téllez Gerardo Rubén"
+date: "31/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Cómo agrupar datos
+
+## Los 4 pasos
+
+Antes de estudiar unos datos agrupados, hay que, obviamente, agruparlos. Este proceso consta de 4 pasos.
+
+1. Decidir el número de intervalos a usar.
+2. Decidir la amplitud de estos intervalos.
+3. Acumular los extremos de los intervalos.
+4. Calcular el valor representativo de cada intervalo, su __marca de clase__
+
+
+No hay una forma de agrupar datos de una mejor forma que otra. Eso sí, cada uno de los diferentes agrupamientos para un conjunto de datos podría sacar a la luz características diferentes del conjunto.
+
+
+## La función hist()
+
+La función de R por excelencia para estudiar datos agrupados es `hist()`. Dicha función implementa los 4 pasos del proceso.
+
+Si le indicamos como argumentos el vector de datos y el número de intervalos que deseamos, o bien el método para determinarlo (cosa que veremos a continuación), la función agrupará los datos en el número de clases que le hemos introducido, más o menos. Eso sí, sin control de ningún tipo por nuestra parte sobre los intervalos que produce.
+
+Esto puede venir bien en algunos casos.
+
+# Establecendo el número de clases
+
+En este tema explicaremos una receta para agrupar datos. Lo dicho, ni mejor ni peor que el resto.
+
+Lo primero es establecer el número _k_ de clases en las que vamos a dividir nuestros datos. Podemos decidir en función de nuestros intereses o podemos hacer uso de alguna de las reglas existentes. Destacan las más populares.
+Sea _n_ el número total de datos de la muestra:
+
++ __Regla de la raíz cuadrada__: $k = [\sqrt{n}]$
+
+Toma el número de datos _n_, calcula la raíz cuadrada, y toma la parte entera superior (7.4 = 8) como el número de clases.
+
++ __Regla de Sturges__: $k = [1 + log_2(n)]$
+
+Este es el núemro de clases.
+
+Ambos tienden a ser los mismos pero no siempre da el mismo número de divisiones.
+
+## Regla de Scott
+
++ __Regla de Scott__: Se determina primero la amplitud teórica, $A_s$ de las clases.
+
+$$A_s = 3.5 \times s \times n^{- \frac{1}{3}}$$
+donde $s$ es la desviación estándar muestral y n el número de datos. Luego se toma:
+
+$$k = \left[ \frac{max(x) - min(x)}{A_s} \right]$$
+
+## Regla de Freedman-Diaconis
+
++ Regla de __Freedman-Diaconis__: Se determina primero la _amplitud teórica_, $A_{FD}$ de las clases.
+
+$$A_{FD} = 2 \times (Q_{0.75} - Q_{0.25}) \times n^{- \frac{1}{3}}$$
+El doble del rango intercuartílico de los datos por el inverso de la raíz cúbica. Y entonces:
+
+$$k = \left[ \frac{max(x) - min(x)}{A_{FD}} \right]$$
+
+Observa que las 2 primeras sólo dependen de _n_, mientras que las 2 últimas también tienen en cuante, de formas difernetes, la dispersión de los datos. De nuevo, no hay ninguna mejor que las demás. Pero sí puede ocurrir que métodos diferentes de nlugar a la observacón de características diferntes en los datos.
+
+## Número de clases con R
+
+Las instrucciones para llevar a cabo las 3 últimas reglas con R, son respectivamente:
+
++ `nclass.Sturges()`
++ `nclas.scott()`
++ `nclass.FD()`
+
+Puede ocurrir que las diferentes reglas den valores diferentes o no.
+
+# Decidiendo la amplitud
+
+Una vez determinado $k$, hay que decidir su amplitud.
+
+La forma más fácil y la que nosotros solemos usar es que todos los intervalos tendrán la misma amplitud $A$. Esta no es la única forma.
+
+Para calcular $A$, lo que haremos será divir el rango de los datos entre $k$, y redondearemos por exceso a un valor de la precisión de la medida.
+
+Si se da el improbable caso en que el conciente dé exacto, tomaremos como $A$ ese cociente más una unidad de precisión.
+
+(Si la precisión es de décimas y tenemos 8, tomamos 8.1)
+
+## Extremos de los intervalos
+
+Es la hora de calcular los extremos de los intervalos. Nosotros tomaremos estos intervalos siempre cerrados por su izquierda y abiertos por la derecha $[x, y)$, debido a que esta es la forma en que R los construye y porque es así como se usan en Teoría de Probabilidades al definir la distribución de una variable aleatoria discreta y también en muchas otras situaciones cotidianas.
+
+Usaremos la siguiente notación:
+
+$$[L_1, L_2), [L_2, L_3), \dots [L_k, L_{k+1})$$
+
+
+
+Si te dicen que han sacado entre un 8 y un 9, dirán que han sacado más que un 8 pero menos que un 9.
+
+Donde los $L_i$ denotan los extremos de los intervalos. Estos se calculan de la siguiente forma.
+
+$$L_1 = min(x) - \frac{1}{2} \cdot precisión$$
+
+A partir de aquí se calcula el resto de intervalos de forma recursiva
+
+$$L_{k+1} = L_k + A$$
+
+Observese que los extremos forman una progresión aritmética de salto $A$:
+
+$$L_i = L_1 + (i - 1)A,\ \ \ \ i = 2, \dots, k+1$$
+
+# Marca de clase
+
+Sólo falta determina la __marca de clase__, $X_i$, de cada intervalo $[L_i,L_{i+1})$.
+
+Este no es más que in valor del intervalos que usaremos para identificar la clase y para calcular algunos estadísticos.
+
+Generalmente:
+
+$$X_i = \frac{L_i + L_{i+1}}{2}$$
+
+es decir, $X_i$ será el punto medio del intervalo, para así garantizar que el error máximo cometido al describir cualquier elemento del intervalo por medio de su marca de clase sea mínimo o igual a la mitad de la amplitud del respectivo intervalo.
+
+Es sencillo concluir que, al tener todos los intervalos, la distancia entre X_i y X_{i+1} también será $A$. Por consiguiente,
+
+$$X_i = X_1 + (i - 1)A$$
+
+$$i = 2,  \dots, k$$
+
+donde
+
+$$X_1 = \frac{L_1 + L_2}{2}$$
+
+
+
+
+
+

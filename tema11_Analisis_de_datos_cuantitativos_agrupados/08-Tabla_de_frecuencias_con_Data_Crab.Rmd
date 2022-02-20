@@ -1,0 +1,75 @@
+---
+title: "Tabla de frecuencias con Data Crab"
+author: "Téllez Gerardo Rubén"
+date: "12/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Crab
+
+```{r}
+crab = read.table("https://raw.githubusercontent.com/joanby/r-basic/master/data/datacrab.txt", header = TRUE, stringsAsFactors = TRUE, sep = " ")
+
+cw = crab$width
+```
+
+
+```{r}
+TablaFrecs = function(x,k,A,p){
+  L = min(x)-p/2+A*(0:k)
+  x_cut = cut(x, breaks = L, right = FALSE)
+  intervals = levels(x_cut)
+  mc = (L[1]+L[2])/2+A*(0:(k-1))
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals, mc, Fr.abs, Fr.cum.abs, Fr.rel, Fr.cum.rel)
+  tabla
+}
+```
+
+```{r}
+TablaFrecs.L = function(x,L,V = FALSE){
+  x_cut = cut(x,  breaks = L, right = FALSE, include.lowest = V)
+  intervals = levels(x_cut)
+  mc = (L[1:(length(L)-1)] + L[2:length(L)])/2
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals,mc,Fr.abs,Fr.cum.abs,Fr.rel,Fr.cum.rel)
+  tabla
+}
+```
+
+## Solución con la primer función
+
+```{r}
+A = diff(range(cw))/nclass.FD(cw)
+TablaFrecs(x = cw, A = A,
+           k = nclass.FD(cw),
+           p = 0.1)
+```
+
+
+## Solución con la segunda función
+
+```{r}
+L1 = min(cw) - (1/2 * 0.1)
+
+L = L1 + A*(0:nclass.FD(cw))
+
+TablaFrecs.L(cw, L, V=FALSE)
+```
+
+
+
+
+
+
+

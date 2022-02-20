@@ -1,0 +1,64 @@
+---
+title: "Datos cuantitativos agrupados"
+author: "Téllez Gerardo Rubén"
+date: "31/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Datos cuantitativos agrupados
+
+## Introducción
+
+Aunque no seamos completamente conscientes de ello, tendemos a agrupar datos cuantitativos constantemente.
+
+Por ejemplo, las personas con una edad de [20, 21) se consideran de 20 años.
+
+En estadística, existen inumerables motivos por los cuales interesa agrupar los datos cuando estos son cuantitativo. Uno de estos motivos puede ser que sean muy heterogéneos. En este caso, nos encontraríamos con que las frecuencias de los valores individuales serían todos muy similares, lo que daría lugar a un diagrama de barras muy difícil de interpretar, tal y como se muestra en el siguiente ejemplo.
+
+## Ejemplo 1
+
+Pesos de 24 estudiantes.
+
+```{r}
+pesos = c(55.2, 54, 55.2, 53.7, 60.2, 53.2, 54.6, 55.1, 51.2, 53.2, 54.8, 52.3, 56.9, 57, 55, 53.5, 50.9, 55.1, 53.6, 61.2, 59.5, 50.3, 52.7, 60.2)
+```
+
+En el diagrama de barras, sus frecuencias absolutas toman como posibles niveles todos los pesos entre su mínimo y máximo como en la diapositiva.
+
+## Ejemplo 1
+
+```{r}
+barplot(table(pesos))
+```
+
+Las barras  miden 1 o miden 2, lo que nos da poca información.
+
+## Ejemplo 1
+
+En cambio, si dividimos estos posibles valores que pueden tomar la variable cuantitativa en intervalos, y tomásemos como sus frecuencias las de todos los valores que caen en dicho intervalo, la cosa cambia.
+
+En este caso, sería mucho más fácil interpretar los resultados, ya que estos darán mucha más información. Más adelante veremos cómo crear estos intervalos.
+
+## Introducción
+
+Otro de los motivos por el que necesitamos agrupar los fatos cuantitativos es porque la precisión infinta no existe. Por tanto es imposible mantener de manera exacta muchas de las magnitudes que son continuas, esta imposibilidad nos obliga a trabajar con aproximaciones o redondeos de valores reales y qye cada uno de estos represente todo un intervalo para posibles valores.
+
+
+## Introducción
+
+Por lo general, existen 3 situaciones en las que conviene agrupar los datos cuantitativos en intervalos, también llamados clases.
+
++ Cuando los datos son continuos, su redondeo ya define un agrupamiento debido a la inexistencia de precisión infinita.
++ Cuando los datos son discretos, pero con un número considerablemente grande de posibles valores.
++ Cuando tenemos muchísimos datos y estamos interesados en estudiar las frecuencias de sus valores.
+
+
+
+
+
+
+

@@ -1,0 +1,147 @@
+---
+title: "Ejemplo con notas de clase"
+author: "Téllez Gerardo Rubén"
+date: "12/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+TablaFrecs.L = function(x,L,V = FALSE){
+  x_cut = cut(x,  breaks = L, right = FALSE, include.lowest = V)
+  intervals = levels(x_cut)
+  mc = (L[1:(length(L)-1)] + L[2:length(L)])/2
+  Fr.abs = as.vector(table(x_cut))
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals,mc,Fr.abs,Fr.cum.abs,Fr.rel,Fr.cum.rel)
+  tabla
+}
+```
+
+
+## Ejemplo 3
+
+Se han recogido las notas de un examen de historia a los 100 alumnos de primero de bachillerato de un instituto.
+
+Vamos a hacer uso de todo lo aprendido para obtener la mayor información posible utilizando las funciones `cut` e `hist` y también, las proporcionadas por nosotros.
+
+```{r}
+notas = c(6,0,3,3,8,2,7,9,10,0,8,3,1,10,4,5,10,6,10,8,7,10,5,
+          5,7,9,5,9,5,5,6,2,9,7,5,10,5,6,4,0,10,2,6,1,9,0,
+          9,9,7,6,4,8,9,8,9,4,1,9,8,6,0,9,10,2,6,0,5,9,
+          10,3,6,4,3,9,7,3,4,2,1,10,7,6,10,9,0,0,10,2,10,2,1,
+          5,2,3,0,8,4,0,7)
+```
+
+# Agrupar las notas
+
+Vamos a agrupar las notas en los siguientes intervalos:
+
+$$[0,5),\ [5,7),\ [7,9),\ [9,10]$$
+
+Claramente, estos 4 intervalos no tienen la misma amplitud.
+
+Fijémonos también en que el último intervalo está cerrado por la derecha.
+
+```{r}
+# Definimos vector de extremos
+
+L = c(0,5,7,8,10)
+# Definimos notas1 como el resultado de la codificación en intervalos utilizados como 
+#etiquetas los propios intervalos
+
+notas1 = cut(notas, breaks = L, right = FALSE, include.lowest = TRUE)
+notas1
+```
+
+```{r}
+#Definimos marcas de clase
+MC = (L[1:length(L)-1]+L[2:length(L)])/2
+#Definimos notas2 como el resultado de la codificación en intervalos utilizando como
+#etiquetas las marcas de clase
+notas2 = cut(notas, breaks = L, labels = MC, right = FALSE, include.lowest = TRUE, notas2)
+notas2
+```
+
+```{r}
+#Definimos notas3 como el resultado de la codificación en intervalos utilizando como
+#etiquetas la posición del intervalo (1,2,3 o 4)
+notas3 = cut(notas, breaks = L, labels = FALSE, right = FALSE, include.lowest = TRUE)
+notas3
+```
+
+
+```{r}
+#Definimos notas4 como el resultado de la codificación en intervalos utilizando como
+#etiquetas Susp, Aprob, Not, Exc
+
+notas4 = cut(notas, breaks = L, labels = c("Suspenso", "Aprobado", "Notable", "Excelente"), right = FALSE, include.lowest = TRUE)
+notas4
+
+```
+
+Los niveles del propio factor se puede codificar con palabras
+
+El resultado de la función cut ha sido, en cada caso, una lista con los elementos del vector original codificados con las etiquetas de las clases a las que pertenecen.
+
+Las dos primeras aplicaciones de la función cut han producido factores (cuyos niveles son los intervalos y las marcas de clase, respectivamente, en ambos casos ordenándolos de manera natural), mientras que aplicándose labels=FALSE hemos obtenido un vector
+
+## ¿Qué habría ocurrido si le hubiesemos pedido a R que cortase los datos en 4 intervalos?
+
+Pues en este caso no hubiéramos podido manipular la amplitud de los intervalos pues sería igual en todos.
+
+```{r}
+cut(notas, breaks = 4, right = FALSE, include.lowest = TRUE)
+```
+
+R reparte los datos en 4 intervalos de longitud 2.5.
+
+## Trabajemos ahora con notas4
+
+```{r}
+table(notas4)
+```
+
+```{r}
+round(prop.table(table(notas4)),2)
+```
+
+```{r}
+cumsum(table(notas4))
+```
+
+```{r}
+cumsum(prop.table(table(notas4)))
+```
+
+## Ejemplo con hist
+
+```{r}
+notasHist = hist(notas, breaks = L, right = FALSE, include.lowest = TRUE, plot = FALSE)
+Fabs = notasHist$counts
+Frel = prop.table(Fabs)
+Fabscum = cumsum(Fabs)
+Frelcum = cumsum(Frel)
+```
+
+Ahora podemos hacer un dataframe con las frecuencias.
+
+```{r}
+intervalos = levels(notas1)
+calificacion = levels(notas4)
+marcas = levels(notas2)
+tabla.Fr = data.frame(intervalos, calificacion, marcas, Fabs, Fabscum, Frel, Frelcum)
+tabla.Fr
+```
+
+# O bien con la función ya escrita
+
+```{r}
+TablaFrecs.L(notas, L, TRUE)
+```
+

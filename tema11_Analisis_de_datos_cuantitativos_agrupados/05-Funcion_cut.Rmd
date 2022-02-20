@@ -1,0 +1,114 @@
+---
+title: "La función cut en R"
+author: "Téllez Gerardo Rubén"
+date: "10/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Agrupando datos con R
+
+Al agrupar los datos, lo que hacemos es convertir nuestra variable cuantitativa en un factor cuyos niveles son las clases en que ha sido dividida e identificamos cada dato con su clase.
+
+A la hora de etiquetar los niveles, podemos elegir 3 codificaciones: 
+
++ Los intervalos.
++ Las marcas de clase (el punto medio de cada intervalo).
++ El número de orden de cada intervalo.
+
+
+## La función cut
+
+Esta función es básica en R para agrupar un vector de datos numéricos y codificar sus valores con lcases a las que pertenecen.
+
+Su sintaxis básica es:
+
+`cut(x, breaks = ..., labels = ..., right = ...)`
+
++ `x` es el vector numérico, nuestra variable cuantitativa
++ `breaks` puede ser un vector numérico formado por los extremos de los intervalos en los que queremos agrupar nuestros datos y que habremos calculado previamente. También puede ser un número $k$, en cuyo caso R agrupa los datos en $k$ clases. Para este caso, R divide el intervalo comprendido entre los valores mínimo y máximo de $x$ en $k$ intervalos y, a continuación, desplaza ligeramente el extremo inferior del primer intervalo a la izquierda y el extremo del último, a la derecha.
++ `labels` es un vector con las etiquetas de los intervalos. Su valor por defecto es utilizar la etiqueta de los mismos intervalos. Si especificamos `labels = FALSE`, obtendremos los intervalos etiquetados por medio de los números naturales correlativos (el primero es 1, el segundo es 2, etc.). Para utilizar como etiqueta las marcas de claseo cualquier otra codificación, hay que entrarlo como valor de este parámetro.
++ `right` es un parámetro que por defecto está igualado a `FALSE` hace que los intervalos que consideremos sean cerrados por la izquierda y abiertos por la derecha. Este no es su valor por defecto, hay que colocarlo siempre para ser coherentes en teoría de probabilidades.
++ `include.lowest` igualado a `TRUE` combinado con `right = FALSE` hace que el último intervalo sea cerrado. Puede sernos útil en algunos casos.
+
+En cualquier caso, el resultado de la función `cut` es una lista con los elementos del vector original codificados con las etiquetas de las clases a las que pertenecen. Bien sea un factor o un vector.
+
+# Ejemplo
+
+## Especificar el número de k clases
+
+```{r}
+pl = iris$Petal.Length
+
+cut(pl, breaks = nclass.FD(pl))
+
+```
+
+Observese que tenemos 5 niveles, correspondientes a `nclass.FD(pl) = 5`, también vease que están girados (contrario a la teoría de probabilidad)
+
+```{r}
+cut(pl, breaks = nclass.FD(pl),
+    right = FALSE)
+```
+
+Ahora están correctamente cerrados a la izquierda y abiertos por la derecha.
+Aquí se aprecia cómo todos los límites de los intervalos aparecen con dos decimales exactos excepto el primero que correspondería al intervalo cerrado de 1, pero es ligeramente menor para no arrojar errores de sintaxis al existir como intervalo abierto.
+
+```{r}
+cut(pl, breaks = ceiling(sqrt(length(pl))),
+    right = FALSE)
+```
+
+Con este regla se dividen ahora en 13 intervalos.
+
+## Especificar las divisiones en lugar del número de clases
+```{r}
+cut(pl, breaks = c(1,2,3,4,5,6,7),
+    right = FALSE)
+```
+Ahora se están dividiendo de 1 a 2, 2 a 3...
+
+Podemos también especificar las etiquetas o en este caso al igualar a FALSE solicitar que se ordenen con números naturales.
+
+```{r}
+cut(pl, breaks = nclass.FD(pl),
+    right = FALSE,
+    labels = FALSE)
+```
+
+Ahora podemos dar nombres específicos a las etiquetas.
+
+
+```{r}
+cut(pl, breaks = nclass.FD(pl),
+    right = FALSE,
+    labels = c("Muy pequeñas",
+               "Pequeñas",
+               "Medianas",
+               "Grandes",
+               "Muy grandes"))
+```
+
+Ahora se transforman en datos ordinales.
+
+Algo que queda bien es colocar las divisiones en nuevas columnas del Data Frame.
+```{r}
+iris_df = iris
+iris_df$Length.cathegory = cut(pl, breaks = nclass.FD(pl),
+    right = FALSE,
+    labels = c("Muy pequeñas",
+               "Pequeñas",
+               "Medianas",
+               "Grandes",
+               "Muy grandes"))
+iris_df$Length.group = cut(pl, breaks = nclass.FD(pl),
+    right = FALSE)
+head(iris_df)
+```
+
+
+
+
